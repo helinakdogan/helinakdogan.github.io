@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Line, Chart } from "react-chartjs-2";
-import { Chart as ChartJS, registerables } from "chart.js"; // Import the Chart class and registerables from the chart.js library
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, registerables } from "chart.js";
 
-ChartJS.register(...registerables); 
+ChartJS.register(...registerables);
 
-const UserData = [
+const initialUserData = [
   {
     param: "?",
     paramValue: 60,
@@ -69,25 +69,10 @@ const LineChart = ({ chartData }) => {
 
 const MyChartComponent = () => {
   const [selectedGender, setSelectedGender] = useState("female");
-  const [userInputFemale, setUserInputFemale] = useState(UserData.map((data) => data.paramValue));
-  const [userInputMale, setUserInputMale] = useState(UserData.map((data) => data.paramValue));
-
-  const handleInputChange = (index, value, gender) => {
-    if (gender === "female") {
-      const newUserInput = [...userInputFemale];
-      newUserInput[index] = value;
-      setUserInputFemale(newUserInput);
-    } else if (gender === "male") {
-      const newUserInput = [...userInputMale];
-      newUserInput[index] = value;
-      setUserInputMale(newUserInput);
-    }
-  };
-
-  const param = UserData.map((data) => data.param);
-
-  const chartData = {
-    labels: param,
+  const [userInputFemale, setUserInputFemale] = useState(initialUserData.map((data) => data.paramValue));
+  const [userInputMale, setUserInputMale] = useState(initialUserData.map((data) => data.paramValue));
+  const [chartData, setChartData] = useState({
+    labels: initialUserData.map((data) => data.param),
     datasets: [
       {
         label: "Kadın",
@@ -106,6 +91,57 @@ const MyChartComponent = () => {
         hidden: selectedGender !== "male",
       },
     ],
+  });
+
+  const handleInputChange = (index, value, gender) => {
+    const parsedValue = parseFloat(value);
+    if (isNaN(parsedValue)) {
+      return;
+    }
+
+    if (gender === "female") {
+      const newUserInput = [...userInputFemale];
+      newUserInput[index] = parsedValue;
+      setUserInputFemale(newUserInput);
+    } else if (gender === "male") {
+      const newUserInput = [...userInputMale];
+      newUserInput[index] = parsedValue;
+      setUserInputMale(newUserInput);
+    }
+
+    const updatedUserData = initialUserData.map((data, dataIndex) => {
+      let modifiedValue = data.paramValue;
+
+      if (data.param === "F" && dataIndex === index) {
+        modifiedValue = parsedValue * 3.5;
+      }
+
+      return { ...data, paramValue: modifiedValue };
+    });
+
+    const updatedChartData = {
+      labels: updatedUserData.map((data) => data.param),
+      datasets: [
+        {
+          label: "Kadın",
+          data: updatedUserData.map((data, dataIndex) => (data.param === "F" ? data.paramValue : userInputFemale[dataIndex])),
+          borderColor: "green",
+          borderWidth: 2,
+          fill: false,
+          hidden: selectedGender !== "female",
+        },
+        {
+          label: "Erkek",
+          data: updatedUserData.map((data, dataIndex) => (data.param === "F" ? data.paramValue : userInputMale[dataIndex])),
+          borderColor: "blue",
+          borderWidth: 2,
+          fill: false,
+          hidden: selectedGender !== "male",
+        },
+      ],
+    };
+
+    setChartData(updatedChartData);
   };
 
   return (
@@ -121,8 +157,8 @@ const MyChartComponent = () => {
         borderRadius: "10px", 
         width: "400px",
         background: "linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)",
-        boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)", // Adjust shadow values here
-        marginLeft: "20px", // Add left margin here
+        boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
+        marginLeft: "20px",
       }}>
         <h2 style={{ color: "#444", marginBottom: "10px", fontWeight: "bold" }}>MMPI Puan Tablosu</h2>
         <div style={{ marginBottom: "10px" }}>
@@ -142,9 +178,9 @@ const MyChartComponent = () => {
           </select>
         </div>
         <div style={{ marginBottom: "10px" }}>
-          {param.map((p, index) => (
+          {initialUserData.map((data, index) => (
             <div key={index} style={{ marginBottom: "10px" }}>
-              <label htmlFor={`paramInput${selectedGender}${index}`} style={{ color: "#444" }}>{p} Puanı: </label>
+              <label htmlFor={`paramInput${selectedGender}${index}`} style={{ color: "#444" }}>{data.param} Puanı: </label>
               <input
                 type="number"
                 id={`paramInput${selectedGender}${index}`}
@@ -162,16 +198,6 @@ const MyChartComponent = () => {
       </div>
     </div>
   );
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 };
 
 export default MyChartComponent;
