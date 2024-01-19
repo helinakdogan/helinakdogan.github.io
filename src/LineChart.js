@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Chart } from "react-chartjs-2";
+import { Chart as ChartJS, registerables } from "chart.js"; // Import the Chart class and registerables from the chart.js library
+
+ChartJS.register(...registerables); 
 
 const UserData = [
-  {
-    param: "T",
-    paramValue: 120,
-  },
   {
     param: "?",
     paramValue: 60,
