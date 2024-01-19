@@ -64,7 +64,7 @@ const UserData = [
 ];
 
 const LineChart = ({ chartData }) => {
-  return <Line data={chartData} style={{ width: "800px", height: "500px" }} />;
+  return <Line data={chartData} style={{ width: "850px", height: "1200px" }} />;
 };
 
 const MyChartComponent = () => {
@@ -109,12 +109,34 @@ const MyChartComponent = () => {
   };
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "50px", padding: "20px" }}>
-      <div style={{ border: "1px solid #ddd", padding: "10px", borderRadius: "10px", width: "400px" }}>
-        <h2>MMPI Puan Tablosu</h2>
+    <div style={{ 
+      display: "grid", 
+      gridTemplateColumns: "1fr 2fr", 
+      gap: "50px", 
+      padding: "10px",
+    }}>
+      <div style={{ 
+        border: "1px solid #ddd", 
+        padding: "10px", 
+        borderRadius: "10px", 
+        width: "400px",
+        background: "linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)",
+        boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)", // Adjust shadow values here
+        marginLeft: "20px", // Add left margin here
+      }}>
+        <h2 style={{ color: "#444", marginBottom: "10px", fontWeight: "bold" }}>MMPI Puan Tablosu</h2>
         <div style={{ marginBottom: "10px" }}>
-          <label>Cinsiyet Seçimi: </label>
-          <select value={selectedGender} onChange={(e) => setSelectedGender(e.target.value)}>
+          <label style={{ color: "#444" }}>Cinsiyet Seçimi: </label>
+          <select 
+            value={selectedGender} 
+            onChange={(e) => setSelectedGender(e.target.value)}
+            style={{ 
+              borderRadius: "5px", 
+              padding: "5px", 
+              border: "1px solid #ccc",
+              color: "#444",
+            }}
+          >
             <option value="female">Kadın</option>
             <option value="male">Erkek</option>
           </select>
@@ -122,23 +144,34 @@ const MyChartComponent = () => {
         <div style={{ marginBottom: "10px" }}>
           {param.map((p, index) => (
             <div key={index} style={{ marginBottom: "10px" }}>
-              <label htmlFor={`paramInput${selectedGender}${index}`}>{p} Puanı: </label>
+              <label htmlFor={`paramInput${selectedGender}${index}`} style={{ color: "#444" }}>{p} Puanı: </label>
               <input
                 type="number"
                 id={`paramInput${selectedGender}${index}`}
                 value={selectedGender === "female" ? userInputFemale[index] : userInputMale[index]}
                 onChange={(e) => handleInputChange(index, e.target.value, selectedGender)}
-                style={{ width: "50px" }}
+                style={{ width: "50px", borderRadius: "5px", padding: "5px", border: "1px solid #ccc" }}
               />
             </div>
           ))}
         </div>
       </div>
       <div>
+        <h2 style={{ color: "#444", marginBottom: "10px", fontWeight: "bold" }}>MMPI Grafiği</h2>
         <LineChart chartData={chartData} />
       </div>
     </div>
   );
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 };
 
 export default MyChartComponent;
