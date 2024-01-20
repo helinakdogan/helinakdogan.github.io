@@ -69,8 +69,12 @@ const LineChart = ({ chartData }) => {
 
 const MyChartComponent = () => {
   const [selectedGender, setSelectedGender] = useState("female");
-  const [userInputFemale, setUserInputFemale] = useState(initialUserData.map((data) => data.paramValue));
-  const [userInputMale, setUserInputMale] = useState(initialUserData.map((data) => data.paramValue));
+  const [userInputFemale, setUserInputFemale] = useState(
+    initialUserData.map((data) => data.paramValue)
+  );
+  const [userInputMale, setUserInputMale] = useState(
+    initialUserData.map((data) => data.paramValue)
+  );
   const [chartData, setChartData] = useState({
     labels: initialUserData.map((data) => data.param),
     datasets: [
@@ -112,28 +116,29 @@ const MyChartComponent = () => {
     const updatedUserData = initialUserData.map((data, dataIndex) => {
       let modifiedValue = data.paramValue;
 
-      switch (parsedValue) {
-        case 1:
-          modifiedValue = 22.5;
-          break;
-        case 2:
-          modifiedValue = 24.5;
-          break;
-        case 3:
-          modifiedValue = 27.5;
-          break;
-        case 4:
-          modifiedValue = 30;
-          break;
-        case 5:
-          modifiedValue = 32;
-          break;
-        // Add more cases if needed for other values
-        default:
-          modifiedValue = parsedValue; // or any other default value
-          break;
+      if (data.param === "K" && dataIndex === index) {
+        switch (parsedValue) {
+          case 1:
+            modifiedValue = 22.5;
+            break;
+          case 2:
+            modifiedValue = 24.5;
+            break;
+          case 3:
+            modifiedValue = 27.5;
+            break;
+          case 4:
+            modifiedValue = 30;
+            break;
+          case 5:
+            modifiedValue = 32;
+            break;
+          // Add more cases if needed for other values
+          default:
+            modifiedValue = parsedValue; // or any other default value
+            break;
+        }
       }
-
       return { ...data, paramValue: modifiedValue };
     });
 
@@ -142,7 +147,9 @@ const MyChartComponent = () => {
       datasets: [
         {
           label: "Kadın",
-          data: updatedUserData.map((data, dataIndex) => (data.param === "K" ? data.paramValue : userInputFemale[dataIndex])),
+          data: updatedUserData.map((data, dataIndex) =>
+            data.param === "K" ? data.paramValue : userInputFemale[dataIndex]
+          ),
           borderColor: "green",
           borderWidth: 2,
           fill: false,
@@ -150,7 +157,9 @@ const MyChartComponent = () => {
         },
         {
           label: "Erkek",
-          data: updatedUserData.map((data, dataIndex) => (data.param === "K" ? data.paramValue : userInputMale[dataIndex])),
+          data: updatedUserData.map((data, dataIndex) =>
+            data.param === "K" ? data.paramValue : userInputMale[dataIndex]
+          ),
           borderColor: "blue",
           borderWidth: 2,
           fill: false,
@@ -163,30 +172,36 @@ const MyChartComponent = () => {
   };
 
   return (
-    <div style={{ 
-      display: "grid", 
-      gridTemplateColumns: "1fr 2fr", 
-      gap: "50px", 
-      padding: "10px",
-    }}>
-      <div style={{ 
-        border: "1px solid #ddd", 
-        padding: "10px", 
-        borderRadius: "10px", 
-        width: "400px",
-        background: "linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)",
-        boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
-        marginLeft: "20px",
-      }}>
-        <h2 style={{ color: "#444", marginBottom: "10px", fontWeight: "bold" }}>MMPI Puan Tablosu</h2>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 2fr",
+        gap: "50px",
+        padding: "10px",
+      }}
+    >
+      <div
+        style={{
+          border: "1px solid #ddd",
+          padding: "10px",
+          borderRadius: "10px",
+          width: "400px",
+          background: "linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)",
+          boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
+          marginLeft: "20px",
+        }}
+      >
+        <h2 style={{ color: "#444", marginBottom: "10px", fontWeight: "bold" }}>
+          MMPI Puan Tablosu
+        </h2>
         <div style={{ marginBottom: "10px" }}>
           <label style={{ color: "#444" }}>Cinsiyet Seçimi: </label>
-          <select 
-            value={selectedGender} 
+          <select
+            value={selectedGender}
             onChange={(e) => setSelectedGender(e.target.value)}
-            style={{ 
-              borderRadius: "5px", 
-              padding: "5px", 
+            style={{
+              borderRadius: "5px",
+              padding: "5px",
               border: "1px solid #ccc",
               color: "#444",
             }}
@@ -198,20 +213,38 @@ const MyChartComponent = () => {
         <div style={{ marginBottom: "10px" }}>
           {initialUserData.map((data, index) => (
             <div key={index} style={{ marginBottom: "10px" }}>
-              <label htmlFor={`paramInput${selectedGender}${index}`} style={{ color: "#444" }}>{data.param} Puanı: </label>
+              <label
+                htmlFor={`paramInput${selectedGender}${index}`}
+                style={{ color: "#444" }}
+              >
+                {data.param} Puanı:{" "}
+              </label>
               <input
                 type="number"
                 id={`paramInput${selectedGender}${index}`}
-                value={selectedGender === "female" ? userInputFemale[index] : userInputMale[index]}
-                onChange={(e) => handleInputChange(index, e.target.value, selectedGender)}
-                style={{ width: "50px", borderRadius: "5px", padding: "5px", border: "1px solid #ccc" }}
+                value={
+                  selectedGender === "female"
+                    ? userInputFemale[index]
+                    : userInputMale[index]
+                }
+                onChange={(e) =>
+                  handleInputChange(index, e.target.value, selectedGender)
+                }
+                style={{
+                  width: "50px",
+                  borderRadius: "5px",
+                  padding: "5px",
+                  border: "1px solid #ccc",
+                }}
               />
             </div>
           ))}
         </div>
       </div>
       <div>
-        <h2 style={{ color: "#444", marginBottom: "10px", fontWeight: "bold" }}>MMPI Grafiği</h2>
+        <h2 style={{ color: "#444", marginBottom: "10px", fontWeight: "bold" }}>
+          MMPI Grafiği
+        </h2>
         <LineChart chartData={chartData} />
       </div>
     </div>
