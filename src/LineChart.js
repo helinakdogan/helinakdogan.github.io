@@ -112,8 +112,26 @@ const MyChartComponent = () => {
     const updatedUserData = initialUserData.map((data, dataIndex) => {
       let modifiedValue = data.paramValue;
 
-      if (data.param === "F" && dataIndex === index) {
-        modifiedValue = parsedValue * 3.5;
+      switch (parsedValue) {
+        case 1:
+          modifiedValue = 22.5;
+          break;
+        case 2:
+          modifiedValue = 24.5;
+          break;
+        case 3:
+          modifiedValue = 27.5;
+          break;
+        case 4:
+          modifiedValue = 30;
+          break;
+        case 5:
+          modifiedValue = 32;
+          break;
+        // Add more cases if needed for other values
+        default:
+          modifiedValue = parsedValue; // or any other default value
+          break;
       }
 
       return { ...data, paramValue: modifiedValue };
@@ -124,7 +142,7 @@ const MyChartComponent = () => {
       datasets: [
         {
           label: "Kadın",
-          data: updatedUserData.map((data, dataIndex) => (data.param === "F" ? data.paramValue : userInputFemale[dataIndex])),
+          data: updatedUserData.map((data, dataIndex) => (data.param === "K" ? data.paramValue : userInputFemale[dataIndex])),
           borderColor: "green",
           borderWidth: 2,
           fill: false,
@@ -132,7 +150,7 @@ const MyChartComponent = () => {
         },
         {
           label: "Erkek",
-          data: updatedUserData.map((data, dataIndex) => (data.param === "F" ? data.paramValue : userInputMale[dataIndex])),
+          data: updatedUserData.map((data, dataIndex) => (data.param === "K" ? data.paramValue : userInputMale[dataIndex])),
           borderColor: "blue",
           borderWidth: 2,
           fill: false,
