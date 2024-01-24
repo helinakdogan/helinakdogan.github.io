@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from "chart.js";
 
@@ -23,99 +23,117 @@ const initialUserData = [
   },
 ];
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "UPDATE_L_INPUT":
+      return { ...state, lInput: action.payload };
+    case "UPDATE_F_INPUT":
+      return { ...state, fInput: action.payload };
+    case "UPDATE_K_INPUT":
+      return { ...state, kInput: action.payload };
+    case "UPDATE_HS_INPUT":
+      return { ...state, hsInput: action.payload };
+    case "UPDATE_L_INPUT_TEXT":
+      return { ...state, lInputText: action.payload };
+    case "UPDATE_F_INPUT_TEXT":
+      return { ...state, fInputText: action.payload };
+    case "UPDATE_K_INPUT_TEXT":
+      return { ...state, kInputText: action.payload };
+    case "UPDATE_HS_INPUT_TEXT":
+      return { ...state, hsInputText: action.payload };
+    case "UPDATE_CHART_DATA":
+      return { ...state, chartData: action.payload };
+    default:
+      return state;
+  }
+};
+
 const LineChart = ({ chartData }) => {
   return <Line data={chartData} style={{ width: "850px", height: "1200px" }} />;
 };
 
 const MyChartComponent = () => {
-  const [lInput, setLInput] = useState(
-    initialUserData.find((data) => data.param === "L").paramValue
-  );
-  const [fInput, setFInput] = useState(
-    initialUserData.find((data) => data.param === "F").paramValue
-  );
-  const [kInput, setKInput] = useState(
-    initialUserData.find((data) => data.param === "K").paramValue
-  );
-  const [initialKInput, setInitialKInput] = useState(
-    initialUserData.find((data) => data.param === "K").paramValue
-  );
-
-  const [hsInput, setHsInput] = useState(
-    initialUserData.find((data) => data.param === "1-Hs").paramValue
-  );
-
-  const [lInputText, setLInputText] = useState(
-    String(initialUserData.find((data) => data.param === "L").paramValue)
-  );
-  const [fInputText, setFInputText] = useState(
-    String(initialUserData.find((data) => data.param === "F").paramValue)
-  );
-  const [kInputText, setKInputText] = useState(
-    String(initialUserData.find((data) => data.param === "K").paramValue)
-  );
-  const [hsInputText, setHsInputText] = useState(
-    String(initialUserData.find((data) => data.param === "1-Hs").paramValue)
-  );
-
-  const [chartData, setChartData] = useState({
-    labels: initialUserData.map((data) => data.param),
-    datasets: [
-      {
-        label: "Kadın",
-        data: [
-          initialUserData.find((data) => data.param === "L").paramValue,
-          initialUserData.find((data) => data.param === "F").paramValue,
-          initialUserData.find((data) => data.param === "K").paramValue,
-          initialUserData.find((data) => data.param === "1-Hs").paramValue,
-        ],
-        borderColor: "green",
-        borderWidth: 2,
-        fill: false,
-        tension: 0.1,
-      },
-    ],
+  const [state, dispatch] = useReducer(reducer, {
+    lInput: initialUserData.find((data) => data.param === "L").paramValue,
+    fInput: initialUserData.find((data) => data.param === "F").paramValue,
+    kInput: initialUserData.find((data) => data.param === "K").paramValue,
+    //initialKInput: initialUserData.find((data) => data.param === "K").paramValue,
+    hsInput: initialUserData.find((data) => data.param === "1-Hs").paramValue,
+    lInputText: String(initialUserData.find((data) => data.param === "L").paramValue),
+    fInputText: String(initialUserData.find((data) => data.param === "F").paramValue),
+    kInputText: String(initialUserData.find((data) => data.param === "K").paramValue),
+    hsInputText: String(initialUserData.find((data) => data.param === "1-Hs").paramValue),
+    chartData: {
+      labels: initialUserData.map((data) => data.param),
+      datasets: [
+        {
+          label: "Kadın",
+          data: [
+            initialUserData.find((data) => data.param === "L").paramValue,
+            initialUserData.find((data) => data.param === "F").paramValue,
+            initialUserData.find((data) => data.param === "K").paramValue,
+            initialUserData.find((data) => data.param === "1-Hs").paramValue,
+          ],
+          borderColor: "green",
+          borderWidth: 2,
+          fill: false,
+          tension: 0.1,
+        },
+      ],
+    },
   });
 
   const handleLInputChange = (value) => {
-    setLInputText(value); // Update local state for typed text
+    dispatch({ type: "UPDATE_L_INPUT_TEXT", payload: value });
     const parsedValue = parseFloat(value);
     if (!isNaN(parsedValue)) {
-      setLInput(parsedValue);
-      updateChartData(parsedValue, fInput, kInput, hsInput);
+      dispatch({ type: "UPDATE_L_INPUT", payload: parsedValue });
+      updateChartData(parsedValue, state.fInput, state.kInput, state.hsInput);
     }
   };
 
   const handleFInputChange = (value) => {
-    setFInputText(value); // Update local state for typed text
+    dispatch({ type: "UPDATE_F_INPUT_TEXT", payload: value });
     const parsedValue = parseFloat(value);
     if (!isNaN(parsedValue)) {
       const updatedFValue = getUpdatedFValue(parsedValue);
-      setFInput(updatedFValue);
-      updateChartData(lInput, updatedFValue, kInput, hsInput);
+      dispatch({ type: "UPDATE_F_INPUT", payload: updatedFValue });
+      updateChartData(state.lInput, updatedFValue, state.kInput, state.hsInput);
     }
   };
 
   const handleKInputChange = (value) => {
-    setKInputText(value); // Update local state for typed text
+    dispatch({ type: "UPDATE_K_INPUT_TEXT", payload: value });
     const parsedValue = parseFloat(value);
     if (!isNaN(parsedValue)) {
       const updatedKValue = getUpdatedKValue(parsedValue);
-      setKInput(updatedKValue);
-      setInitialKInput(parsedValue); // Set the initial K value
-      updateChartData(lInput, fInput, updatedKValue, hsInput);
+      dispatch({ type: "UPDATE_K_INPUT", payload: updatedKValue });
+  
+      // Güncellenen K değerine göre HS'i hesapla ve güncelle
+      const updatedHsValue = getUpdatedHsValue(state.hsInput, parsedValue);
+      dispatch({ type: "UPDATE_HS_INPUT", payload: updatedHsValue });
+  
+      // Grafik verilerini güncelle
+      updateChartData(state.lInput, state.fInput, updatedKValue, updatedHsValue);
     }
   };
-
+  
+  
+  
+  
   const handleHsInputChange = (value) => {
-    setHsInputText(value); // Update local state for typed text
+    dispatch({ type: "UPDATE_HS_INPUT_TEXT", payload: value });
     const parsedValue = parseFloat(value);
     if (!isNaN(parsedValue)) {
-      const updatedHsValue = getUpdatedHsValue(parsedValue, kInput);
-      setHsInput(updatedHsValue);
-      updateChartData(lInput, fInput, kInput, updatedHsValue);
+      const updatedHsValue = getUpdatedHsValue(parsedValue, state.kInputText);
+      dispatch({ type: "UPDATE_HS_INPUT", payload: updatedHsValue });
+      updateChartData(state.lInput, state.fInput, state.kInput, updatedHsValue);
     }
   };
+  
+  
+  
+  
 
   const getUpdatedFValue = (parsedValue) => {
     switch (parsedValue) {
@@ -162,26 +180,31 @@ const MyChartComponent = () => {
         return 43.5;
       case 10:
         return 45.5;
-     
-      default:
-        return 0; 
-    }
-    
-  };
-
-  const getUpdatedHsValue = (parsedValue) => {
-    switch (initialKInput) {
-      case 30:
-      case 29:
-        return parsedValue + 15;
-      case 28:
-        return parsedValue + 14;
-      case 10:
-        return parsedValue + 5;
       default:
         return 0;
     }
   };
+
+  const getUpdatedHsValue = (currentHsValue, kText) => {
+    const kTextValue = parseFloat(kText);
+    if (!isNaN(kTextValue)) {
+      switch (kTextValue) {
+        case 30:
+        case 29:
+          return currentHsValue + 15;
+        case 28:
+          return currentHsValue + 14;
+        case 10:
+          return currentHsValue + 5;
+        default:
+          return currentHsValue;
+      }
+    } else {
+      return currentHsValue;
+    }
+  };
+  
+  
 
   const updateChartData = (lValue, fValue, kValue, hsValue) => {
     const updatedChartData = {
@@ -197,7 +220,7 @@ const MyChartComponent = () => {
         },
       ],
     };
-    setChartData(updatedChartData);
+    dispatch({ type: "UPDATE_CHART_DATA", payload: updatedChartData });
   };
 
   return (
@@ -237,13 +260,13 @@ const MyChartComponent = () => {
                 id={`paramInput${data.param}`}
                 value={
                   data.param === "L"
-                    ? lInputText
+                    ? state.lInputText
                     : data.param === "F"
-                    ? fInputText
+                    ? state.fInputText
                     : data.param === "K"
-                    ? kInputText
+                    ? state.kInputText
                     : data.param === "1-Hs"
-                    ? hsInputText
+                    ? state.hsInputText
                     : ""
                 }
                 onChange={(e) =>
@@ -272,7 +295,7 @@ const MyChartComponent = () => {
         <h2 style={{ color: "#444", marginBottom: "10px", fontWeight: "bold" }}>
           MMPI Grafiği
         </h2>
-        <LineChart chartData={chartData} />
+        <LineChart chartData={state.chartData} />
       </div>
     </div>
   );
