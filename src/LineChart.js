@@ -6,60 +6,12 @@ ChartJS.register(...registerables);
 
 const initialUserData = [
   {
-    param: "?",
-    paramValue: 60,
-  },
-  {
-    param: "L",
-    paramValue: 60,
-  },
-  {
-    param: "F",
-    paramValue: 60,
-  },
-  {
     param: "K",
     paramValue: 60,
   },
   {
-    param: "1-Hs",
-    paramValue: 60,
-  },
-  {
-    param: "2-D",
-    paramValue: 60,
-  },
-  {
-    param: "3-Hy",
-    paramValue: 60,
-  },
-  {
-    param: "4-Pd",
-    paramValue: 60,
-  },
-  {
-    param: "5-Mf",
-    paramValue: 60,
-  },
-  {
-    param: "6-Pa",
-    paramValue: 60,
-  },
-  {
-    param: "7-Pt",
-    paramValue: 60,
-  },
-  {
-    param: "8-Sc",
-    paramValue: 60,
-  },
-  {
-    param: "9-Ma",
-    paramValue: 60,
-  },
-  {
-    param: "Si",
-    paramValue: 60,
+    param: "L",
+    paramValue: 60, // Initial value for "L"
   },
 ];
 
@@ -133,12 +85,29 @@ const MyChartComponent = () => {
           case 5:
             modifiedValue = 32;
             break;
-          // Add more cases if needed for other values
+          // ... other cases for "K" parameter ...
+          default:
+            modifiedValue = parsedValue; // or any other default value
+            break;
+        }
+      } else if (data.param === "L" && dataIndex === index) {
+        switch (parsedValue) {
+          case 1:
+            modifiedValue = 32.5;
+            break;
+          case 2:
+            modifiedValue = 36.2;
+            break;
+          case 3:
+            modifiedValue = 38.1;
+            break;
+          // ... other cases for "L" parameter ...
           default:
             modifiedValue = parsedValue; // or any other default value
             break;
         }
       }
+  
       return { ...data, paramValue: modifiedValue };
     });
 
@@ -148,7 +117,7 @@ const MyChartComponent = () => {
         {
           label: "Kadın",
           data: updatedUserData.map((data, dataIndex) =>
-            data.param === "K" ? data.paramValue : userInputFemale[dataIndex]
+            data.param === "K" ? data.paramValue : data.param === "L" ? data.paramValue : userInputFemale[dataIndex]
           ),
           borderColor: "green",
           borderWidth: 2,
@@ -158,7 +127,7 @@ const MyChartComponent = () => {
         {
           label: "Erkek",
           data: updatedUserData.map((data, dataIndex) =>
-            data.param === "K" ? data.paramValue : userInputMale[dataIndex]
+            data.param === "K" ? data.paramValue : data.param === "L" ? data.paramValue : userInputMale[dataIndex]
           ),
           borderColor: "blue",
           borderWidth: 2,
@@ -167,6 +136,7 @@ const MyChartComponent = () => {
         },
       ],
     };
+    
 
     setChartData(updatedChartData);
   };
