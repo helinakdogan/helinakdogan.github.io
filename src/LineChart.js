@@ -6,11 +6,15 @@ ChartJS.register(...registerables);
 
 const initialUserData = [
   {
-    param: "K",
+    param: "L",
     paramValue: 60,
   },
   {
-    param: "L",
+    param: "F",
+    paramValue: 60,
+  },
+  {
+    param: "K",
     paramValue: 60,
   },
 ];
@@ -20,15 +24,36 @@ const LineChart = ({ chartData }) => {
 };
 
 const MyChartComponent = () => {
-  const [kInput, setKInput] = useState(initialUserData.find((data) => data.param === "K").paramValue);
-  const [lInput, setLInput] = useState(initialUserData.find((data) => data.param === "L").paramValue);
+  const [lInput, setLInput] = useState(
+    initialUserData.find((data) => data.param === "L").paramValue
+  );
+  const [fInput, setFInput] = useState(
+    initialUserData.find((data) => data.param === "F").paramValue
+  );
+  const [kInput, setKInput] = useState(
+    initialUserData.find((data) => data.param === "K").paramValue
+  );
+
+  const [lInputText, setLInputText] = useState(
+    String(initialUserData.find((data) => data.param === "L").paramValue)
+  );
+  const [fInputText, setFInputText] = useState(
+    String(initialUserData.find((data) => data.param === "F").paramValue)
+  );
+  const [kInputText, setKInputText] = useState(
+    String(initialUserData.find((data) => data.param === "K").paramValue)
+  );
 
   const [chartData, setChartData] = useState({
     labels: initialUserData.map((data) => data.param),
     datasets: [
       {
-        label: "MMPI Grafiği",
-        data: [kInput, lInput],
+        label: "Kadın",
+        data: [
+          initialUserData.find((data) => data.param === "L").paramValue,
+          initialUserData.find((data) => data.param === "F").paramValue,
+          initialUserData.find((data) => data.param === "K").paramValue,
+        ],
         borderColor: "green",
         borderWidth: 2,
         fill: false,
@@ -37,29 +62,88 @@ const MyChartComponent = () => {
     ],
   });
 
-  const handleKInputChange = (value) => {
-    const parsedValue = parseFloat(value);
-    if (!isNaN(parsedValue)) {
-      setKInput(parsedValue);
-      updateChartData(parsedValue, lInput);
-    }
-  };
-
   const handleLInputChange = (value) => {
+    setLInputText(value); // Update local state for typed text
     const parsedValue = parseFloat(value);
     if (!isNaN(parsedValue)) {
       setLInput(parsedValue);
-      updateChartData(kInput, parsedValue);
+      updateChartData(parsedValue, fInput, kInput);
     }
   };
 
-  const updateChartData = (kValue, lValue) => {
+  const handleFInputChange = (value) => {
+    setFInputText(value); // Update local state for typed text
+    const parsedValue = parseFloat(value);
+    if (!isNaN(parsedValue)) {
+      const updatedFValue = getUpdatedFValue(parsedValue);
+      setFInput(updatedFValue);
+      updateChartData(lInput, updatedFValue, kInput);
+    }
+  };
+
+  const handleKInputChange = (value) => {
+    setKInputText(value); // Update local state for typed text
+    const parsedValue = parseFloat(value);
+    if (!isNaN(parsedValue)) {
+      const updatedKValue = getUpdatedKValue(parsedValue);
+      setKInput(updatedKValue);
+      updateChartData(lInput, fInput, updatedKValue);
+    }
+  };
+
+  const getUpdatedFValue = (parsedValue) => {
+    switch (parsedValue) {
+      case 6:
+        return 70;
+      case 7:
+        return 38.5;
+      case 8:
+        return 40;
+      case 9:
+        return 100;
+      case 10:
+        return 45.5;
+      case 11:
+        return 48.2;
+      case 12:
+        return 51.2;
+      case 13:
+        return 53.5;
+      default:
+        return 0;
+    }
+  };
+
+  const getUpdatedKValue = (parsedValue) => {
+    switch (parsedValue) {
+      case 6:
+        return 35;
+      case 7:
+        return 38.5;
+      case 8:
+        return 40;
+      case 9:
+        return 43.5;
+      case 10:
+        return 45.5;
+      case 11:
+        return 48.2;
+      case 12:
+        return 51.2;
+      case 13:
+        return 53.5;
+      default:
+        return 0;
+    }
+  };
+
+  const updateChartData = (lValue, fValue, kValue) => {
     const updatedChartData = {
       labels: initialUserData.map((data) => data.param),
       datasets: [
         {
-          label: "MMPI Grafiği",
-          data: [kValue, lValue],
+          label: "Kadın",
+          data: [lValue, fValue, kValue],
           borderColor: "green",
           borderWidth: 2,
           fill: false,
@@ -96,14 +180,33 @@ const MyChartComponent = () => {
         <div style={{ marginBottom: "10px" }}>
           {initialUserData.map((data) => (
             <div key={data.param} style={{ marginBottom: "10px" }}>
-              <label htmlFor={`paramInput${data.param}`} style={{ color: "#444" }}>
+              <label
+                htmlFor={`paramInput${data.param}`}
+                style={{ color: "#444" }}
+              >
                 {data.param} Puanı:{" "}
               </label>
               <input
-                type="number"
+                type="text"
                 id={`paramInput${data.param}`}
-                value={data.param === "K" ? kInput : lInput}
-                onChange={(e) => (data.param === "K" ? handleKInputChange(e.target.value) : handleLInputChange(e.target.value))}
+                value={
+                  data.param === "L"
+                    ? lInputText
+                    : data.param === "F"
+                    ? fInputText
+                    : data.param === "K"
+                    ? kInputText
+                    : ""
+                }
+                onChange={(e) =>
+                  data.param === "L"
+                    ? handleLInputChange(e.target.value)
+                    : data.param === "F"
+                    ? handleFInputChange(e.target.value)
+                    : data.param === "K"
+                    ? handleKInputChange(e.target.value)
+                    : null
+                }
                 style={{
                   width: "50px",
                   borderRadius: "5px",
