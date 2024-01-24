@@ -59,10 +59,18 @@ const MyChartComponent = () => {
     kInput: initialUserData.find((data) => data.param === "K").paramValue,
     //initialKInput: initialUserData.find((data) => data.param === "K").paramValue,
     hsInput: initialUserData.find((data) => data.param === "1-Hs").paramValue,
-    lInputText: String(initialUserData.find((data) => data.param === "L").paramValue),
-    fInputText: String(initialUserData.find((data) => data.param === "F").paramValue),
-    kInputText: String(initialUserData.find((data) => data.param === "K").paramValue),
-    hsInputText: String(initialUserData.find((data) => data.param === "1-Hs").paramValue),
+    lInputText: String(
+      initialUserData.find((data) => data.param === "L").paramValue
+    ),
+    fInputText: String(
+      initialUserData.find((data) => data.param === "F").paramValue
+    ),
+    kInputText: String(
+      initialUserData.find((data) => data.param === "K").paramValue
+    ),
+    hsInputText: String(
+      initialUserData.find((data) => data.param === "1-Hs").paramValue
+    ),
     chartData: {
       labels: initialUserData.map((data) => data.param),
       datasets: [
@@ -108,32 +116,30 @@ const MyChartComponent = () => {
     if (!isNaN(parsedValue)) {
       const updatedKValue = getUpdatedKValue(parsedValue);
       dispatch({ type: "UPDATE_K_INPUT", payload: updatedKValue });
-  
+
       // Güncellenen K değerine göre HS'i hesapla ve güncelle
-      const updatedHsValue = getUpdatedHsValue(state.hsInput, parsedValue);
+      const updatedHsValue = getUpdatedHsValue(value, state.hsInputText);
       dispatch({ type: "UPDATE_HS_INPUT", payload: updatedHsValue });
-  
+
       // Grafik verilerini güncelle
-      updateChartData(state.lInput, state.fInput, updatedKValue, updatedHsValue);
+      updateChartData(
+        state.lInput,
+        state.fInput,
+        updatedKValue,
+        updatedHsValue
+      );
     }
   };
-  
-  
-  
-  
+
   const handleHsInputChange = (value) => {
     dispatch({ type: "UPDATE_HS_INPUT_TEXT", payload: value });
     const parsedValue = parseFloat(value);
     if (!isNaN(parsedValue)) {
-      const updatedHsValue = getUpdatedHsValue(parsedValue, state.kInputText);
+      const updatedHsValue = getUpdatedHsValue(state.kInputText, value);
       dispatch({ type: "UPDATE_HS_INPUT", payload: updatedHsValue });
       updateChartData(state.lInput, state.fInput, state.kInput, updatedHsValue);
     }
   };
-  
-  
-  
-  
 
   const getUpdatedFValue = (parsedValue) => {
     switch (parsedValue) {
@@ -180,31 +186,71 @@ const MyChartComponent = () => {
         return 43.5;
       case 10:
         return 45.5;
+      case 11:
+        return 48.2;
+      case 12:
+        return 51.2;
+      case 13:
+        return 53.5;
+      case 14:
+        return 56.6;
+      case 15:
+        return 58.3;
+      case 16:
+        return 61.2;
+      case 17:
+        return 64.5;
+      case 18:
+        return 66.5;
+      case 19:
+        return 69;
+      case 20:
+        return 71.9;
+      case 21:
+        return 74.1;
+      case 22:
+        return 77.3;
+      case 23:
+        return 79.2;
+      case 24:
+        return 82.2;
+      case 25:
+        return 84.1;
+      case 26:
+        return 87;
+      case 27:
+        return 90;
+      case 28:
+        return 92;
+      case 29:
+        return 95.4;
+      case 30:
+        return 98.1;
       default:
         return 0;
     }
   };
 
-  const getUpdatedHsValue = (currentHsValue, kText) => {
+  const getUpdatedHsValue = (kText, hsText) => {
     const kTextValue = parseFloat(kText);
-    if (!isNaN(kTextValue)) {
+    const hsTextValue = parseFloat(hsText);
+
+    if (!isNaN(kTextValue) && !isNaN(hsTextValue)) {
       switch (kTextValue) {
         case 30:
         case 29:
-          return currentHsValue + 15;
+          return hsTextValue + 15;
         case 28:
-          return currentHsValue + 14;
+          return hsTextValue + 14;
         case 10:
-          return currentHsValue + 5;
+          return hsTextValue + 5;
         default:
-          return currentHsValue;
+          return hsTextValue;
       }
     } else {
-      return currentHsValue;
+      return 0;
     }
   };
-  
-  
 
   const updateChartData = (lValue, fValue, kValue, hsValue) => {
     const updatedChartData = {
