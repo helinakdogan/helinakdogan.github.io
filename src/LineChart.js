@@ -17,6 +17,10 @@ const initialUserData = [
     param: "K",
     paramValue: 60,
   },
+  {
+    param: "1-Hs",
+    paramValue: 60,
+  },
 ];
 
 const LineChart = ({ chartData }) => {
@@ -33,6 +37,13 @@ const MyChartComponent = () => {
   const [kInput, setKInput] = useState(
     initialUserData.find((data) => data.param === "K").paramValue
   );
+  const [initialKInput, setInitialKInput] = useState(
+    initialUserData.find((data) => data.param === "K").paramValue
+  );
+
+  const [hsInput, setHsInput] = useState(
+    initialUserData.find((data) => data.param === "1-Hs").paramValue
+  );
 
   const [lInputText, setLInputText] = useState(
     String(initialUserData.find((data) => data.param === "L").paramValue)
@@ -42,6 +53,9 @@ const MyChartComponent = () => {
   );
   const [kInputText, setKInputText] = useState(
     String(initialUserData.find((data) => data.param === "K").paramValue)
+  );
+  const [hsInputText, setHsInputText] = useState(
+    String(initialUserData.find((data) => data.param === "1-Hs").paramValue)
   );
 
   const [chartData, setChartData] = useState({
@@ -53,6 +67,7 @@ const MyChartComponent = () => {
           initialUserData.find((data) => data.param === "L").paramValue,
           initialUserData.find((data) => data.param === "F").paramValue,
           initialUserData.find((data) => data.param === "K").paramValue,
+          initialUserData.find((data) => data.param === "1-Hs").paramValue,
         ],
         borderColor: "green",
         borderWidth: 2,
@@ -67,7 +82,7 @@ const MyChartComponent = () => {
     const parsedValue = parseFloat(value);
     if (!isNaN(parsedValue)) {
       setLInput(parsedValue);
-      updateChartData(parsedValue, fInput, kInput);
+      updateChartData(parsedValue, fInput, kInput, hsInput);
     }
   };
 
@@ -77,7 +92,7 @@ const MyChartComponent = () => {
     if (!isNaN(parsedValue)) {
       const updatedFValue = getUpdatedFValue(parsedValue);
       setFInput(updatedFValue);
-      updateChartData(lInput, updatedFValue, kInput);
+      updateChartData(lInput, updatedFValue, kInput, hsInput);
     }
   };
 
@@ -87,7 +102,18 @@ const MyChartComponent = () => {
     if (!isNaN(parsedValue)) {
       const updatedKValue = getUpdatedKValue(parsedValue);
       setKInput(updatedKValue);
-      updateChartData(lInput, fInput, updatedKValue);
+      setInitialKInput(parsedValue); // Set the initial K value
+      updateChartData(lInput, fInput, updatedKValue, hsInput);
+    }
+  };
+
+  const handleHsInputChange = (value) => {
+    setHsInputText(value); // Update local state for typed text
+    const parsedValue = parseFloat(value);
+    if (!isNaN(parsedValue)) {
+      const updatedHsValue = getUpdatedHsValue(parsedValue, kInput);
+      setHsInput(updatedHsValue);
+      updateChartData(lInput, fInput, kInput, updatedHsValue);
     }
   };
 
@@ -116,6 +142,16 @@ const MyChartComponent = () => {
 
   const getUpdatedKValue = (parsedValue) => {
     switch (parsedValue) {
+      case 1:
+        return 22.5;
+      case 2:
+        return 24.5;
+      case 3:
+        return 27.5;
+      case 4:
+        return 30;
+      case 5:
+        return 32;
       case 6:
         return 35;
       case 7:
@@ -126,24 +162,34 @@ const MyChartComponent = () => {
         return 43.5;
       case 10:
         return 45.5;
-      case 11:
-        return 48.2;
-      case 12:
-        return 51.2;
-      case 13:
-        return 53.5;
+     
+      default:
+        return 0; 
+    }
+    
+  };
+
+  const getUpdatedHsValue = (parsedValue) => {
+    switch (initialKInput) {
+      case 30:
+      case 29:
+        return parsedValue + 15;
+      case 28:
+        return parsedValue + 14;
+      case 10:
+        return parsedValue + 5;
       default:
         return 0;
     }
   };
 
-  const updateChartData = (lValue, fValue, kValue) => {
+  const updateChartData = (lValue, fValue, kValue, hsValue) => {
     const updatedChartData = {
       labels: initialUserData.map((data) => data.param),
       datasets: [
         {
           label: "Kadın",
-          data: [lValue, fValue, kValue],
+          data: [lValue, fValue, kValue, hsValue],
           borderColor: "green",
           borderWidth: 2,
           fill: false,
@@ -196,6 +242,8 @@ const MyChartComponent = () => {
                     ? fInputText
                     : data.param === "K"
                     ? kInputText
+                    : data.param === "1-Hs"
+                    ? hsInputText
                     : ""
                 }
                 onChange={(e) =>
@@ -205,6 +253,8 @@ const MyChartComponent = () => {
                     ? handleFInputChange(e.target.value)
                     : data.param === "K"
                     ? handleKInputChange(e.target.value)
+                    : data.param === "1-Hs"
+                    ? handleHsInputChange(e.target.value)
                     : null
                 }
                 style={{
