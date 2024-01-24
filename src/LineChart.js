@@ -11,7 +11,7 @@ const initialUserData = [
   },
   {
     param: "L",
-    paramValue: 60, // Initial value for "L"
+    paramValue: 60,
   },
 ];
 
@@ -20,124 +20,53 @@ const LineChart = ({ chartData }) => {
 };
 
 const MyChartComponent = () => {
-  const [selectedGender, setSelectedGender] = useState("female");
-  const [userInputFemale, setUserInputFemale] = useState(
-    initialUserData.map((data) => data.paramValue)
-  );
-  const [userInputMale, setUserInputMale] = useState(
-    initialUserData.map((data) => data.paramValue)
-  );
+  const [kInput, setKInput] = useState(initialUserData.find((data) => data.param === "K").paramValue);
+  const [lInput, setLInput] = useState(initialUserData.find((data) => data.param === "L").paramValue);
+
   const [chartData, setChartData] = useState({
     labels: initialUserData.map((data) => data.param),
     datasets: [
       {
-        label: "Kadın",
-        data: userInputFemale,
+        label: "MMPI Grafiği",
+        data: [kInput, lInput],
         borderColor: "green",
         borderWidth: 2,
         fill: false,
-        hidden: selectedGender !== "female",
-      },
-      {
-        label: "Erkek",
-        data: userInputMale,
-        borderColor: "blue",
-        borderWidth: 2,
-        fill: false,
-        hidden: selectedGender !== "male",
+        tension: 0.1,
       },
     ],
   });
 
-  const handleInputChange = (index, value, gender) => {
+  const handleKInputChange = (value) => {
     const parsedValue = parseFloat(value);
-    if (isNaN(parsedValue)) {
-      return;
+    if (!isNaN(parsedValue)) {
+      setKInput(parsedValue);
+      updateChartData(parsedValue, lInput);
     }
+  };
 
-    if (gender === "female") {
-      const newUserInput = [...userInputFemale];
-      newUserInput[index] = parsedValue;
-      setUserInputFemale(newUserInput);
-    } else if (gender === "male") {
-      const newUserInput = [...userInputMale];
-      newUserInput[index] = parsedValue;
-      setUserInputMale(newUserInput);
+  const handleLInputChange = (value) => {
+    const parsedValue = parseFloat(value);
+    if (!isNaN(parsedValue)) {
+      setLInput(parsedValue);
+      updateChartData(kInput, parsedValue);
     }
+  };
 
-    const updatedUserData = initialUserData.map((data, dataIndex) => {
-      let modifiedValue = data.paramValue;
-
-      if (data.param === "K" && dataIndex === index) {
-        switch (parsedValue) {
-          case 1:
-            modifiedValue = 22.5;
-            break;
-          case 2:
-            modifiedValue = 24.5;
-            break;
-          case 3:
-            modifiedValue = 27.5;
-            break;
-          case 4:
-            modifiedValue = 30;
-            break;
-          case 5:
-            modifiedValue = 32;
-            break;
-          // ... other cases for "K" parameter ...
-          default:
-            modifiedValue = parsedValue; // or any other default value
-            break;
-        }
-      } else if (data.param === "L" && dataIndex === index) {
-        switch (parsedValue) {
-          case 1:
-            modifiedValue = 32.5;
-            break;
-          case 2:
-            modifiedValue = 36.2;
-            break;
-          case 3:
-            modifiedValue = 38.1;
-            break;
-          // ... other cases for "L" parameter ...
-          default:
-            modifiedValue = parsedValue; // or any other default value
-            break;
-        }
-      }
-  
-      return { ...data, paramValue: modifiedValue };
-    });
-
+  const updateChartData = (kValue, lValue) => {
     const updatedChartData = {
-      labels: updatedUserData.map((data) => data.param),
+      labels: initialUserData.map((data) => data.param),
       datasets: [
         {
-          label: "Kadın",
-          data: updatedUserData.map((data, dataIndex) =>
-            data.param === "K" ? data.paramValue : data.param === "L" ? data.paramValue : userInputFemale[dataIndex]
-          ),
+          label: "MMPI Grafiği",
+          data: [kValue, lValue],
           borderColor: "green",
           borderWidth: 2,
           fill: false,
-          hidden: selectedGender !== "female",
-        },
-        {
-          label: "Erkek",
-          data: updatedUserData.map((data, dataIndex) =>
-            data.param === "K" ? data.paramValue : data.param === "L" ? data.paramValue : userInputMale[dataIndex]
-          ),
-          borderColor: "blue",
-          borderWidth: 2,
-          fill: false,
-          hidden: selectedGender !== "male",
+          tension: 0.1,
         },
       ],
     };
-    
-
     setChartData(updatedChartData);
   };
 
@@ -165,41 +94,16 @@ const MyChartComponent = () => {
           MMPI Puan Tablosu
         </h2>
         <div style={{ marginBottom: "10px" }}>
-          <label style={{ color: "#444" }}>Cinsiyet Seçimi: </label>
-          <select
-            value={selectedGender}
-            onChange={(e) => setSelectedGender(e.target.value)}
-            style={{
-              borderRadius: "5px",
-              padding: "5px",
-              border: "1px solid #ccc",
-              color: "#444",
-            }}
-          >
-            <option value="female">Kadın</option>
-            <option value="male">Erkek</option>
-          </select>
-        </div>
-        <div style={{ marginBottom: "10px" }}>
-          {initialUserData.map((data, index) => (
-            <div key={index} style={{ marginBottom: "10px" }}>
-              <label
-                htmlFor={`paramInput${selectedGender}${index}`}
-                style={{ color: "#444" }}
-              >
+          {initialUserData.map((data) => (
+            <div key={data.param} style={{ marginBottom: "10px" }}>
+              <label htmlFor={`paramInput${data.param}`} style={{ color: "#444" }}>
                 {data.param} Puanı:{" "}
               </label>
               <input
                 type="number"
-                id={`paramInput${selectedGender}${index}`}
-                value={
-                  selectedGender === "female"
-                    ? userInputFemale[index]
-                    : userInputMale[index]
-                }
-                onChange={(e) =>
-                  handleInputChange(index, e.target.value, selectedGender)
-                }
+                id={`paramInput${data.param}`}
+                value={data.param === "K" ? kInput : lInput}
+                onChange={(e) => (data.param === "K" ? handleKInputChange(e.target.value) : handleLInputChange(e.target.value))}
                 style={{
                   width: "50px",
                   borderRadius: "5px",
