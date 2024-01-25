@@ -687,25 +687,80 @@ const MyChartComponent = () => {
 
   const getUpdatedFValue = (parsedValue) => {
     switch (parsedValue) {
-      case 6:
-        return 70;
-      case 7:
-        return 38.5;
-      case 8:
+      case 1:
+        return 32.5;
+      case 2:
+        return 36.2;
+      case 3:
+        return 38.1;
+      case 4:
         return 40;
-      case 9:
-        return 100;
-      case 10:
+      case 5:
+        return 42.2;
+      case 6:
+        return 44.1;
+      case 7:
         return 45.5;
-      case 11:
-        return 48.2;
-      case 12:
+      case 8:
+        return 47.3;
+      case 9:
+        return 49.4;
+      case 10:
         return 51.2;
+      case 11:
+        return 53.2;
+      case 12:
+        return 55.1;
       case 13:
-        return 53.5;
+        return 57.2;
+      case 14:
+        return 59;
+      case 15:
+        return 61.1;
+      case 16:
+        return 63.1;
+      case 17:
+        return 65.4;
+      case 18:
+        return 66.1;
+      case 19:
+        return 68.1;
+      case 20:
+        return 70;
+      case 21:
+        return 72.1;
+      case 22:
+        return 74.1;
+      case 23:
+        return 76.1;
+      case 24:
+        return 78.1;
+      case 25:
+        return 80;
+      case 26:
+        return 82.1;
+      case 27:
+        return 84.1;
+      case 28:
+        return 86.1;
+      case 29:
+        return 87.1;
+      case 30:
+        return 89;
+      case 31:
+        return 91;
+      case 32:
+        return 93.1;
+      case 33:
+        return 95.2;
+      case 34:
+        return 97;
+      case 35:
+        return 99;
       default:
-        return 0;
+        return 0; 
     }
+    
   };
 
   const getUpdatedKValue = (parsedValue) => {
