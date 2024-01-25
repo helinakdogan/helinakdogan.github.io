@@ -271,7 +271,7 @@ const MyChartComponent = () => {
       );
     }
   };
-  
+
   const handleLInputChange = (value) => {
     dispatch({ type: "UPDATE_L_INPUT_TEXT", payload: value });
     const parsedValue = parseFloat(value);
@@ -623,12 +623,26 @@ const MyChartComponent = () => {
     switch (parsedValue) {
       case 30:
         return 50;
-      case 130:
-        return 80;
+      case 40:
+        return 53;
+      case 50:
+        return 56.1;
       case 60:
         return 58;
+      case 70:
+        return 61;
+      case 80:
+        return 63.8;
+      case 90:
+        return 66;
       case 100:
-        return 68.9;
+        return 68.7;
+      case 110:
+        return 72;
+      case 120:
+        return 76;
+      case 130:
+        return 80;
       default:
         return parsedValue;
     }
@@ -636,27 +650,41 @@ const MyChartComponent = () => {
 
   const getUpdatedLValue = (parsedValue) => {
     switch (parsedValue) {
-      case 6:
-        return 70;
-      case 7:
+      case 1:
+        return 28.2;
+      case 2:
+        return 36.3;
+      case 3:
         return 38.5;
-      case 8:
+      case 4:
         return 40;
+      case 5:
+        return 42.4;
+      case 6:
+        return 50;
+      case 7:
+        return 55.5;
+      case 8:
+        return 59.3;
       case 9:
-        return 100;
+        return 64;
       case 10:
-        return 45.5;
+        return 68.1;
       case 11:
-        return 48.2;
+        return 73;
       case 12:
-        return 51.2;
+        return 77;
       case 13:
-        return 53.5;
+        return 82;
+      case 14:
+        return 86.1;
+      case 15:
+        return 90;
       default:
         return 0;
     }
   };
-  
+
   const getUpdatedFValue = (parsedValue) => {
     switch (parsedValue) {
       case 6:
@@ -831,7 +859,7 @@ const MyChartComponent = () => {
         case 29:
           updatedPdValue = pdTextValue + 15;
           break;
-        
+
         default:
           updatedPdValue = pdTextValue;
           break;
@@ -899,7 +927,7 @@ const MyChartComponent = () => {
         case 29:
           updatedPtValue = ptTextValue + 15;
           break;
-          case 10:
+        case 10:
           updatedPtValue = ptTextValue + 5;
           break;
         default:
@@ -1021,7 +1049,6 @@ const MyChartComponent = () => {
     };
     dispatch({ type: "UPDATE_CHART_DATA", payload: updatedChartData });
   };
-  
 
   return (
     <div
@@ -1089,7 +1116,6 @@ const MyChartComponent = () => {
                     ? state.siInputText
                     : ""
                 }
-                
                 onChange={(e) =>
                   data.param === "?"
                     ? handleQuestionMarkInputChange(e.target.value)
@@ -1121,7 +1147,6 @@ const MyChartComponent = () => {
                     ? handleSiInputChange(e.target.value)
                     : null
                 }
-                
                 style={{
                   width: "50px",
                   borderRadius: "5px",
