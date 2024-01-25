@@ -332,6 +332,18 @@ const MyChartComponent = () => {
       // Güncellenen K değerine göre HS'i hesapla ve güncelle
       const updatedHsValue = getUpdatedHsValue(value, state.hsInputText);
       dispatch({ type: "UPDATE_HS_INPUT", payload: updatedHsValue });
+    
+      const updatedPdValue = getUpdatedPdValue(value, state.pdInputText);
+      dispatch({ type: "UPDATE_PD_INPUT", payload: updatedPdValue });
+
+      const updatedPtValue = getUpdatedPtValue(value, state.ptInputText);
+      dispatch({ type: "UPDATE_PT_INPUT", payload: updatedPtValue });
+     
+      const updatedScValue = getUpdatedScValue(value, state.scInputText);
+      dispatch({ type: "UPDATE_SC_INPUT", payload: updatedScValue });
+  
+      const updatedMaValue = getUpdatedMaValue(value, state.maInputText);
+      dispatch({ type: "UPDATE_MA_INPUT", payload: updatedMaValue });
 
       // Grafik verilerini güncelle
       updateChartData(
@@ -342,12 +354,12 @@ const MyChartComponent = () => {
         updatedHsValue,
         state.dInput,
         state.hyInput,
-        state.pdInput,
+        updatedPdValue,
         state.mfInput,
         state.paInput,
-        state.ptInput,
-        state.scInput,
-        state.maInput,
+        updatedPtValue,
+        updatedScValue,
+        updatedMaValue,
         state.siInput
       );
     }
@@ -903,6 +915,20 @@ const MyChartComponent = () => {
     }
   };
 
+  const mapUpdatedPdToGraphValue = (updatedPdValue) => {
+    switch (updatedPdValue) {
+      case 70:
+        return 68.2;
+      case 15:
+        return 48.5;
+      case 10:
+        return 37.5;
+      // Diğer durumlar için de gerekirse ekleyebilirsiniz.
+      default:
+        return updatedPdValue;
+    }
+  };
+
   const getUpdatedPdValue = (kText, pdText) => {
     const kTextValue = parseFloat(kText);
     const pdTextValue = parseFloat(pdText);
@@ -920,7 +946,7 @@ const MyChartComponent = () => {
           break;
       }
 
-      const mappedValue = mapUpdatedHsToGraphValue(updatedPdValue);
+      const mappedValue = mapUpdatedPdToGraphValue(updatedPdValue);
       return mappedValue;
     } else {
       return 0;
@@ -963,8 +989,8 @@ const MyChartComponent = () => {
         return 100;
       case 15:
         return 48.5;
-      case 10:
-        return 37.5;
+      case 30:
+        return 110;
       // Diğer durumlar için de gerekirse ekleyebilirsiniz.
       default:
         return updatedPtValue;
@@ -977,23 +1003,26 @@ const MyChartComponent = () => {
 
     if (!isNaN(kTextValue) && !isNaN(ptTextValue)) {
       let updatedPtValue;
-      switch (kTextValue) {
-        case 30:
-        case 29:
-          updatedPtValue = ptTextValue + 15;
-          break;
-        case 10:
-          updatedPtValue = ptTextValue + 5;
-          break;
-        default:
-          updatedPtValue = ptTextValue;
-          break;
-      }
+      updatedPtValue = ptTextValue + kTextValue;
 
       const mappedValue = mapUpdatedPtToGraphValue(updatedPtValue);
       return mappedValue;
     } else {
       return 0;
+    }
+  };
+
+  const mapUpdatedScToGraphValue = (updatedScValue) => {
+    switch (updatedScValue) {
+      case 25:
+        return 100;
+      case 15:
+        return 48.5;
+      case 30:
+        return 110;
+      // Diğer durumlar için de gerekirse ekleyebilirsiniz.
+      default:
+        return updatedScValue;
     }
   };
 
@@ -1003,20 +1032,26 @@ const MyChartComponent = () => {
 
     if (!isNaN(kTextValue) && !isNaN(scTextValue)) {
       let updatedScValue;
-      switch (kTextValue) {
-        case 30:
-        case 29:
-          updatedScValue = scTextValue + 15;
-          break;
-        default:
-          updatedScValue = scTextValue;
-          break;
-      }
+      updatedScValue = scTextValue + kTextValue;
 
-      const mappedValue = mapUpdatedHsToGraphValue(updatedScValue);
+      const mappedValue = mapUpdatedScToGraphValue(updatedScValue);
       return mappedValue;
     } else {
       return 0;
+    }
+  };
+
+  const mapUpdatedMaToGraphValue = (updatedMaValue) => {
+    switch (updatedMaValue) {
+      case 70:
+        return 68.2;
+      case 15:
+        return 48.5;
+      case 10:
+        return 37.5;
+      // Diğer durumlar için de gerekirse ekleyebilirsiniz.
+      default:
+        return updatedMaValue;
     }
   };
 
@@ -1027,16 +1062,15 @@ const MyChartComponent = () => {
     if (!isNaN(kTextValue) && !isNaN(maTextValue)) {
       let updatedMaValue;
       switch (kTextValue) {
-        case 30:
-        case 29:
-          updatedMaValue = maTextValue + 15;
+        case 10:
+          updatedMaValue = maTextValue + 2;
           break;
         default:
           updatedMaValue = maTextValue;
           break;
       }
 
-      const mappedValue = mapUpdatedHsToGraphValue(updatedMaValue);
+      const mappedValue = mapUpdatedMaToGraphValue(updatedMaValue);
       return mappedValue;
     } else {
       return 0;
