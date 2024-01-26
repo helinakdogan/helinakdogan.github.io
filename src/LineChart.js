@@ -994,70 +994,117 @@ const MyChartComponent = () => {
     }
   };
 
-
-
   const getUpdatedDValue = (parsedValue) => {
     switch (parsedValue) {
-      case 1:
-        return 22.5;
-      case 2:
-        return 24.5;
-      case 3:
-        return 27.5;
-      case 4:
-        return 30;
-      case 5:
-        return 32;
-      case 6:
-        return 35;
+      
       case 7:
-        return 38.5;
+        return 21;
       case 8:
-        return 40;
+        return 23;
       case 9:
-        return 43.5;
+        return 25.2;
       case 10:
-        return 45.5;
+        return 26.1;
       case 11:
-        return 48.2;
+        return 29;
       case 12:
-        return 51.2;
+        return 30;
       case 13:
-        return 53.5;
+        return 32;
       case 14:
-        return 56.6;
+        return 33;
       case 15:
-        return 58.3;
+        return 35;
       case 16:
-        return 61.2;
+        return 37.2;
       case 17:
-        return 64.5;
+        return 39;
       case 18:
-        return 66.5;
+        return 40;
       case 19:
-        return 69;
+        return 42;
       case 20:
-        return 71.9;
+        return 44.2;
       case 21:
-        return 74.1;
+        return 45.3;
       case 22:
-        return 77.3;
+        return 47.1;
       case 23:
-        return 79.2;
+        return 49.2;
       case 24:
-        return 82.2;
+        return 51;
       case 25:
-        return 84.1;
+        return 52;
       case 26:
-        return 87;
+        return 54.2;
       case 27:
-        return 90;
+        return 56.2;
       case 28:
-        return 92;
+        return 58.5;
       case 29:
-        return 95.4;
+        return 59.2;
       case 30:
-        return 98.1;
+        return 61;
+      case 31:    
+        return 62.9;
+      case 32:
+        return 65.2;
+      case 33:    
+        return 66.2;
+      case 34:
+        return 68.5;
+      case 35:
+        return 70;
+      case 36:  
+        return 72.5;
+      case 37:  
+        return 74.2;
+      case 38:
+        return 75.2;
+      case 39:
+        return 77.5;
+      case 40:
+        return 79.1;
+      case 41:
+        return 80;
+      case 42:  
+        return 82;
+      case 43:
+        return 84.5;
+      case 44:
+        return 85.2;
+      case 45:
+        return 87;
+      case 46:
+        return 89.9;
+      case 47:  
+        return 91.2;
+      case 48:  
+        return 92;
+      case 49:  
+        return 94;
+      case 50:
+        return 96.2;
+      case 51:
+        return 98;
+      case 52:
+        return 99;
+      case 53:
+        return 101;
+      case 54:
+        return 103.6;
+      case 55:  
+        return 105.2;
+      case 56:  
+        return 106.2;
+      case 57:  
+        return 108.2;
+      case 58:
+        return 110;
+      case 59:
+        return 112; 
+      case 60:
+        return 113.2;
       default:
         return 0;
     }
