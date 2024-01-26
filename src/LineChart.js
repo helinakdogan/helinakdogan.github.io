@@ -142,11 +142,13 @@ const LineChart = ({ chartData }) => {
     },
   };
 
+  
+
   return (
     <Line
       data={chartData}
       options={options}
-      style={{ width: "850px", height: "1200px" }}
+      style={{ width: "850px", height: "2000px", marginRight: "60px",}}
     />
   );
 };
@@ -217,7 +219,7 @@ const MyChartComponent = () => {
       labels: initialUserData.map((data) => data.param),
       datasets: [
         {
-          label: "Kadın",
+          label: "MMPI Hesaplanmış Sonuçlar Grafiği (Kadın)",
           data: [
             initialUserData.find((data) => data.param === "?").paramValue,
             initialUserData.find((data) => data.param === "L").paramValue,
@@ -234,7 +236,7 @@ const MyChartComponent = () => {
             initialUserData.find((data) => data.param === "9-Ma").paramValue,
             initialUserData.find((data) => data.param === "0-Si").paramValue,
           ],
-          borderColor: "green",
+          borderColor: "#5c5470",
           borderWidth: 2,
           fill: false,
           tension: 0.1,
@@ -844,15 +846,72 @@ const MyChartComponent = () => {
 
   const mapUpdatedHsToGraphValue = (updatedHsValue) => {
     switch (updatedHsValue) {
-      case 25:
-        return 68.2;
-      case 15:
-        return 48.5;
+      case 2:
+        return 21.2;
+      case 3:
+        return 23.2;
+      case 4:
+        return 25.5;
+      case 5:
+        return 27.2;
+      case 6:
+        return 29;
+      case 7:
+        return 31.1;
+      case 8:
+        return 33.4;
+      case 9:
+        return 35.5;
       case 10:
-        return 37.5;
-      // Diğer durumlar için de gerekirse ekleyebilirsiniz.
+        return 37.1;
+      case 11:
+        return 39.1;
+      case 12:
+        return 41.2;
+      case 13:
+        return 43.2;
+      case 14:
+        return 45.5;
+      case 15:
+        return 48.4;
+      case 16:
+        return 50;
+      case 17:
+        return 52.2;
+      case 18:
+        return 54.2;
+      case 19:
+        return 56.3;
+      case 20:
+        return 58.1;
+      case 21:
+        return 60;
+      case 22:
+        return 62;
+      case 23:
+        return 64.1;
+      case 24:
+        return 66;
+      case 25:
+        return 68;
+      case 26:
+        return 70;
+      case 27:
+        return 72.2;
+      case 28:
+        return 74;
+      case 29:
+        return 76;
+      case 30:
+        return 78;
+      case 31:
+        return 78;
+      case 32:
+        return 83.1;
+      case 33:
+        return 85.2;           
       default:
-        return updatedHsValue;
+        return 0;
     }
   };
 
@@ -868,10 +927,60 @@ const MyChartComponent = () => {
           updatedHsValue = hsTextValue + 15;
           break;
         case 28:
+        case 27:
           updatedHsValue = hsTextValue + 14;
           break;
+        case 26:
+        case 25:
+          updatedHsValue = hsTextValue + 13;
+          break;
+        case 24:
+        case 23:
+          updatedHsValue = hsTextValue + 12;
+          break;
+        case 22:
+        case 21:
+          updatedHsValue = hsTextValue + 11;
+          break;
+        case 20:
+        case 19:
+          updatedHsValue = hsTextValue + 10;
+          break;
+        case 18:
+        case 17:
+          updatedHsValue = hsTextValue + 9;
+          break;
+        case 16:  
+        case 15:
+          updatedHsValue = hsTextValue + 8;
+          break;
+        case 14:  
+        case 13:
+          updatedHsValue = hsTextValue + 7;
+          break;
+        case 12:  
+        case 11:
+          updatedHsValue = hsTextValue + 6;
+          break;
         case 10:
+        case 9:
           updatedHsValue = hsTextValue + 5;
+          break;
+        case 8:
+        case 7:
+          updatedHsValue = hsTextValue + 4;
+          break;
+        case 6: 
+        case 5:
+          updatedHsValue = hsTextValue + 3;
+          break;
+        case 4:
+        case 3:
+          updatedHsValue = hsTextValue + 2;
+          break;
+        case 2:
+        case 1:
+          updatedHsValue = hsTextValue + 1;
           break;
         default:
           updatedHsValue = hsTextValue;
@@ -885,18 +994,72 @@ const MyChartComponent = () => {
     }
   };
 
+
+
   const getUpdatedDValue = (parsedValue) => {
     switch (parsedValue) {
+      case 1:
+        return 22.5;
+      case 2:
+        return 24.5;
+      case 3:
+        return 27.5;
+      case 4:
+        return 30;
+      case 5:
+        return 32;
+      case 6:
+        return 35;
+      case 7:
+        return 38.5;
+      case 8:
+        return 40;
+      case 9:
+        return 43.5;
+      case 10:
+        return 45.5;
+      case 11:
+        return 48.2;
+      case 12:
+        return 51.2;
+      case 13:
+        return 53.5;
+      case 14:
+        return 56.6;
+      case 15:
+        return 58.3;
+      case 16:
+        return 61.2;
+      case 17:
+        return 64.5;
+      case 18:
+        return 66.5;
+      case 19:
+        return 69;
+      case 20:
+        return 71.9;
+      case 21:
+        return 74.1;
+      case 22:
+        return 77.3;
+      case 23:
+        return 79.2;
+      case 24:
+        return 82.2;
+      case 25:
+        return 84.1;
+      case 26:
+        return 87;
+      case 27:
+        return 90;
+      case 28:
+        return 92;
+      case 29:
+        return 95.4;
       case 30:
-        return 50;
-      case 130:
-        return 80;
-      case 60:
-        return 58;
-      case 100:
-        return 68.9;
+        return 98.1;
       default:
-        return parsedValue;
+        return 0;
     }
   };
 
@@ -1112,7 +1275,7 @@ const MyChartComponent = () => {
       labels: initialUserData.map((data) => data.param),
       datasets: [
         {
-          label: "Kadın",
+          label: "MMPI Hesaplanmış Sonuçlar Grafiği (Kadın)",
           data: [
             questionMarkValue,
             lValue,
@@ -1129,7 +1292,7 @@ const MyChartComponent = () => {
             maValue,
             siValue,
           ],
-          borderColor: "green",
+          borderColor: "#5c5470",
           borderWidth: 2,
           fill: false,
           tension: 0.1,
@@ -1146,6 +1309,8 @@ const MyChartComponent = () => {
         gridTemplateColumns: "1fr 2fr",
         gap: "50px",
         padding: "10px",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <div
@@ -1153,108 +1318,124 @@ const MyChartComponent = () => {
           border: "1px solid #ddd",
           padding: "10px",
           borderRadius: "10px",
-          width: "400px",
-          background: "linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)",
+          width: "300px",
+          background: "linear-gradient(to top, #79a8a9 0%, #79a8a9 100%)",
           boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
-          marginLeft: "20px",
+          marginLeft: "70px", 
+          textAlign: "center", 
         }}
       >
-        <h2 style={{ color: "#444", marginBottom: "10px", fontWeight: "bold" }}>
-          MMPI Puan Tablosu
+        <h2 style={{ color: "white", marginBottom: "20px", fontWeight: "bold", fontFamily: "Didot, serif" }}>
+          MMPI Ham Puan Tablosu
         </h2>
         <div style={{ marginBottom: "10px" }}>
-          {initialUserData.map((data) => (
-            <div key={data.param} style={{ marginBottom: "10px" }}>
-              <label
-                htmlFor={`paramInput${data.param}`}
-                style={{ color: "#444" }}
-              >
-                {data.param} Puanı:{" "}
-              </label>
-              <input
-                type="text"
-                id={`paramInput${data.param}`}
-                value={
-                  data.param === "?"
-                    ? state.questionMarkInputText
-                    : data.param === "L"
-                    ? state.lInputText
-                    : data.param === "F"
-                    ? state.fInputText
-                    : data.param === "K"
-                    ? state.kInputText
-                    : data.param === "1-Hs"
-                    ? state.hsInputText
-                    : data.param === "2-D"
-                    ? state.dInputText
-                    : data.param === "3-Hy"
-                    ? state.hyInputText
-                    : data.param === "4-Pd"
-                    ? state.pdInputText
-                    : data.param === "5-Mf"
-                    ? state.mfInputText
-                    : data.param === "6-Pa"
-                    ? state.paInputText
-                    : data.param === "7-Pt"
-                    ? state.ptInputText
-                    : data.param === "8-Sc"
-                    ? state.scInputText
-                    : data.param === "9-Ma"
-                    ? state.maInputText
-                    : data.param === "0-Si"
-                    ? state.siInputText
-                    : ""
-                }
-                onChange={(e) =>
-                  data.param === "?"
-                    ? handleQuestionMarkInputChange(e.target.value)
-                    : data.param === "L"
-                    ? handleLInputChange(e.target.value)
-                    : data.param === "F"
-                    ? handleFInputChange(e.target.value)
-                    : data.param === "K"
-                    ? handleKInputChange(e.target.value)
-                    : data.param === "1-Hs"
-                    ? handleHsInputChange(e.target.value)
-                    : data.param === "2-D"
-                    ? handleDInputChange(e.target.value)
-                    : data.param === "3-Hy"
-                    ? handleHyInputChange(e.target.value)
-                    : data.param === "4-Pd"
-                    ? handlePdInputChange(e.target.value)
-                    : data.param === "5-Mf"
-                    ? handleMfInputChange(e.target.value)
-                    : data.param === "6-Pa"
-                    ? handlePaInputChange(e.target.value)
-                    : data.param === "7-Pt"
-                    ? handlePtInputChange(e.target.value)
-                    : data.param === "8-Sc"
-                    ? handleScInputChange(e.target.value)
-                    : data.param === "9-Ma"
-                    ? handleMaInputChange(e.target.value)
-                    : data.param === "0-Si"
-                    ? handleSiInputChange(e.target.value)
-                    : null
-                }
-                style={{
-                  width: "50px",
-                  borderRadius: "5px",
-                  padding: "5px",
-                  border: "1px solid #ccc",
-                }}
-              />
-            </div>
-          ))}
-        </div>
+  {initialUserData.map((data) => (
+    <div
+      key={data.param}
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: "10px",
+      }}
+    >
+      <label
+        htmlFor={`paramInput${data.param}`}
+        style={{
+          color: "white",
+          fontFamily: "Didot, serif",
+          position: "relative",
+          left: "70px",
+        }}
+      >
+        {data.param} Ham Puanı:
+      </label>
+      <input
+        type="text"
+        id={`paramInput${data.param}`}
+        value={
+          data.param === "?"
+            ? state.questionMarkInputText
+            : data.param === "L"
+            ? state.lInputText
+            : data.param === "F"
+            ? state.fInputText
+            : data.param === "K"
+            ? state.kInputText
+            : data.param === "1-Hs"
+            ? state.hsInputText
+            : data.param === "2-D"
+            ? state.dInputText
+            : data.param === "3-Hy"
+            ? state.hyInputText
+            : data.param === "4-Pd"
+            ? state.pdInputText
+            : data.param === "5-Mf"
+            ? state.mfInputText
+            : data.param === "6-Pa"
+            ? state.paInputText
+            : data.param === "7-Pt"
+            ? state.ptInputText
+            : data.param === "8-Sc"
+            ? state.scInputText
+            : data.param === "9-Ma"
+            ? state.maInputText
+            : data.param === "0-Si"
+            ? state.siInputText
+            : ""
+        }
+        onChange={(e) =>
+          data.param === "?"
+            ? handleQuestionMarkInputChange(e.target.value)
+            : data.param === "L"
+            ? handleLInputChange(e.target.value)
+            : data.param === "F"
+            ? handleFInputChange(e.target.value)
+            : data.param === "K"
+            ? handleKInputChange(e.target.value)
+            : data.param === "1-Hs"
+            ? handleHsInputChange(e.target.value)
+            : data.param === "2-D"
+            ? handleDInputChange(e.target.value)
+            : data.param === "3-Hy"
+            ? handleHyInputChange(e.target.value)
+            : data.param === "4-Pd"
+            ? handlePdInputChange(e.target.value)
+            : data.param === "5-Mf"
+            ? handleMfInputChange(e.target.value)
+            : data.param === "6-Pa"
+            ? handlePaInputChange(e.target.value)
+            : data.param === "7-Pt"
+            ? handlePtInputChange(e.target.value)
+            : data.param === "8-Sc"
+            ? handleScInputChange(e.target.value)
+            : data.param === "9-Ma"
+            ? handleMaInputChange(e.target.value)
+            : data.param === "0-Si"
+            ? handleSiInputChange(e.target.value)
+            : null
+        }
+        style={{
+          width: "35px",
+          borderRadius: "5px",
+          padding: "3px",
+          border: "1px solid #ccc",
+          position: "relative",
+          right: "70px",
+        }}
+      />
+    </div>
+  ))}
+</div>
+
       </div>
       <div>
-        <h2 style={{ color: "#444", marginBottom: "10px", fontWeight: "bold" }}>
-          MMPI Grafiği
-        </h2>
         <LineChart chartData={state.chartData} />
       </div>
     </div>
   );
+  
+  
+  
 };
 
 export default MyChartComponent;

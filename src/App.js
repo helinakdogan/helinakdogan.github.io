@@ -1,17 +1,22 @@
-import "./App.css";
+// App.js
 
-import LineChart from "./LineChart";
+import React, { useState } from 'react';
+import Header from './Header';
+import MyChartComponent from './LineChart';
 
-function App() {
+const App = () => {
+  const [activeTab, setActiveTab] = useState('women');
+
+  const changeTab = (newTab) => {
+    setActiveTab(newTab);
+  };
+
   return (
-    <div className="App">
-      <div style={{ width: 700 }}>
-        <LineChart />
-      </div>
+    <div>
+      <Header changeTab={changeTab} />
+      {activeTab === 'women' ? <MyChartComponent /> : null}
     </div>
   );
-}
+};
 
 export default App;
-
-
