@@ -1311,6 +1311,7 @@ const MyChartComponent = () => {
         padding: "10px",
         justifyContent: "center",
         alignItems: "center",
+        background: "white",
       }}
     >
       <div
