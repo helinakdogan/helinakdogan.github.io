@@ -64,67 +64,46 @@ const initialUserData = [
   },
 ];
 
-const reducer = (state, action) => {
+
+//useReducer
+const inputTypes = [
+  "QUESTION_MARK",
+  "L",
+  "F",
+  "K",
+  "HS",
+  "D",
+  "HY",
+  "PD",
+  "MF",
+  "PA",
+  "PT",
+  "SC",
+  "MA",
+  "SI"
+];
+const updateInput = (state, action, inputType) => {
+  const inputKey = `${inputType.toLowerCase()}Input`;
+  const inputTextKey = `${inputType.toLowerCase()}InputText`;
+
   switch (action.type) {
-    // Input cases
-    case "UPDATE_QUESTION_MARK_INPUT":
-      return { ...state, questionMarkInput: action.payload };
-    case "UPDATE_L_INPUT":
-      return { ...state, lInput: action.payload };
-    case "UPDATE_F_INPUT":
-      return { ...state, fInput: action.payload };
-    case "UPDATE_K_INPUT":
-      return { ...state, kInput: action.payload };
-    case "UPDATE_HS_INPUT":
-      return { ...state, hsInput: action.payload };
-    case "UPDATE_D_INPUT":
-      return { ...state, dInput: action.payload };
-    case "UPDATE_HY_INPUT":
-      return { ...state, hyInput: action.payload };
-    case "UPDATE_PD_INPUT":
-      return { ...state, pdInput: action.payload };
-    case "UPDATE_MF_INPUT":
-      return { ...state, mfInput: action.payload };
-    case "UPDATE_PA_INPUT":
-      return { ...state, paInput: action.payload };
-    case "UPDATE_PT_INPUT":
-      return { ...state, ptInput: action.payload };
-    case "UPDATE_SC_INPUT":
-      return { ...state, scInput: action.payload };
-    case "UPDATE_MA_INPUT":
-      return { ...state, maInput: action.payload };
-    case "UPDATE_SI_INPUT":
-      return { ...state, siInput: action.payload };
-    //Input text cases
-    case "UPDATE_QUESTION_MARK_INPUT_TEXT":
-      return { ...state, questionMarkInputText: action.payload };
-    case "UPDATE_L_INPUT_TEXT":
-      return { ...state, lInputText: action.payload };
-    case "UPDATE_F_INPUT_TEXT":
-      return { ...state, fInputText: action.payload };
-    case "UPDATE_K_INPUT_TEXT":
-      return { ...state, kInputText: action.payload };
-    case "UPDATE_HS_INPUT_TEXT":
-      return { ...state, hsInputText: action.payload };
-    case "UPDATE_D_INPUT_TEXT":
-      return { ...state, dInputText: action.payload };
-    case "UPDATE_HY_INPUT_TEXT":
-      return { ...state, hyInputText: action.payload };
-    case "UPDATE_PD_INPUT_TEXT":
-      return { ...state, pdInputText: action.payload };
-    case "UPDATE_MF_INPUT_TEXT":
-      return { ...state, mfInputText: action.payload };
-    case "UPDATE_PA_INPUT_TEXT":
-      return { ...state, paInputText: action.payload };
-    case "UPDATE_PT_INPUT_TEXT":
-      return { ...state, ptInputText: action.payload };
-    case "UPDATE_SC_INPUT_TEXT":
-      return { ...state, scInputText: action.payload };
-    case "UPDATE_MA_INPUT_TEXT":
-      return { ...state, maInputText: action.payload };
-    case "UPDATE_SI_INPUT_TEXT":
-      return { ...state, siInputText: action.payload };
-    //---------
+    case `UPDATE_${inputType}_INPUT`:
+      return { ...state, [inputKey]: action.payload };
+    case `UPDATE_${inputType}_INPUT_TEXT`:
+      return { ...state, [inputTextKey]: action.payload };
+    default:
+      return state;
+  }
+};
+const reducer = (state, action) => {
+  for (const inputType of inputTypes) {
+    const updatedState = updateInput(state, action, inputType);
+    if (updatedState !== state) {
+      return updatedState;
+    }
+  }
+
+  switch (action.type) {
     case "UPDATE_CHART_DATA":
       return { ...state, chartData: action.payload };
     default:
@@ -132,6 +111,7 @@ const reducer = (state, action) => {
   }
 };
 
+//LineChart
 const LineChart = ({ chartData }) => {
   const options = {
     scales: {
@@ -141,9 +121,6 @@ const LineChart = ({ chartData }) => {
       },
     },
   };
-
-  
-
   return (
     <Line
       data={chartData}
@@ -634,677 +611,115 @@ const MyChartComponent = () => {
 
   // update functions
   const getUpdatedQuestionMarkValue = (parsedValue) => {
-    switch (parsedValue) {
-      case 30:
-        return 50;
-      case 40:
-        return 53;
-      case 50:
-        return 56.1;
-      case 60:
-        return 58;
-      case 70:
-        return 61;
-      case 80:
-        return 63.8;
-      case 90:
-        return 66;
-      case 100:
-        return 68.7;
-      case 110:
-        return 72;
-      case 120:
-        return 76;
-      case 130:
-        return 80;
-      default:
-        return parsedValue;
-    }
+    const values = {
+      30: 50, 40: 53, 50: 56.1, 60: 58, 70: 61, 80: 63.8, 90: 66, 100: 68.7,
+      110: 72, 120: 76, 130: 80
+    };
+  
+    return values[parsedValue] || parsedValue;
   };
-
+  
   const getUpdatedLValue = (parsedValue) => {
-    switch (parsedValue) {
-      case 1:
-        return 28.2;
-      case 2:
-        return 36.3;
-      case 3:
-        return 38.5;
-      case 4:
-        return 40;
-      case 5:
-        return 42.4;
-      case 6:
-        return 50;
-      case 7:
-        return 55.5;
-      case 8:
-        return 59.3;
-      case 9:
-        return 64;
-      case 10:
-        return 68.1;
-      case 11:
-        return 73;
-      case 12:
-        return 77;
-      case 13:
-        return 82;
-      case 14:
-        return 86.1;
-      case 15:
-        return 90;
-      default:
-        return 0;
-    }
+    const values = {
+      1: 28.2, 2: 36.3, 3: 38.5, 4: 40, 5: 42.4, 6: 50, 7: 55.5, 8: 59.3,
+      9: 64, 10: 68.1, 11: 73, 12: 77, 13: 82, 14: 86.1, 15: 90
+    };
+  
+    return values[parsedValue] || 0;
   };
-
+  
   const getUpdatedFValue = (parsedValue) => {
-    switch (parsedValue) {
-      case 1:
-        return 32.5;
-      case 2:
-        return 36.2;
-      case 3:
-        return 38.1;
-      case 4:
-        return 40;
-      case 5:
-        return 42.2;
-      case 6:
-        return 44.1;
-      case 7:
-        return 45.5;
-      case 8:
-        return 47.3;
-      case 9:
-        return 49.4;
-      case 10:
-        return 51.2;
-      case 11:
-        return 53.2;
-      case 12:
-        return 55.1;
-      case 13:
-        return 57.2;
-      case 14:
-        return 59;
-      case 15:
-        return 61.1;
-      case 16:
-        return 63.1;
-      case 17:
-        return 65.4;
-      case 18:
-        return 66.1;
-      case 19:
-        return 68.1;
-      case 20:
-        return 70;
-      case 21:
-        return 72.1;
-      case 22:
-        return 74.1;
-      case 23:
-        return 76.1;
-      case 24:
-        return 78.1;
-      case 25:
-        return 80;
-      case 26:
-        return 82.1;
-      case 27:
-        return 84.1;
-      case 28:
-        return 86.1;
-      case 29:
-        return 87.1;
-      case 30:
-        return 89;
-      case 31:
-        return 91;
-      case 32:
-        return 93.1;
-      case 33:
-        return 95.2;
-      case 34:
-        return 97;
-      case 35:
-        return 99;
-      default:
-        return 0; 
-    }
-    
+    const values = {
+      1: 32.5, 2: 36.2, 3: 38.1, 4: 40, 5: 42.2, 6: 44.1, 7: 45.5, 8: 47.3,
+      9: 49.4, 10: 51.2, 11: 53.2, 12: 55.1, 13: 57.2, 14: 59, 15: 61.1,
+      16: 63.1, 17: 65.4, 18: 66.1, 19: 68.1, 20: 70, 21: 72.1, 22: 74.1,
+      23: 76.1, 24: 78.1, 25: 80, 26: 82.1, 27: 84.1, 28: 86.1, 29: 87.1,
+      30: 89, 31: 91, 32: 93.1, 33: 95.2, 34: 97, 35: 99
+    };
+  
+    return values[parsedValue] || 0;
   };
-
+  
   const getUpdatedKValue = (parsedValue) => {
-    switch (parsedValue) {
-      case 1:
-        return 22.5;
-      case 2:
-        return 24.5;
-      case 3:
-        return 27.5;
-      case 4:
-        return 30;
-      case 5:
-        return 32;
-      case 6:
-        return 35;
-      case 7:
-        return 38.5;
-      case 8:
-        return 40;
-      case 9:
-        return 43.5;
-      case 10:
-        return 45.5;
-      case 11:
-        return 48.2;
-      case 12:
-        return 51.2;
-      case 13:
-        return 53.5;
-      case 14:
-        return 56.6;
-      case 15:
-        return 58.3;
-      case 16:
-        return 61.2;
-      case 17:
-        return 64.5;
-      case 18:
-        return 66.5;
-      case 19:
-        return 69;
-      case 20:
-        return 71.9;
-      case 21:
-        return 74.1;
-      case 22:
-        return 77.3;
-      case 23:
-        return 79.2;
-      case 24:
-        return 82.2;
-      case 25:
-        return 84.1;
-      case 26:
-        return 87;
-      case 27:
-        return 90;
-      case 28:
-        return 92;
-      case 29:
-        return 95.4;
-      case 30:
-        return 98.1;
-      default:
-        return 0;
-    }
+    const values = {
+      1: 22.5, 2: 24.5, 3: 27.5, 4: 30, 5: 32, 6: 35, 7: 38.5, 8: 40,
+      9: 43.5, 10: 45.5, 11: 48.2, 12: 51.2, 13: 53.5, 14: 56.6, 15: 58.3,
+      16: 61.2, 17: 64.5, 18: 66.5, 19: 69, 20: 71.9, 21: 74.1, 22: 77.3,
+      23: 79.2, 24: 82.2, 25: 84.1, 26: 87, 27: 90, 28: 92, 29: 95.4,
+      30: 98.1
+    };
+  
+    return values[parsedValue] || 0;
   };
+  
 
   const mapUpdatedHsToGraphValue = (updatedHsValue) => {
-    switch (updatedHsValue) {
-      case 2:
-        return 21.2;
-      case 3:
-        return 23.2;
-      case 4:
-        return 25.5;
-      case 5:
-        return 27.2;
-      case 6:
-        return 29;
-      case 7:
-        return 31.1;
-      case 8:
-        return 33.4;
-      case 9:
-        return 35.5;
-      case 10:
-        return 37.1;
-      case 11:
-        return 39.1;
-      case 12:
-        return 41.2;
-      case 13:
-        return 43.2;
-      case 14:
-        return 45.5;
-      case 15:
-        return 48.4;
-      case 16:
-        return 50;
-      case 17:
-        return 52.2;
-      case 18:
-        return 54.2;
-      case 19:
-        return 56.3;
-      case 20:
-        return 58.1;
-      case 21:
-        return 60;
-      case 22:
-        return 62;
-      case 23:
-        return 64.1;
-      case 24:
-        return 66;
-      case 25:
-        return 68;
-      case 26:
-        return 70;
-      case 27:
-        return 72.2;
-      case 28:
-        return 74;
-      case 29:
-        return 76;
-      case 30:
-        return 78;
-      case 31:
-        return 78;
-      case 32:
-        return 83.1;
-      case 33:
-        return 85.2;           
-      default:
-        return 0;
-    }
+    const values = {
+      2: 21.2, 3: 23.2, 4: 25.5, 5: 27.2, 6: 29, 7: 31.1, 8: 33.4, 9: 35.5,
+      10: 37.1, 11: 39.1, 12: 41.2, 13: 43.2, 14: 45.5, 15: 48.4, 16: 50, 17: 52.2,
+      18: 54.2, 19: 56.3, 20: 58.1, 21: 60, 22: 62, 23: 64.1, 24: 66, 25: 68,
+      26: 70, 27: 72.2, 28: 74, 29: 76, 30: 78, 31: 78, 32: 83.1, 33: 85.2
+    };
+  
+    return values[updatedHsValue] || 0;
   };
+  
 
   const getUpdatedHsValue = (kText, hsText) => {
     const kTextValue = parseFloat(kText);
     const hsTextValue = parseFloat(hsText);
-
+  
     if (!isNaN(kTextValue) && !isNaN(hsTextValue)) {
-      let updatedHsValue;
-      switch (kTextValue) {
-        case 30:
-        case 29:
-          updatedHsValue = hsTextValue + 15;
-          break;
-        case 28:
-        case 27:
-          updatedHsValue = hsTextValue + 14;
-          break;
-        case 26:
-        case 25:
-          updatedHsValue = hsTextValue + 13;
-          break;
-        case 24:
-        case 23:
-          updatedHsValue = hsTextValue + 12;
-          break;
-        case 22:
-        case 21:
-          updatedHsValue = hsTextValue + 11;
-          break;
-        case 20:
-        case 19:
-          updatedHsValue = hsTextValue + 10;
-          break;
-        case 18:
-        case 17:
-          updatedHsValue = hsTextValue + 9;
-          break;
-        case 16:  
-        case 15:
-          updatedHsValue = hsTextValue + 8;
-          break;
-        case 14:  
-        case 13:
-          updatedHsValue = hsTextValue + 7;
-          break;
-        case 12:  
-        case 11:
-          updatedHsValue = hsTextValue + 6;
-          break;
-        case 10:
-        case 9:
-          updatedHsValue = hsTextValue + 5;
-          break;
-        case 8:
-        case 7:
-          updatedHsValue = hsTextValue + 4;
-          break;
-        case 6: 
-        case 5:
-          updatedHsValue = hsTextValue + 3;
-          break;
-        case 4:
-        case 3:
-          updatedHsValue = hsTextValue + 2;
-          break;
-        case 2:
-        case 1:
-          updatedHsValue = hsTextValue + 1;
-          break;
-        default:
-          updatedHsValue = hsTextValue;
-          break;
-      }
-
-      const mappedValue = mapUpdatedHsToGraphValue(updatedHsValue);
-      return mappedValue;
+      const step = Math.floor((kTextValue - 1) / 2) + 1;
+      const updatedHsValue = hsTextValue + step;
+  
+      return mapUpdatedHsToGraphValue(updatedHsValue);
     } else {
       return 0;
     }
   };
-
+  
   const getUpdatedDValue = (parsedValue) => {
-    switch (parsedValue) {
-      
-      case 7:
-        return 21;
-      case 8:
-        return 23;
-      case 9:
-        return 25.2;
-      case 10:
-        return 26.1;
-      case 11:
-        return 29;
-      case 12:
-        return 30;
-      case 13:
-        return 32;
-      case 14:
-        return 33;
-      case 15:
-        return 35;
-      case 16:
-        return 37.2;
-      case 17:
-        return 39;
-      case 18:
-        return 40;
-      case 19:
-        return 42;
-      case 20:
-        return 44.2;
-      case 21:
-        return 45.3;
-      case 22:
-        return 47.1;
-      case 23:
-        return 49.2;
-      case 24:
-        return 51;
-      case 25:
-        return 52;
-      case 26:
-        return 54.2;
-      case 27:
-        return 56.2;
-      case 28:
-        return 58.5;
-      case 29:
-        return 59.2;
-      case 30:
-        return 61;
-      case 31:    
-        return 62.9;
-      case 32:
-        return 65.2;
-      case 33:    
-        return 66.2;
-      case 34:
-        return 68.5;
-      case 35:
-        return 70;
-      case 36:  
-        return 72.5;
-      case 37:  
-        return 74.2;
-      case 38:
-        return 75.2;
-      case 39:
-        return 77.5;
-      case 40:
-        return 79.1;
-      case 41:
-        return 80;
-      case 42:  
-        return 82;
-      case 43:
-        return 84.5;
-      case 44:
-        return 85.2;
-      case 45:
-        return 87;
-      case 46:
-        return 89.9;
-      case 47:  
-        return 91.2;
-      case 48:  
-        return 92;
-      case 49:  
-        return 94;
-      case 50:
-        return 96.2;
-      case 51:
-        return 98;
-      case 52:
-        return 99;
-      case 53:
-        return 101;
-      case 54:
-        return 103.6;
-      case 55:  
-        return 105.2;
-      case 56:  
-        return 106.2;
-      case 57:  
-        return 108.2;
-      case 58:
-        return 110;
-      case 59:
-        return 112; 
-      case 60:
-        return 113.2;
-      default:
-        return 0;
-    }
+    const values = {
+      7: 21, 8: 23, 9: 25.2, 10: 26.1, 11: 29, 12: 30, 13: 32, 14: 33, 15: 35,
+      16: 37.2, 17: 39, 18: 40, 19: 42, 20: 44.2, 21: 45.3, 22: 47.1, 23: 49.2,
+      24: 51, 25: 52, 26: 54.2, 27: 56.2, 28: 58.5, 29: 59.2, 30: 61, 31: 62.9,
+      32: 65.2, 33: 66.2, 34: 68.5, 35: 70, 36: 72.5, 37: 74.2, 38: 75.2, 39: 77.5,
+      40: 79.1, 41: 80, 42: 82, 43: 84.5, 44: 85.2, 45: 87, 46: 89.9, 47: 91.2,
+      48: 92, 49: 94, 50: 96.2, 51: 98, 52: 99, 53: 101, 54: 103.6, 55: 105.2,
+      56: 106.2, 57: 108.2, 58: 110, 59: 112, 60: 113.2
+    };
+  
+    return values[parsedValue] || 0;
   };
-
+  
   const getUpdatedHyValue = (parsedValue) => {
-    switch (parsedValue) {
-      case 7:
-        return 21.1;
-      case 8:
-        return 23.2;
-      case 9:
-        return 25.1;
-      case 10:
-        return 27.2;
-      case 11:
-        return 30;
-      case 12:
-        return 31;
-      case 13:
-        return 33;
-      case 14:
-        return 34.5;
-      case 15:
-        return 36.5;
-      case 16:
-        return 38.1;
-      case 17:
-        return 40;
-      case 18:
-        return 42;
-      case 19:
-        return 44.2;
-      case 20:
-        return 46.6;
-      case 21:
-        return 48.5;
-      case 22:
-        return 49;
-      case 23:
-        return 51;
-      case 24:
-        return 53.3;
-      case 25:
-        return 55.5;
-      case 26:
-        return 57.4;
-      case 27:
-        return 59;
-      case 28:
-        return 61;
-      case 29:
-        return 62;
-      case 30:
-        return 64;
-      case 31:    
-        return 66.2;
-      case 32:
-        return 68.2;
-      case 33:    
-        return 70;
-      case 34:
-        return 72.1;
-      case 35:
-        return 74.2;
-      case 36:  
-        return 76.4;
-      case 37:  
-        return 77.3;
-      case 38:
-        return 79.5;
-      case 39:
-        return 81;
-      case 40:
-        return 83;
-      case 41:
-        return 85.2;
-      case 42:  
-        return 87;
-      case 43:
-        return 89;
-      case 44:
-        return 91;
-      case 45:
-        return 94.3;
-      case 46:
-        return 93.8;
-      case 47:  
-        return 96;
-      case 48:  
-        return 98;
-      case 49:  
-        return 100;
-      case 50:
-        return 102;
-      case 51:
-        return 104;
-      case 52:
-        return 106;
-      case 53:
-        return 107.2;
-      case 54:
-        return 109;
-      case 55:  
-        return 111;
-      default:
-        return parsedValue;
-    }
+    const values = {
+      7: 21.1, 8: 23.2, 9: 25.1, 10: 27.2, 11: 30, 12: 31, 13: 33, 14: 34.5,
+      15: 36.5, 16: 38.1, 17: 40, 18: 42, 19: 44.2, 20: 46.6, 21: 48.5,
+      22: 49, 23: 51, 24: 53.3, 25: 55.5, 26: 57.4, 27: 59, 28: 61,
+      29: 62, 30: 64, 31: 66.2, 32: 68.2, 33: 70, 34: 72.1, 35: 74.2,
+      36: 76.4, 37: 77.3, 38: 79.5, 39: 81, 40: 83, 41: 85.2, 42: 87,
+      43: 89, 44: 91, 45: 94.3, 46: 93.8, 47: 96, 48: 98, 49: 100,
+      50: 102, 51: 104, 52: 106, 53: 107.2, 54: 109, 55: 111
+    };
+  
+    return values[parsedValue] || parsedValue;
   };
-
+  
   const mapUpdatedPdToGraphValue = (updatedPdValue) => {
-    switch (updatedPdValue) {
-      case 9:
-        return 21;
-      case 10:
-        return 23;
-      case 11:
-        return 25;
-      case 12:
-        return 27;
-      case 13:
-        return 29;
-      case 14:
-        return 31;
-      case 15:
-        return 34;
-      case 16:
-        return 36.2;
-      case 17:
-        return 38.3;
-      case 18:
-        return 40;
-      case 19:
-        return 42;
-      case 20:
-        return 44.2;
-      case 21:
-        return 46.1;
-      case 22:
-        return 48.1;
-      case 23:
-        return 50;
-      case 24:
-        return 52;
-      case 25:
-        return 55.8;
-      case 26:
-        return 57;
-      case 27:
-        return 59;
-      case 28:
-        return 61;
-      case 29:
-        return 63.3;
-      case 30:
-        return 65.1;
-      case 31:    
-        return 66.5;
-      case 32:
-        return 68.1;
-      case 33:    
-        return 71.5;
-      case 34:
-        return 73;
-      case 35:
-        return 75.5;
-      case 36:  
-        return 78;
-      case 37:  
-        return 80;
-      case 38:
-        return 82;
-      case 39:
-        return 84.2;
-      case 40:
-        return 86;
-      case 41:
-        return 88;
-      case 42:  
-        return 90;
-      case 43:
-        return 92;
-      case 44:
-        return 94;
-      case 45:
-        return 96;
-      case 46:
-        return 99;
-      case 47:  
-        return 101;
-      case 48:  
-        return 103.2;
-      case 49:  
-        return 105.5;
-      case 50:
-        return 107;
-      default:
-        return updatedPdValue;
-    }
+    const values = {
+      9: 21, 10: 23, 11: 25, 12: 27, 13: 29, 14: 31, 15: 34, 16: 36.2,
+      17: 38.3, 18: 40, 19: 42, 20: 44.2, 21: 46.1, 22: 48.1, 23: 50,
+      24: 52, 25: 55.8, 26: 57, 27: 59, 28: 61, 29: 63.3, 30: 65.1,
+      31: 66.5, 32: 68.1, 33: 71.5, 34: 73, 35: 75.5, 36: 78, 37: 80,
+      38: 82, 39: 84.2, 40: 86, 41: 88, 42: 90, 43: 92, 44: 94,
+      45: 96, 46: 99, 47: 101, 48: 103.2, 49: 105.5, 50: 107
+    };
+  
+    return values[updatedPdValue] || updatedPdValue;
   };
+  
 
   const getUpdatedPdValue = (kText, pdText) => {
     const kTextValue = parseFloat(kText);
@@ -1331,47 +746,42 @@ const MyChartComponent = () => {
   };
 
   const getUpdatedMfValue = (parsedValue) => {
-    switch (parsedValue) {
-      case 30:
-        return 50;
-      case 130:
-        return 80;
-      case 60:
-        return 58;
-      case 100:
-        return 68.9;
-      default:
-        return parsedValue;
-    }
+    const values = {
+      1: 100, 2: 99, 3:97, 4:96.4, 5:95, 6:93, 7:92, 8:91, 9: 89, 10: 88, 11: 87.2, 12: 85, 13: 84, 14: 83, 15: 81,
+      16: 80, 17: 79, 18: 77, 19: 76, 20: 75.5, 21: 73, 22: 72.1, 23: 71,
+      24: 69, 25: 68.2, 26: 67.3, 27: 65.5, 28: 64, 29: 63, 30: 61, 31: 60,
+      32: 58, 33: 55, 34: 53, 35: 51, 36: 49.2, 37: 46.2, 38: 44, 39: 42.5,
+      40: 40, 41: 38.2, 42: 36, 43: 33, 44: 31, 45: 29, 46: 27.5, 47: 25.1, 48: 24.2,
+      49: 22
+    };
+  
+    return values[parsedValue] || parsedValue;
   };
-
+  
   const getUpdatedPaValue = (parsedValue) => {
-    switch (parsedValue) {
-      case 30:
-        return 50;
-      case 130:
-        return 80;
-      case 60:
-        return 58;
-      case 100:
-        return 68.9;
-      default:
-        return parsedValue;
-    }
+    const values = {
+      1: 24, 2: 27, 3: 29, 4: 31, 5: 33.6, 6: 36, 7: 38, 8: 41, 9: 43.2, 10: 45, 11: 48, 12: 50, 13: 52, 14: 55,
+      15: 56.8, 16: 59, 17: 62, 18: 64, 19: 66, 20: 68, 21: 71,
+      22: 72.8, 23: 75, 24: 77.8, 25: 80, 26: 82, 27: 85, 28: 87,
+      29: 89, 30: 92, 31: 94, 32: 96, 33: 99, 34: 101, 35: 103,
+      36: 106, 37: 108, 38: 110, 39: 113, 40: 114.9
+    };
+  
+    return values[parsedValue] || parsedValue;
   };
 
   const mapUpdatedPtToGraphValue = (updatedPtValue) => {
-    switch (updatedPtValue) {
-      case 25:
-        return 100;
-      case 15:
-        return 48.5;
-      case 30:
-        return 110;
-      // Diğer durumlar için de gerekirse ekleyebilirsiniz.
-      default:
-        return updatedPtValue;
-    }
+    const values = {
+      10: 20, 11: 21, 12: 23, 13: 24, 14: 24.1,
+      15: 27, 16: 29, 17: 30, 18: 32, 19: 33, 20: 35, 21: 36,
+      22: 38.2, 23: 39, 24: 41, 25: 42, 26: 44, 27: 45, 28: 47,
+      29: 49, 30: 50, 31: 52, 32: 53, 33: 55, 34: 56, 35: 57.8,
+      36: 58.9, 37: 61, 38: 62, 39: 63.7, 40: 65, 41: 67, 42: 68,
+      43: 70, 44: 71, 45: 73, 46: 74, 47: 76, 48: 77, 49: 79,
+      50: 81, 51: 82, 52: 84, 53: 85, 54: 87, 55: 88, 56: 90, 57: 91, 58: 93
+    };
+  
+    return values[  updatedPtValue] || updatedPtValue;
   };
 
   const getUpdatedPtValue = (kText, ptText) => {
