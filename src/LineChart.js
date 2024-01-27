@@ -5,7 +5,6 @@ import { Chart as ChartJS, registerables } from "chart.js";
 ChartJS.register(...registerables);
 
 const initialUserData = [
-  // 2 3 5 6 si
   {
     param: "?",
     paramValue: 60,
@@ -67,7 +66,7 @@ const initialUserData = [
 
 //useReducer
 const inputTypes = [
-  "QUESTION_MARK",
+  "QUESTION",
   "L",
   "F",
   "K",
@@ -133,8 +132,7 @@ const LineChart = ({ chartData }) => {
 const MyChartComponent = () => {
   const [state, dispatch] = useReducer(reducer, {
     // Input values
-    questionMarkInput: initialUserData.find((data) => data.param === "?")
-      .paramValue,
+    questionInput: initialUserData.find((data) => data.param === "?").paramValue,
     lInput: initialUserData.find((data) => data.param === "L").paramValue,
     fInput: initialUserData.find((data) => data.param === "F").paramValue,
     kInput: initialUserData.find((data) => data.param === "K").paramValue,
@@ -149,7 +147,7 @@ const MyChartComponent = () => {
     maInput: initialUserData.find((data) => data.param === "9-Ma").paramValue,
     siInput: initialUserData.find((data) => data.param === "0-Si").paramValue,
     // Input text values
-    questionMarkInputText: String(
+    questionInputText: String(
       initialUserData.find((data) => data.param === "?").paramValue
     ),
     lInputText: String(
@@ -223,17 +221,17 @@ const MyChartComponent = () => {
   });
 
   // Handlechange
-  const handleQuestionMarkInputChange = (value) => {
-    dispatch({ type: "UPDATE_QUESTION_MARK_INPUT_TEXT", payload: value });
+  const handleQuestionInputChange = (value) => {
+    dispatch({ type: "UPDATE_QUESTION_INPUT_TEXT", payload: value });
     const parsedValue = parseFloat(value);
     if (!isNaN(parsedValue)) {
-      const updatedQuestionMarkValue = getUpdatedQuestionMarkValue(parsedValue);
+      const updatedQuestionValue = getUpdatedQuestionValue(parsedValue);
       dispatch({
-        type: "UPDATE_QUESTION_MARK_INPUT",
-        payload: updatedQuestionMarkValue,
+        type: "UPDATE_QUESTION_INPUT",
+        payload: updatedQuestionValue,
       });
       updateChartData(
-        updatedQuestionMarkValue,
+        updatedQuestionValue,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -258,7 +256,7 @@ const MyChartComponent = () => {
       const updatedLValue = getUpdatedLValue(parsedValue);
       dispatch({ type: "UPDATE_L_INPUT", payload: updatedLValue });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         updatedLValue,
         state.fInput,
         state.kInput,
@@ -283,7 +281,7 @@ const MyChartComponent = () => {
       const updatedFValue = getUpdatedFValue(parsedValue);
       dispatch({ type: "UPDATE_F_INPUT", payload: updatedFValue });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         updatedFValue,
         state.kInput,
@@ -326,7 +324,7 @@ const MyChartComponent = () => {
 
       // Grafik verilerini güncelle
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         updatedKValue,
@@ -351,7 +349,7 @@ const MyChartComponent = () => {
       const updatedHsValue = getUpdatedHsValue(state.kInputText, value);
       dispatch({ type: "UPDATE_HS_INPUT", payload: updatedHsValue });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -379,7 +377,7 @@ const MyChartComponent = () => {
         payload: updatedDValue,
       });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -407,7 +405,7 @@ const MyChartComponent = () => {
         payload: updatedHyValue,
       });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -432,7 +430,7 @@ const MyChartComponent = () => {
       const updatedPdValue = getUpdatedPdValue(state.kInputText, value);
       dispatch({ type: "UPDATE_PD_INPUT", payload: updatedPdValue });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -460,7 +458,7 @@ const MyChartComponent = () => {
         payload: updatedMfValue,
       });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -488,7 +486,7 @@ const MyChartComponent = () => {
         payload: updatedPaValue,
       });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -513,7 +511,7 @@ const MyChartComponent = () => {
       const updatedPtValue = getUpdatedPtValue(state.kInputText, value);
       dispatch({ type: "UPDATE_PT_INPUT", payload: updatedPtValue });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -538,7 +536,7 @@ const MyChartComponent = () => {
       const updatedScValue = getUpdatedScValue(state.kInputText, value);
       dispatch({ type: "UPDATE_SC_INPUT", payload: updatedScValue });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -563,7 +561,7 @@ const MyChartComponent = () => {
       const updatedMaValue = getUpdatedMaValue(state.kInputText, value);
       dispatch({ type: "UPDATE_MA_INPUT", payload: updatedMaValue });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -591,7 +589,7 @@ const MyChartComponent = () => {
         payload: updatedSiValue,
       });
       updateChartData(
-        state.questionMarkInput,
+        state.questionInput,
         state.lInput,
         state.fInput,
         state.kInput,
@@ -610,13 +608,13 @@ const MyChartComponent = () => {
   };
 
   // update functions
-  const getUpdatedQuestionMarkValue = (parsedValue) => {
+  const getUpdatedQuestionValue = (parsedValue) => {
     const values = {
       30: 50, 40: 53, 50: 56.1, 60: 58, 70: 61, 80: 63.8, 90: 66, 100: 68.7,
       110: 72, 120: 76, 130: 80
     };
   
-    return values[parsedValue] || parsedValue;
+    return values[parsedValue] || 0;
   };
   
   const getUpdatedLValue = (parsedValue) => {
@@ -719,31 +717,21 @@ const MyChartComponent = () => {
   
     return values[updatedPdValue] || updatedPdValue;
   };
-  
 
   const getUpdatedPdValue = (kText, pdText) => {
     const kTextValue = parseFloat(kText);
     const pdTextValue = parseFloat(pdText);
-
-    if (!isNaN(kTextValue) && !isNaN(pdTextValue)) {
-      let updatedPdValue;
-      switch (kTextValue) {
-        case 30:
-        case 29:
-          updatedPdValue = pdTextValue + 15;
-          break;
-
-        default:
-          updatedPdValue = pdTextValue;
-          break;
-      }
-
-      const mappedValue = mapUpdatedPdToGraphValue(updatedPdValue);
-      return mappedValue;
-    } else {
-      return 0;
-    }
-  };
+  
+    const offsets = {
+      29: 12, 28: 11, 27: 11, 26: 10, 25: 10, 24: 10, 23: 9, 22: 9,
+      21: 8, 20: 8, 19: 8, 18: 7, 17: 7, 16: 6, 15: 6, 14: 6,
+      13: 5, 12: 5, 11: 4, 10: 4, 9: 4, 8: 3, 7: 3, 6: 2, 5: 2,
+      4: 2, 3: 2, 2: 1, 1: 1
+    };
+  
+    const updatedPdValue = pdTextValue + (offsets[kTextValue] || 0);
+    return !isNaN(kTextValue) && !isNaN(pdTextValue) ? mapUpdatedPdToGraphValue(updatedPdValue) : 0;
+  };   
 
   const getUpdatedMfValue = (parsedValue) => {
     const values = {
@@ -800,17 +788,19 @@ const MyChartComponent = () => {
   };
 
   const mapUpdatedScToGraphValue = (updatedScValue) => {
-    switch (updatedScValue) {
-      case 25:
-        return 100;
-      case 15:
-        return 48.5;
-      case 30:
-        return 110;
-      // Diğer durumlar için de gerekirse ekleyebilirsiniz.
-      default:
-        return updatedScValue;
-    }
+    const values = {
+      7: 1, 8: 22, 9: 23, 10: 25, 11: 26, 12: 27, 13: 28, 14: 29,
+      15: 31, 16: 32, 17: 33, 18: 34, 19: 35, 20: 37, 21: 38,
+      22: 39, 23: 40, 24: 41, 25: 43, 26: 43.8, 27: 45, 28: 46,
+      29: 47, 30: 49, 31: 50, 32: 51, 33: 51.8, 34: 54, 35: 55,
+      36: 56, 37: 57, 38: 58, 39: 60, 40: 61, 41: 61.8, 42: 63,
+      43: 64, 44: 66, 45: 67, 46: 68, 47: 69, 48: 70, 49: 72,
+      50: 73, 51: 74, 52: 75, 53: 76, 54: 78, 55: 79, 56: 80, 57: 81, 58: 82,
+      59: 84, 60: 85, 61: 86, 62: 87, 63: 88, 64: 90, 65: 91, 66: 92, 67: 93,
+      68: 94, 69: 96, 70: 97, 71: 98, 72: 99, 73: 100, 74: 102, 75: 102.8, 76: 103.9, 77: 104.9, 78: 105.8,
+    };
+  
+    return values[  updatedScValue] || updatedScValue;
   };
 
   const getUpdatedScValue = (kText, scText) => {
@@ -829,58 +819,51 @@ const MyChartComponent = () => {
   };
 
   const mapUpdatedMaToGraphValue = (updatedMaValue) => {
-    switch (updatedMaValue) {
-      case 70:
-        return 68.2;
-      case 15:
-        return 48.5;
-      case 10:
-        return 37.5;
-      // Diğer durumlar için de gerekirse ekleyebilirsiniz.
-      default:
-        return updatedMaValue;
-    }
+    const values = {
+      7: 22, 8: 24, 9: 26, 10: 28, 11: 30, 12: 33, 13: 35, 14: 37,
+      15: 39, 16: 42, 17: 44, 18: 46, 19: 48, 20: 51, 21: 53,
+      22: 55, 23: 57, 24: 59, 25: 62, 26: 64, 27: 66, 28: 68,
+      29: 70, 30: 73, 31: 75, 32: 76, 33: 79, 34: 82, 35: 84,
+      36: 86, 37: 88, 38: 91, 39: 93, 40: 95, 41: 97, 42: 100,
+      43: 102, 44: 104, 45: 106, 46: 108.2
+    };
+  
+    return values[  updatedMaValue] || updatedMaValue;
   };
 
   const getUpdatedMaValue = (kText, maText) => {
     const kTextValue = parseFloat(kText);
     const maTextValue = parseFloat(maText);
-
-    if (!isNaN(kTextValue) && !isNaN(maTextValue)) {
-      let updatedMaValue;
-      switch (kTextValue) {
-        case 10:
-          updatedMaValue = maTextValue + 2;
-          break;
-        default:
-          updatedMaValue = maTextValue;
-          break;
-      }
-
-      const mappedValue = mapUpdatedMaToGraphValue(updatedMaValue);
-      return mappedValue;
-    } else {
+  
+    if (isNaN(kTextValue) || isNaN(maTextValue)) {
       return 0;
     }
+  
+    const kValues = [30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+    const updatedMaValue = maTextValue + Math.min(6, Math.floor((kValues.indexOf(Math.floor(kTextValue)) + 1) / 3));
+    
+    return mapUpdatedMaToGraphValue(updatedMaValue);
   };
+  
 
   const getUpdatedSiValue = (parsedValue) => {
-    switch (parsedValue) {
-      case 30:
-        return 50;
-      case 130:
-        return 80;
-      case 60:
-        return 58;
-      case 100:
-        return 68.9;
-      default:
-        return parsedValue;
-    }
+    const values = {
+      7: 20, 8: 21, 9: 23, 10: 24, 11: 25, 12: 27, 13: 28, 14: 29,
+      15: 31, 16: 32, 17: 33, 18: 34, 19: 36, 20: 37, 21: 38,
+      22: 40, 23: 41, 24: 42, 25: 44, 26: 45, 27: 46, 28: 47,
+      29: 49, 30: 50, 31: 51, 32: 53, 33: 54, 34: 55, 35: 57,
+      36: 58, 37: 59, 38: 60, 39: 62, 40: 63, 41: 64, 42: 66,
+      43: 67, 44: 68, 45: 70, 46: 71, 47: 72, 48: 73, 49: 75,
+      50: 76, 51: 77, 52: 79, 53: 80, 54: 81, 55: 83, 56: 84, 57: 85, 58: 86,
+      59: 88, 60: 89, 61: 90, 62: 92, 63: 93, 64: 94, 65: 96, 66: 97, 67: 98,
+      68: 99, 69: 101, 70: 102, 
+    };
+  
+    return values[  parsedValue] || parsedValue;
   };
 
   const updateChartData = (
-    questionMarkValue,
+    questionValue,
     lValue,
     fValue,
     kValue,
@@ -901,7 +884,7 @@ const MyChartComponent = () => {
         {
           label: "MMPI Hesaplanmış Sonuçlar Grafiği (Kadın)",
           data: [
-            questionMarkValue,
+            questionValue,
             lValue,
             fValue,
             kValue,
@@ -979,7 +962,7 @@ const MyChartComponent = () => {
         id={`paramInput${data.param}`}
         value={
           data.param === "?"
-            ? state.questionMarkInputText
+            ? state.questionInputText
             : data.param === "L"
             ? state.lInputText
             : data.param === "F"
@@ -1010,7 +993,7 @@ const MyChartComponent = () => {
         }
         onChange={(e) =>
           data.param === "?"
-            ? handleQuestionMarkInputChange(e.target.value)
+            ? handleQuestionInputChange(e.target.value)
             : data.param === "L"
             ? handleLInputChange(e.target.value)
             : data.param === "F"
