@@ -117,17 +117,25 @@ const LineChart = ({ chartData }) => {
       y: {
         max: 120,
         min: 0,
+        ticks: {
+          stepSize: 10,
+          callback: function (value) {
+            return value % 10 === 0 ? value.toString() : ''; 
+          },
+        },
       },
     },
   };
+
   return (
     <Line
       data={chartData}
       options={options}
-      style={{ width: "850px", height: "2000px", marginRight: "60px",}}
+      style={{ width: "850px", height: "2000px", marginRight: "60px" }}
     />
   );
 };
+
 
 const MyChartComponent = () => {
   const [state, dispatch] = useReducer(reducer, {
