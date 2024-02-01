@@ -7,59 +7,59 @@ ChartJS.register(...registerables);
 const initialUserData = [
   {
     param: "?",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "L",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "F",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "K",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "1-Hs",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "2-D",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "3-Hy",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "4-Pd",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "5-Mf",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "6-Pa",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "7-Pt",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "8-Sc",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "9-Ma",
-    paramValue: 60,
+    paramValue: 0,
   },
   {
     param: "0-Si",
-    paramValue: 60,
+    paramValue: 0,
   },
 ];
 
@@ -137,7 +137,7 @@ const LineChart = ({ chartData }) => {
 };
 
 
-const MyChartComponent = () => {
+const WomanGraph = () => {
   const [state, dispatch] = useReducer(reducer, {
     // Input values
     questionInput: initialUserData.find((data) => data.param === "?").paramValue,
@@ -941,9 +941,10 @@ const MyChartComponent = () => {
           textAlign: "center", 
         }}
       >
-        <h2 style={{ color: "white", marginBottom: "20px", fontWeight: "bold", fontFamily: "Didot, serif" }}>
-          MMPI Ham Puan Tablosu
-        </h2>
+        <h2 style={{ color: "white", marginBottom: "20px", fontWeight: "bold", fontFamily: "Didot, serif", fontSize: "21px" }}>
+  MMPI Ham Puan Tablosu
+</h2>
+
         <div style={{ marginBottom: "10px" }}>
   {initialUserData.map((data) => (
     <div
@@ -1054,4 +1055,4 @@ const MyChartComponent = () => {
   
 };
 
-export default MyChartComponent;
+export default WomanGraph;

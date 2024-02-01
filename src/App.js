@@ -1,8 +1,7 @@
-// App.js
-
 import React, { useState } from 'react';
-import Header from './Header';
-import MyChartComponent from './LineChart';
+import Header from './components/Header';
+import WomanGraph from './components/WomanGraph';
+import ManGraph from './components/ManGraph';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('women');
@@ -11,10 +10,14 @@ const App = () => {
     setActiveTab(newTab);
   };
 
+  const appStyle = {
+    backgroundColor: '#fcfcfc', // Açık gri rengi
+  };
+
   return (
-    <div>
+    <div style={appStyle}>
       <Header changeTab={changeTab} />
-      {activeTab === 'women' ? <MyChartComponent /> : null}
+      {activeTab === 'women' ? <WomanGraph /> : <ManGraph />}
     </div>
   );
 };
