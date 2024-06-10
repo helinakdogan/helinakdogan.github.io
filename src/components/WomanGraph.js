@@ -1,5 +1,7 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useRef } from "react";
 import { Line } from "react-chartjs-2";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 import { Chart as ChartJS, registerables } from "chart.js";
 import { wQuestionValues, wLValues, wFValues, wKValues, wHsValues, wDValues, wHyValues, wPdValues, wMfValues, wPaValues, wPtValues, wScValues, wMaValues, wSiValues } from "../values/WomanValues";
 
@@ -64,6 +66,7 @@ const LineChart = ({ chartData }) => {
   );
 };
 const WomanGraph = () => {
+  const chartRef = useRef(null);
   const [state, dispatch] = useReducer(reducer, {
     // Input values
     questionInput: initialUserData.find((data) => data.param === "?").paramValue,
@@ -718,6 +721,19 @@ const WomanGraph = () => {
     dispatch({ type: "UPDATE_CHART_DATA", payload: updatedChartData });
   };
 
+  const handleDownloadPdf = () => {
+    const input = chartRef.current;
+
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("landscape");
+        pdf.addImage(imgData, "PNG", 10, 10);
+        pdf.save("chart.pdf");
+      })
+      .catch((err) => console.error("Error generating PDF:", err));
+  };
+
   return (
     <div
       style={{
@@ -842,9 +858,10 @@ const WomanGraph = () => {
   ))}
 </div>
   </div>
-    <div>
+    <div ref={chartRef}>
       <LineChart chartData={state.chartData} />
     </div>
+    <button onClick={handleDownloadPdf}>Grafiği PDF olarak indir</button>
   </div>
   );  
 };
