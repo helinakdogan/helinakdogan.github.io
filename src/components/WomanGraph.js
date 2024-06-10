@@ -721,18 +721,43 @@ const WomanGraph = () => {
     dispatch({ type: "UPDATE_CHART_DATA", payload: updatedChartData });
   };
 
-  const handleDownloadPdf = () => {
-    const input = chartRef.current;
-
-    html2canvas(input)
-      .then((canvas) => {
+  const handleDownloadPDF = () => {
+    const chartElement = chartRef.current;
+  
+    if (chartElement) {
+      html2canvas(chartElement, { scale: 2 }).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("landscape");
-        pdf.addImage(imgData, "PNG", 10, 10);
+        const pdf = new jsPDF("landscape", "mm", "a4");
+  
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+  
+        if (pdfHeight > pdf.internal.pageSize.getHeight()) {
+          const totalPages = Math.ceil(pdfHeight / pdf.internal.pageSize.getHeight());
+          for (let i = 0; i < totalPages; i++) {
+            const heightLeft = pdfHeight - (i * pdf.internal.pageSize.getHeight());
+            if (i > 0) {
+              pdf.addPage();
+            }
+            pdf.addImage(
+              imgData,
+              "PNG",
+              0,
+              -i * pdf.internal.pageSize.getHeight(),
+              pdfWidth,
+              pdfHeight
+            );
+          }
+        } else {
+          pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        }
+  
         pdf.save("chart.pdf");
-      })
-      .catch((err) => console.error("Error generating PDF:", err));
+      });
+    }
   };
+  
 
   return (
     <div
@@ -861,7 +886,7 @@ const WomanGraph = () => {
     <div ref={chartRef}>
       <LineChart chartData={state.chartData} />
     </div>
-    <button onClick={handleDownloadPdf}>Grafiği PDF olarak indir</button>
+    <button onClick={handleDownloadPDF}>Grafiği PDF olarak indir</button>
   </div>
   );  
 };
