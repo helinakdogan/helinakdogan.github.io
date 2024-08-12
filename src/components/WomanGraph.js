@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from "react";
+import React, { useReducer,useState, useRef } from "react";
 import { Line } from "react-chartjs-2";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
@@ -13,6 +13,9 @@ const initialUserData = params.map(param => ({ param, paramValue: 0 }));
 
 // useReducer
 const inputTypes = [ "QUESTION", "L","F","K","HS","D","HY","PD","MF","PA","PT","SC","MA","SI"];
+
+
+
 
 const updateInput = (state, action, inputType) => {
   const inputKey = `${inputType.toLowerCase()}Input`;
@@ -67,6 +70,11 @@ const LineChart = ({ chartData }) => {
 };
 const WomanGraph = () => {
   const chartRef = useRef(null);
+  const [name, setName] = useState('');
+
+const handleNameChange = (e) => {
+  setName(e.target.value);
+};
   const [state, dispatch] = useReducer(reducer, {
     // Input values
     questionInput: initialUserData.find((data) => data.param === "?").paramValue,
@@ -728,6 +736,9 @@ const WomanGraph = () => {
       html2canvas(chartElement, { scale: 2 }).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("landscape", "mm", "a4");
+
+        pdf.setFontSize(14);
+      pdf.text(`Ad Soyad: ${name}`, 10, 10); 
   
         const imgProps = pdf.getImageProperties(imgData);
         const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -744,13 +755,13 @@ const WomanGraph = () => {
               imgData,
               "PNG",
               0,
-              -i * pdf.internal.pageSize.getHeight(),
+              10 - i * pdf.internal.pageSize.getHeight(),
               pdfWidth,
               pdfHeight
             );
           }
         } else {
-          pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+          pdf.addImage(imgData, "PNG", 0, 30, pdfWidth, pdfHeight);
         }
   
         pdf.save("chart.pdf");
@@ -882,11 +893,44 @@ const WomanGraph = () => {
     </div>
   ))}
 </div>
+
+<div>
+        <input 
+          type="text" 
+          placeholder="İsim giriniz..." 
+          fontFamily= "Didot, serif"
+          value={name}
+          onChange={handleNameChange} 
+          style={{
+            width: "200px",
+            borderRadius: "5px",
+            padding: "6px",
+            border: "1px solid #ccc",
+            position: "center",
+           
+          }}
+        />
+        <button 
+  onClick={handleDownloadPDF}
+  style={{
+    width: "180px",
+    backgroundColor: "#4B4B4B",
+    color: "white", 
+    padding: "8px 16px", 
+    border: "none", 
+    borderRadius: "7px", 
+    cursor: "pointer", 
+    fontFamily: "Didot, serif", 
+    marginTop: "10px",
+    marginBottom: "20px"
+  }}
+>Grafiği PDF olarak indir</button>
+      </div>
   </div>
     <div ref={chartRef}>
       <LineChart chartData={state.chartData} />
     </div>
-    <button onClick={handleDownloadPDF}>Grafiği PDF olarak indir</button>
+    
   </div>
   );  
 };
