@@ -156,7 +156,7 @@ const handleNameChange = (e) => {
             initialUserData.find((data) => data.param === "9-Ma").paramValue,
             initialUserData.find((data) => data.param === "0-Si").paramValue,
           ],
-          borderColor: "#5c5470",
+          borderColor: "#222222",
           borderWidth: 2,
           fill: false,
           tension: 0.1,
@@ -604,7 +604,7 @@ const handleNameChange = (e) => {
     const pdTextValue = parseFloat(pdText);
   
     const offsets = {
-      29: 12, 28: 11, 27: 11, 26: 10, 25: 10, 24: 10, 23: 9, 22: 9,
+      30: 12, 29: 12, 28: 11, 27: 11, 26: 10, 25: 10, 24: 10, 23: 9, 22: 9,
       21: 8, 20: 8, 19: 8, 18: 7, 17: 7, 16: 6, 15: 6, 14: 6,
       13: 5, 12: 5, 11: 4, 10: 4, 9: 4, 8: 3, 7: 3, 6: 2, 5: 2,
       4: 2, 3: 2, 2: 1, 1: 1
@@ -719,7 +719,7 @@ const handleNameChange = (e) => {
             maValue,
             siValue,
           ],
-          borderColor: "#5c5470",
+          borderColor: "#222222",
           borderWidth: 2,
           fill: false,
           tension: 0.1,
