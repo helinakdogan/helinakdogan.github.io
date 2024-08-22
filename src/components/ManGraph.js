@@ -64,7 +64,7 @@ const LineChart = ({ chartData }) => {
     <Line
       data={chartData}
       options={options}
-      style={{ width: "850px", height: "2000px", marginRight: "60px" }}
+      style={{ width: "850px", height: "2000px", marginRight: "100px" }}
     />
   );
 };
@@ -682,6 +682,20 @@ const handleNameChange = (e) => {
     return mSiValues[  parsedValue] || parsedValue;
   };
 
+  const [chartData, setChartData] = useState({
+    labels: initialUserData.map((data) => data.param),
+    datasets: [
+      {
+        label: "MMPI Hesaplanmış Sonuçlar Grafiği (Erkek)",
+        data: [],
+        borderColor: "#222222",
+        borderWidth: 2,
+        fill: false,
+        tension: 0.1,
+      },
+    ],
+  });
+
   const updateChartData = (
     questionValue,
     lValue,
@@ -726,45 +740,33 @@ const handleNameChange = (e) => {
         },
       ],
     };
+    setChartData(updatedChartData);
     dispatch({ type: "UPDATE_CHART_DATA", payload: updatedChartData });
   };
+
+  const lastValues = chartData.datasets[0].data.reduce((acc, value, index) => {
+    acc[chartData.labels[index]] = value;
+    return acc;
+  }, {});
 
   const handleDownloadPDF = () => {
     const chartElement = chartRef.current;
   
     if (chartElement) {
-      html2canvas(chartElement, { scale: 2 }).then((canvas) => {
+      html2canvas(chartElement, { scale: 3 }).then((canvas) => { 
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("landscape", "mm", "a4");
-
-        pdf.setFontSize(14);
-      pdf.text(`Ad Soyad: ${name}`, 10, 10); 
+  
+        pdf.setFontSize(13);
+        pdf.text(`Ad Soyad: ${name}`, 15, 15);
   
         const imgProps = pdf.getImageProperties(imgData);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
   
-        if (pdfHeight > pdf.internal.pageSize.getHeight()) {
-          const totalPages = Math.ceil(pdfHeight / pdf.internal.pageSize.getHeight());
-          for (let i = 0; i < totalPages; i++) {
-            const heightLeft = pdfHeight - (i * pdf.internal.pageSize.getHeight());
-            if (i > 0) {
-              pdf.addPage();
-            }
-            pdf.addImage(
-              imgData,
-              "PNG",
-              0,
-              10 - i * pdf.internal.pageSize.getHeight(),
-              pdfWidth,
-              pdfHeight
-            );
-          }
-        } else {
-          pdf.addImage(imgData, "PNG", 0, 30, pdfWidth, pdfHeight);
-        }
+        pdf.addImage(imgData, "PNG", 10, 20, pdfWidth, pdfHeight);
   
-        pdf.save("chart.pdf");
+        pdf.save("grafik.pdf");
       });
     }
   };
@@ -927,9 +929,32 @@ const handleNameChange = (e) => {
 >Grafiği PDF olarak indir</button>
       </div>
   </div>
-    <div ref={chartRef}>
-      <LineChart chartData={state.chartData} />
-    </div>
+  <div ref={chartRef}>
+  <LineChart chartData={state.chartData} />
+  <p style={{ textAlign:"center", marginRight: "9px", fontFamily: "Didot, serif",  padding:"3px", color:"#222831" }}><strong>Hesaplanmış Puanlar</strong></p>
+  <div style={{
+    border: "1px solid #dddd",
+    padding: "2px",
+    borderRadius: "7px",
+    width: "980px",
+    background: "#dddd",
+    boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
+    marginTop: "10px",
+    marginRight: "70px",
+    fontFamily: "Didot, serif",    
+    display: "flex",
+    flexWrap: "wrap", 
+    justifyContent: "center",
+  }}>
+    
+    
+    {Object.entries(lastValues).map(([param, value]) => (
+      <div key={param} style={{ marginleft: "8px", marginRight: "8px", padding:"2px" }}>
+        <p><strong>{param}:</strong> {value}</p>
+      </div>
+    ))}
+  </div>
+</div>
     
   </div>
   );  
