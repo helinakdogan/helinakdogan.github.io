@@ -11,7 +11,7 @@ const App = () => {
   };
 
   const appStyle = {
-    backgroundColor: '#fcfcfc', // Açık gri rengi
+    backgroundColor: '#fcfcfc', 
   };
 
   return (
