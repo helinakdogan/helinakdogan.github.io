@@ -933,7 +933,6 @@ const handleNameChange = (e) => {
   </div>
 
 
-
   <div ref={chartRef}>
   <LineChart chartData={state.chartData} />
   <p style={{ textAlign:"center", marginRight: "9px", fontFamily: "Didot, serif",  padding:"3px", color:"#222831" }}><strong>Hesaplanmış Puanlar</strong></p>
