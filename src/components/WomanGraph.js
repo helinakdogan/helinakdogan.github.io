@@ -665,19 +665,34 @@ const handleNameChange = (e) => {
     return wMaValues[  updatedMaValue] || updatedMaValue;
   };
 
+  // const getUpdatedMaValue = (kText, maText) => {
+  //   const kTextValue = parseFloat(kText);
+  //   const maTextValue = parseFloat(maText);
+  
+  //   if (isNaN(kTextValue) || isNaN(maTextValue)) {
+  //     return 0;
+  //   }
+  
+  //   const kValues = [30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+  //   const updatedMaValue = maTextValue + Math.min(6, Math.floor((kValues.indexOf(Math.floor(kTextValue)) + 1) / 3));
+    
+  //   return mapUpdatedMaToGraphValue(updatedMaValue);
+  // };
+
   const getUpdatedMaValue = (kText, maText) => {
     const kTextValue = parseFloat(kText);
     const maTextValue = parseFloat(maText);
   
-    if (isNaN(kTextValue) || isNaN(maTextValue)) {
-      return 0;
-    }
+    const offsets = {
+      30: 6, 29: 6, 28: 6, 27: 5, 26: 5, 25: 5, 24: 5, 23: 5, 22: 4,
+      21: 4, 20: 4, 19: 4, 18: 4, 17: 3, 16: 3, 15: 3, 14: 3,
+      13: 3, 12: 2, 11: 2, 10: 2, 9: 2, 8: 2, 7: 1, 6: 1, 5: 1,
+      4: 1, 3: 1, 2: 0, 1: 0
+    };
   
-    const kValues = [30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-    const updatedMaValue = maTextValue + Math.min(6, Math.floor((kValues.indexOf(Math.floor(kTextValue)) + 1) / 3));
-    
-    return mapUpdatedMaToGraphValue(updatedMaValue);
-  };
+    const updatedMaValue = maTextValue + (offsets[kTextValue] || 0);
+    return !isNaN(kTextValue) && !isNaN(maTextValue) ? mapUpdatedMaToGraphValue(updatedMaValue) : 0;
+  }; 
   
   const getUpdatedSiValue = (parsedValue) => {
     return wSiValues[  parsedValue] || parsedValue;
