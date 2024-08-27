@@ -665,20 +665,6 @@ const handleNameChange = (e) => {
     return wMaValues[  updatedMaValue] || updatedMaValue;
   };
 
-  // const getUpdatedMaValue = (kText, maText) => {
-  //   const kTextValue = parseFloat(kText);
-  //   const maTextValue = parseFloat(maText);
-  
-  //   if (isNaN(kTextValue) || isNaN(maTextValue)) {
-  //     return 0;
-  //   }
-  
-  //   const kValues = [30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-  //   const updatedMaValue = maTextValue + Math.min(6, Math.floor((kValues.indexOf(Math.floor(kTextValue)) + 1) / 3));
-    
-  //   return mapUpdatedMaToGraphValue(updatedMaValue);
-  // };
-
   const getUpdatedMaValue = (kText, maText) => {
     const kTextValue = parseFloat(kText);
     const maTextValue = parseFloat(maText);
@@ -974,17 +960,7 @@ const handleNameChange = (e) => {
     ))}
   </div>
 </div>
-
-</div>
-
-
-
-    
-    
-  
-
-  
-  
+</div> 
   );  
 };
 
