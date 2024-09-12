@@ -47,7 +47,34 @@ const reducer = (state, action) => {
   return state;
 };
 
-//LineChart
+
+
+// //LineChart
+// const LineChart = ({ chartData }) => {
+//   const options = {
+//     scales: {
+//       y: {
+//         max: 120,
+//         min: 0,
+//         ticks: {
+//           stepSize: 10,
+//           callback: function (value) {
+//             return value % 10 === 0 ? value.toString() : ''; 
+//           },
+//         },
+//       },
+//     },
+//   };
+
+//   return (
+//     <Line
+//       data={chartData}
+//       options={options}
+//       style={{ width: "850px", height: "2000px", marginRight: "100px" }}
+//     />
+//   );
+// };
+
 const LineChart = ({ chartData }) => {
   const options = {
     scales: {
@@ -64,14 +91,45 @@ const LineChart = ({ chartData }) => {
     },
   };
 
+  // Grafik yüksekliği
+  const chartHeight = 460;
+
+  // Hesaplamalar
+  const yMin = 0;
+  const yMax = 120;
+  const startValue = 25;
+  const endValue = 64;
+
+  const startPosition = ((yMax - startValue) / (yMax - yMin)) * chartHeight;
+  const endPosition = ((yMax - endValue) / (yMax - yMin)) * chartHeight;
+  const height = startPosition - endPosition;
+
   return (
-    <Line
-      data={chartData}
-      options={options}
-      style={{ width: "850px", height: "2000px", marginRight: "100px" }}
-    />
+    <div style={{ position: 'relative', width: '1000px', height: `${chartHeight}px`, marginRight: '100px' }}>
+      {/* Arka plan için sarı div */}
+      <div
+        style={{
+          position: 'absolute',
+          top: `${endPosition}px`, // Y ekseninde 70'e denk gelen yükseklik
+          height: `${height}px`, // 30 ile 70 arasındaki yüksekliği kapsar
+          width: '100%',
+          backgroundColor: 'rgba(255, 255, 0, 0.2)', // Sarı arka plan (yarı saydam)
+          zIndex: 1,
+          pointerEvents: 'none' // Tıklanabilirliği kapatma
+        }}
+      />
+      {/* Grafik */}
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <Line
+          data={chartData}
+          options={options}
+          style={{ width: "100%", height: "100%" }}
+        />
+      </div>
+    </div>
   );
 };
+
 const WomanGraph = () => {
   const chartRef = useRef(null);
   const [name, setName] = useState('');
@@ -940,7 +998,7 @@ const handleNameChange = (e) => {
 
   <div ref={chartRef}>
   <LineChart chartData={state.chartData} />
-  <p style={{ textAlign:"center", marginRight: "9px", fontFamily: "Didot, serif",  padding:"3px", color:"#222831" }}><strong>Hesaplanmış Puanlar</strong></p>
+  <p style={{ textAlign:"center", marginTop:"60px", marginRight: "9px", fontFamily: "Didot, serif",  padding:"3px", color:"#222831" }}><strong>Hesaplanmış Puanlar</strong></p>
   <div style={{
     border: "1px solid #dddd",
     padding: "2px",

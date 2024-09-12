@@ -60,14 +60,41 @@ const LineChart = ({ chartData }) => {
     },
   };
 
+  const chartHeight = 460;
+
+  const yMin = 0;
+  const yMax = 120;
+  const startValue = 25;
+  const endValue = 64;
+
+  const startPosition = ((yMax - startValue) / (yMax - yMin)) * chartHeight;
+  const endPosition = ((yMax - endValue) / (yMax - yMin)) * chartHeight;
+  const height = startPosition - endPosition;
+
   return (
-    <Line
-      data={chartData}
-      options={options}
-      style={{ width: "850px", height: "2000px", marginRight: "100px" }}
-    />
+    <div style={{ position: 'relative', width: '1000px', height: `${chartHeight}px`, marginRight: '100px' }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: `${endPosition}px`, 
+          height: `${height}px`, 
+          width: '100%',
+          backgroundColor: 'rgba(255, 255, 0, 0.2)', 
+          zIndex: 1,
+          pointerEvents: 'none'
+        }}
+      />
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <Line
+          data={chartData}
+          options={options}
+          style={{ width: "100%", height: "100%" }}
+        />
+      </div>
+    </div>
   );
 };
+
 const ManGraph = () => {
   const chartRef = useRef(null);
   const [name, setName] = useState('');
@@ -932,7 +959,7 @@ const handleNameChange = (e) => {
   </div>
   <div ref={chartRef}>
   <LineChart chartData={state.chartData} />
-  <p style={{ textAlign:"center", marginRight: "9px", fontFamily: "Didot, serif",  padding:"3px", color:"#222831" }}><strong>Hesaplanmış Puanlar</strong></p>
+  <p style={{ textAlign:"center", marginRight: "9px", marginTop:"60px", fontFamily: "Didot, serif",  padding:"3px", color:"#222831" }}><strong>Hesaplanmış Puanlar</strong></p>
   <div style={{
     border: "1px solid #dddd",
     padding: "2px",
