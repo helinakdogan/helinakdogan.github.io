@@ -9,7 +9,11 @@ ChartJS.register(...registerables);
 
 // Initial data
 const params = ["?", "L", "F", "K", "1-Hs", "2-D", "3-Hy", "4-Pd", "5-Mf", "6-Pa", "7-Pt", "8-Sc", "9-Ma", "0-Si"];
-const initialUserData = params.map(param => ({ param, paramValue: 0 }));
+const initialUserData = params.map(param => ({
+  param,
+  paramValue: param === "5-Mf" ? 101 : 0 
+}));
+
 
 // useReducer
 const inputTypes = [ "QUESTION", "L","F","K","HS","D","HY","PD","MF","PA","PT","SC","MA","SI"];
