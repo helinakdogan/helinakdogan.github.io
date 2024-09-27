@@ -15,12 +15,19 @@ const Header = ({ changeTab }) => {
   return (
     <div style={headerStyle}>
       <div style={tabButtonsStyle}>
-        <span style={{ color: 'lightgrey', fontSize: '22px', fontFamily: 'Didot, serif', fontWeight: 'bold', marginLeft:'40px' }}>MMPI PUAN HESAPLAMA</span>
-        <div style={{ marginLeft: 'auto' , marginRight:'40px' }}>
-          <button style={{ ...commonButtonStyle, backgroundColor: '#5c5470' }} onClick={() => changeTab('women')}>
+        <span style={{ color: 'lightgrey', fontSize: '22px', fontFamily: 'Didot, serif', fontWeight: 'bold', marginLeft: '40px' }}>
+          MMPI PUAN HESAPLAMA
+        </span>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
+          <div style={warningBoxStyle}>
+            <div style={warningStyle}>
+              <strong>Uyarı:</strong> Uygulama henüz mobil kullanıma hazır değildir. Yalnızca bilgisayar üzerinden deneyiniz.
+            </div>
+          </div>
+          <button style={{ ...commonButtonStyle, backgroundColor: '#5c5470', marginLeft: '10px' }} onClick={() => changeTab('women')}>
             KADIN
           </button>
-          <button style={{ ...commonButtonStyle, backgroundColor: '#5585b5' }} onClick={() => changeTab('men')}>
+          <button style={{ ...commonButtonStyle, backgroundColor: '#5585b5', marginLeft: '5px' }} onClick={() => changeTab('men')}>
             ERKEK
           </button>
         </div>
@@ -39,6 +46,24 @@ const tabButtonsStyle = {
   margin: '10px',
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center', 
+};
+
+const warningBoxStyle = {
+  backgroundColor: 'rgba(128, 128, 128, 0.1)',
+  borderRadius: '5px',
+  padding: '5px 5px',
+  marginRight: '5px', 
+  marginLeft: '5px',
+};
+
+const warningStyle = {
+  color: '#a1b6cb',
+  fontSize: '12px', 
+  fontFamily: 'Arial, sans-serif',
+  fontWeight: 'normal',
+  lineHeight: '1.5',
+  textAlign: 'center',
 };
 
 export default Header;
