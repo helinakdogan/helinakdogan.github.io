@@ -11,7 +11,7 @@ const App = () => {
   };
 
   const appStyle = {
-    backgroundColor: '#fcfcfc', 
+    backgroundColor: '#ffffff', 
   };
 
   return (
