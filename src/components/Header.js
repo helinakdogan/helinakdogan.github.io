@@ -23,9 +23,7 @@ const Header = ({ changeTab }) => {
             <div style={warningStyle}>
               <strong>Uyarı:</strong> Uygulama henüz mobil kullanıma hazır değildir. Yalnızca bilgisayar üzerinden deneyiniz.
             </div>
-            
-          </div>
-          
+          </div>         
           <button style={{ ...commonButtonStyle, backgroundColor: '#5c5470', marginLeft: '10px' }} onClick={() => changeTab('women')}>
             KADIN
           </button>

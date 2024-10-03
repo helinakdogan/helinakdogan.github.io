@@ -26,20 +26,19 @@ ChartJS.register(...registerables);
 const TryGraph = () => {
   const [responses, setResponses] = useState(Array(566).fill(null));
   const [scores, setScores] = useState({
-  
     L: 0,
     F: 0,
     K: 0,
-    D: 0,
+    HS: 0,
+    D: 0,   
     HY: 0,
     PD: 0,
     MF: 0,
-    HS: 0,
-    MA: 0,
-    SI: 0,
     PA: 0,
     PT: 0,
-    SC: 0,
+    SC: 0,  
+    MA: 0,
+    SI: 0,
   });
   const [name, setName] = useState("");
   const [showName, setShowName] = useState(false);
@@ -116,36 +115,36 @@ const TryGraph = () => {
     return mSiValues[updatedSiValue] || updatedSiValue;
   };
 
-  const offset4k = {
-    30: 12,
-    29: 12,
-    28: 11,
-    27: 11,
-    26: 10,
-    25: 10,
-    24: 10,
-    23: 9,
-    22: 9,
-    21: 8,
-    20: 8,
-    19: 8,
-    18: 7,
-    17: 7,
-    16: 6,
-    15: 6,
-    14: 6,
-    13: 5,
-    12: 5,
-    11: 4,
-    10: 4,
-    9: 4,
-    8: 3,
-    7: 3,
-    6: 2,
-    5: 2,
-    4: 2,
-    3: 2,
-    2: 1,
+  const offsetk = {
+    30: 30,
+    29: 29,
+    28: 28,
+    27: 27,
+    26: 26,
+    25: 25,
+    24: 24,
+    23: 23,
+    22: 22,
+    21: 21,
+    20: 20,
+    19: 19,
+    18: 18,
+    17: 17,
+    16: 16,
+    15: 15,
+    14: 14,
+    13: 13,
+    12: 12,
+    11: 11,
+    10: 10,
+    9: 9,
+    8: 8,
+    7: 7,
+    6: 6,
+    5: 5,
+    4: 4,
+    3: 3,
+    2: 2,
     1: 1,
     0: 0,
   };
@@ -177,6 +176,40 @@ const TryGraph = () => {
     7: 4,
     6: 3,
     5: 3,
+    4: 2,
+    3: 2,
+    2: 1,
+    1: 1,
+    0: 0,
+  };
+
+  const offset4k = {
+    30: 12,
+    29: 12,
+    28: 11,
+    27: 11,
+    26: 10,
+    25: 10,
+    24: 10,
+    23: 9,
+    22: 9,
+    21: 8,
+    20: 8,
+    19: 8,
+    18: 7,
+    17: 7,
+    16: 6,
+    15: 6,
+    14: 6,
+    13: 5,
+    12: 5,
+    11: 4,
+    10: 4,
+    9: 4,
+    8: 3,
+    7: 3,
+    6: 2,
+    5: 2,
     4: 2,
     3: 2,
     2: 1,
@@ -261,7 +294,6 @@ const TryGraph = () => {
     return offsetMa ? maValue + offsetMa : maValue;
   };
 
-  // Call this function in your calculateScores method
   const calculateScores = (responses) => {
     if (responses.length !== 566) {
       console.error("Responses array length mismatch.");
@@ -281,10 +313,8 @@ const TryGraph = () => {
       }, 0);
     }
 
-
     newScores["L"] = mapUpdatedLToGraphValue(newScores.L);
     newScores["F"] = mapUpdatedFToGraphValue(newScores.F);
-    newScores["K"] = mapUpdatedKToGraphValue(newScores.K);
     newScores["D"] = mapUpdatedDToGraphValue(newScores.D);
     newScores["HY"] = mapUpdatedHyToGraphValue(newScores.HY);
     newScores["MF"] = mapUpdatedMfToGraphValue(newScores.MF);
@@ -301,6 +331,7 @@ const TryGraph = () => {
     newScores["SC"] = mapUpdatedScToGraphValue(updatedScValue);
     const updatedMaValue = getUpdatedMaValue(newScores["K"], newScores["MA"]);
     newScores["MA"] = mapUpdatedMaToGraphValue(updatedMaValue);
+    newScores["K"] = mapUpdatedKToGraphValue(newScores.K);
 
     setScores(newScores);
   };
@@ -311,31 +342,26 @@ const TryGraph = () => {
 
   const handleDownloadPDF = () => {
     const input = document.getElementById("pdfContent");
-
-    // Kontrol et, input null mı
     if (!input) {
       console.error("Element with id 'pdfContent' not found.");
-      return; // Element yoksa erken döner
+      return;
     }
 
-    // html2canvas ile PDF'ye dönüştürme
-    html2canvas(input, { scale: 2 })
+    html2canvas(input, { scale: 7 })
       .then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF();
 
-        const imgWidth = pdf.internal.pageSize.getWidth() - 40; // Kenarlarda 20 birim boşluk
+        const imgWidth = pdf.internal.pageSize.getWidth() - 4;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        // Sayfa boyutunu kontrol et
-        const pageHeight = pdf.internal.pageSize.getHeight() - 40; // Üst ve alt kenar için 20 birim
+        const pageHeight = pdf.internal.pageSize.getHeight() - 4;
         const heightRatio = imgHeight > pageHeight ? pageHeight / imgHeight : 1;
         const finalWidth = imgWidth * heightRatio;
         const finalHeight = imgHeight * heightRatio;
 
-        // Resmi ortala
         const x = (pdf.internal.pageSize.getWidth() - finalWidth) / 2;
-        const y = 10; // Y konumu
+        const y = 1;
 
         pdf.addImage(imgData, "PNG", x, y, finalWidth, finalHeight);
         pdf.save(`${name || "grafik"}.pdf`);
@@ -347,54 +373,91 @@ const TryGraph = () => {
 
   const LineChart = () => {
     const labels = [
-
       "L",
       "F",
       "K",
+      "HS",
       "D",
       "HY",
       "PD",
       "MF",
-      "HS",
-      "MA",
-      "SI",
       "PA",
       "PT",
       "SC",
-    ]; // Define the order of labels
+      "MA",
+      "SI",
+    ];
     const dataValues = labels.map((label) => scores[label]); // Map scores in the same order as labels
 
     const data = {
       labels: labels,
       datasets: [
         {
-          label: "K Eklenmiş Puanlar (Erkek)",
+          label: "MMPI Hesaplanmış Puanlar Grafiği (Erkek)",
           data: dataValues,
-          borderColor: "rgba(75, 192, 192, 1)",
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "black",
+          backgroundColor: "lightgrey",
           borderWidth: 1,
         },
       ],
     };
 
     const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+      },
       scales: {
         y: {
-          max: 120,
           min: 0,
+          max: 120,
           ticks: {
             stepSize: 10,
-            callback: function (value) {
-              return value % 10 === 0 ? value.toString() : "";
-            },
           },
         },
       },
     };
 
+    const chartHeight = 420;
+
+    const yMin = 0;
+    const yMax = 120;
+    const startValue = 36;
+    const endValue = 70;
+
+    const startPosition = ((yMax - startValue) / (yMax - yMin)) * chartHeight;
+    const endPosition = ((yMax - endValue) / (yMax - yMin)) * chartHeight;
+    const height = startPosition - endPosition;
+
     return (
-      <div style={{ width: "100%", height: "100%" }}>
-        <Line data={data} options={options} />
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          height: `${chartHeight}px`,
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: `${endPosition}px`,
+            height: `${height}px`,
+            marginLeft: "5px",
+            width: "95%",
+            backgroundColor: "rgba(255, 255, 0, 0.2)",
+            zIndex: 1,
+            pointerEvents: "none",
+          }}
+        />
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <Line
+            data={data}
+            options={options}
+            style={{ width: "100%", height: "100%" }}
+          />
+        </div>
       </div>
     );
   };
@@ -413,97 +476,137 @@ const TryGraph = () => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 2fr", // Sol ve sağ olmak üzere iki ana kolon
-          gap: "20px", // İki kutu arasındaki boşluk
+          gridTemplateColumns: "1fr 2fr",
+          gap: "20px",
           width: "100%",
-          maxWidth: "1200px", // Genel genişlik sınırı
+          maxWidth: "1200px",
         }}
       >
+        {/* Test Cevapları Box - Sol Kolon */}
        {/* Test Cevapları Box - Sol Kolon */}
 <div
   style={{
     padding: "10px",
-    background: "linear-gradient(to bottom, #B0C4E0, #8A9AE3)", // Soğuk mavi tonları
+    background: "linear-gradient(to bottom, #B0C4E0, #8A9AE3)",
     borderRadius: "8px",
     overflowY: "scroll",
     height: "600px",
     textAlign: "center",
-    gridColumn: "1 / span 1", // Sol kolon için ayrılmış alan
+    gridColumn: "1 / span 1",
     width: "100%",
-    color: "white", // Tüm yazıların rengi beyaz
-    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)", // Gölgeleme
+    color: "white",
+    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
   }}
 >
-<div
-  style={{
-    backgroundColor: "rgba(128, 128, 128, 0.7)", // Daha koyu ve şeffaf gri arka plan
-    borderRadius: "5px",
-    padding: "5px",
-    marginTop: "10px", // Kutudan önce boşluk
-    marginBottom: "10px", // Kutudan sonra boşluk
-    width: "fit-content", // Kutunun genişliğini içeriğe göre ayarlama
-    margin: "0 auto", // Ortalamak için
-  }}
->
-  <h6 style={{ color: "white", margin: "0" }}>Uyarı: Bu sayfa test aşamasındadır.</h6>
-</div>
-
-  <h3 style={{ color: "white", margin: "10px 0" }}>Test Cevapları</h3>
-  <hr style={{ border: "1px solid white", margin: "10px 0" }} /> {/* Beyaz çizgi */}
-  <h6 style={{ color: "white", marginBottom: "20px" }}>
-    Doğru(D) cevaplar için 1'e, yanlış(Y) cevaplar için 2'ye, boş
-    cevaplar için 0'a basınız.
-  </h6>
-  {responses.map((response, index) => (
-    <div
-      key={index}
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: "15px", // Boşluk artırıldı
-      }}
-    >
-      <label
-        style={{
-          marginRight: "10px", // Boşluk artırıldı
-          fontWeight: "bold",
-          fontSize: "14px",
-          color: "white", // Yazı rengi beyaz
-        }}
-      >
-        Soru {index + 1}:
-      </label>
-      <input
-        type="text"
-        data-index={index}
-        value={response || ""}
-        onFocus={() => handleInputFocus(index)}
-        onKeyDown={handleKeyDown}
-        style={{
-          width: "40px",
-          textAlign: "center",
-          fontSize: "14px",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-          color: "black", // Giriş alanındaki metin rengi siyah (isteğe bağlı)
-          backgroundColor: "white", // Giriş alanının arka plan rengi beyaz
-        }}
-        maxLength={1}
-      />
+  <div
+    style={{
+      backgroundColor: "rgba(189, 83, 151, 0.3)",
+      borderRadius: "5px",
+      padding: "8px",
+      marginTop: "15px",
+      marginBottom: "10px",
+      width: "fit-content",
+      margin: "0 auto",
+    }}
+  >
+    <div style={{ color: "white", margin: "0", fontSize: "11px" }}>
+      <strong>Uyarı:</strong> Bu sayfa test aşamasındadır.
     </div>
-  ))}
+  </div>
+  <h2 style={{ color: "white", margin: "10px 0", marginBottom: "20px", marginTop: "15px" }}>Test Cevapları</h2>
+
+  {/* Kullanıcı dostu açıklama alanı */}
+  <div
+    style={{
+      backgroundColor: "rgba(255, 255, 255, 0.8)", // Şeffaf beyaz arka plan
+      borderRadius: "8px", // Kenar yuvarlama
+      padding: "10px", // İçerik alanı
+      color: "gray", // Yazı rengi
+      marginBottom: "20px", // Alt boşluk
+      width: "80%", // Genişlik ayarı
+      margin: "0 auto", // Ortalamak için
+      display: "flex", // Flexbox kullanımı
+      flexDirection: "column", // Dikey yönlendirme
+    }}
+  >
+    <h6 style={{ margin: "0", textAlign: "center" }}>
+      Doğru (D) cevaplar için 1'e, yanlış (Y) cevaplar için 2'ye, boş
+      cevaplar için 0'a basınız.
+    </h6>
+  </div>
+
+  {/* Soruların yer aldığı alan */}
   <div
     style={{
       display: "flex",
-      alignItems: "center",
-      marginBottom: "15px", // Boşluk artırıldı
-      justifyContent: "center",
+      flexDirection: "column", // Dikey hizalama
+      alignItems: "center", // Ortalamak için
+      gap: "15px", // Boşluk
+      marginTop: "20px",
     }}
   >
+    {responses.map((response, index) => (
+      <div
+        key={index}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "10px", // Eklenen padding
+          backgroundColor: "rgba(255, 255, 255, 0.1)", // Kutunun arka plan rengi
+          border: "1px solid #ccc", // Kutunun sınırı
+          borderRadius: "8px", // Kenar yuvarlama
+          width: "50%", // Genişlik küçültüldü
+        }}
+      >
+        <label
+          style={{
+            marginRight: "10px",
+            fontWeight: "bold",
+            fontSize: "14px",
+            color: "white",
+          }}
+        >
+          Soru {index + 1}:
+        </label>
+        <input
+          type="text"
+          data-index={index}
+          value={response || ""}
+          onFocus={() => handleInputFocus(index)}
+          onKeyDown={handleKeyDown}
+          style={{
+            width: "40px",
+            textAlign: "center",
+            fontSize: "14px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            color: "black",
+            backgroundColor: "white",
+          }}
+          maxLength={1}
+        />
+      </div>
+    ))}
+  </div>
+
+  {/* Ad Soyad ve Input Kutusu */}
+  <div
+    style={{
+      backgroundColor: "rgba(255, 255, 255, 0.1)", // Hafif gri arka plan
+      borderRadius: "8px",
+      padding: "10px",
+      marginTop: "20px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "10px",
+     
+    }}
+  >
+    <h5 style={{ margin: "0", color: "white", marginTop:"4px" }}>Ad Soyad:</h5>
     <input
       type="text"
-      placeholder="İsim girin..."
       value={name}
       onChange={handleNameChange}
       style={{
@@ -511,126 +614,144 @@ const TryGraph = () => {
         maxWidth: "250px",
         borderRadius: "5px",
         padding: "4px",
-        marginRight: "10px", // Boşluk artırıldı
         border: "1px solid #ccc",
-        color: "black", // Giriş alanındaki metin rengi siyah (isteğe bağlı)
-        backgroundColor: "white", // Giriş alanının arka plan rengi beyaz
+        color: "black",
+        backgroundColor: "white",
+        marginBottom: "10px",
       }}
     />
+  </div>
+
+  {/* Butonlar için ortalama yapı */}
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "15px",
+      marginTop: "15px",
+    }}
+  >
+    {/* Hesapla Butonu */}
     <button
       onClick={() => {
         calculateScores(responses);
         setShowName(true);
       }}
       style={{
-        padding: "8px",
-        backgroundColor: "#6A78B8", // Koyu mavi buton rengi
+        padding: "10px",
+        backgroundColor: "#6A78B8",
         color: "#fff",
         border: "none",
         borderRadius: "4px",
         cursor: "pointer",
-        width: "90px",
-        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)", // Buton gölgesi
+        width: "180px", // Eşit genişlik
+        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
       }}
     >
       Hesapla
     </button>
+
+    {/* PDF İndirme Butonu */}
+    <button
+      onClick={handleDownloadPDF}
+      style={{
+        padding: "10px",
+        backgroundColor: "#6A78B8",
+        color: "white",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+        marginBottom: "10px",
+        width: "180px", // Eşit genişlik
+        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+      }}
+    >
+      Grafiği PDF olarak indir
+    </button>
   </div>
-  <button
-    onClick={handleDownloadPDF}
-    style={{
-      marginTop: "15px",
-      padding: "8px",
-      backgroundColor: "#6A78B8", // Koyu mavi buton rengi
-      color: "white",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-      width: "100%",
-      maxWidth: "180px",
-      boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)", // Gölgeleme
-    }}
-  >
-    Grafiği PDF olarak indir
-  </button>
 </div>
 
 
-        {/* Sağ Kolon: Grafik Yukarıda, Puanlar Altta */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "10px",
-            padding: "10px",
-            gridColumn: "2 / span 1", // Sağ kolon için ayrılmış alan
-            width: "100%",
-          }}
-        >
-          <div id="pdfContent">
-            {/* Grafik Box */}
-            <div
+{/* Sağ Kolon: Grafik Yukarıda, Puanlar Altta */}
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+    padding: "10px",
+    gridColumn: "2 / span 1",
+    width: "100%",
+  }}
+>
+  <div id="pdfContent">
+    {/* Grafik Box */}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "5px",
+        marginBottom: "10px",
+        backgroundColor: "#fafafa", // Daha açık gri tonu
+        borderRadius: "8px",
+        width: "100%",
+        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // Gölge eklendi
+      }}
+    >
+      <h5 style={{ color: "#333", marginRight: "10px" }}>
+        Ad Soyad: {name}{" "}
+      </h5>
+      <LineChart />
+    </div>
+
+    {showName && (
+      <div
+        style={{
+          padding: "10px",
+          background: "linear-gradient(30deg, #e6ebff, #f0f5ff)", // Daha açık pastel tonları
+          borderRadius: "8px",
+          height: "auto", // Yükseklik otomatik ayarlandı
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+          flexWrap: "wrap",
+          boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", // Gölge azaltıldı
+        }}
+      >
+        <h5 style={{ color: "#333", marginRight: "10px", fontSize: "14px", fontWeight: "bold" }}>
+          K Eklenmiş Puanlar:
+        </h5>
+        {Object.entries(scores).map(([key, value]) => (
+          <div
+            key={key}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginRight: "20px",
+              fontSize: "12px",
+            }}
+          >
+            <span
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "5px",
-                marginBottom: "10px",
-                backgroundColor: "#f9f9f9",
-                borderRadius: "8px",
-                width: "100%",
+                fontWeight: "bold",
+                color: "#444",
+                marginRight: "2px",
               }}
             >
-              <h5 style={{ color: "#333", marginRight: "10px" }}>
-                Ad Soyad: {name}{" "}
-              </h5>
-              <LineChart />
-            </div>
-
-            {showName && (
-              <div
-                style={{
-                  padding: "5px",
-                  backgroundColor: "#f9f9f9",
-                  borderRadius: "8px",
-                  height: "50px",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  overflow: "hidden",
-                  flexWrap: "wrap",
-                }}
-              >
-                <h4 style={{ color: "#333", marginRight: "10px" }}>
-                  K Eklenmiş Puanlar:
-                </h4>
-                {Object.entries(scores).map(([key, value]) => (
-                  <div
-                    key={key}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginRight: "8px",
-                      fontSize: "12px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontWeight: "bold",
-                        color: "#444",
-                        marginRight: "4px",
-                      }}
-                    >
-                      {key}:
-                    </span>
-                    <span>{value}</span>
-                  </div>
-                ))}
-              </div>
-            )}
+              {key}:
+            </span>
+            <span style={{ color: "#444" }}>{value}</span> 
           </div>
-        </div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
+
       </div>
     </div>
   );
