@@ -3,6 +3,7 @@ import Header from './components/Header';
 import WomanGraph from './components/WomanGraph';
 import ManGraph from './components/ManGraph';
 import Footer from './components/Footer';
+import TryGraph from './components/TryGraph';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('women');
@@ -18,7 +19,13 @@ const App = () => {
   return (
     <div style={appStyle}>
       <Header changeTab={changeTab} />
-      {activeTab === 'women' ? <WomanGraph /> : <ManGraph />}
+      {activeTab === 'women' ? (
+        <WomanGraph />
+      ) : activeTab === 'men' ? (
+        <ManGraph />
+      ) : activeTab === 'example' ? (
+        <TryGraph />
+      ) : null}
       <Footer />
     </div>
   );

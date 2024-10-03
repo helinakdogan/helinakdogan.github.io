@@ -23,13 +23,16 @@ const Header = ({ changeTab }) => {
             <div style={warningStyle}>
               <strong>Uyarı:</strong> Uygulama henüz mobil kullanıma hazır değildir. Yalnızca bilgisayar üzerinden deneyiniz.
             </div>
+            
           </div>
+          
           <button style={{ ...commonButtonStyle, backgroundColor: '#5c5470', marginLeft: '10px' }} onClick={() => changeTab('women')}>
             KADIN
           </button>
           <button style={{ ...commonButtonStyle, backgroundColor: '#5585b5', marginLeft: '5px' }} onClick={() => changeTab('men')}>
             ERKEK
           </button>
+          <button style={{ ...commonButtonStyle, backgroundColor: '#f5b461', marginLeft: '10px' }} onClick={() => changeTab('example')}>ERKEK +</button>
         </div>
       </div>
     </div>
@@ -40,6 +43,7 @@ const headerStyle = {
   padding: '3px',
   backgroundColor: '#222831',
   textAlign: 'center',
+  width: '100%',
 };
 
 const tabButtonsStyle = {
