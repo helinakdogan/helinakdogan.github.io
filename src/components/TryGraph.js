@@ -487,7 +487,7 @@ const TryGraph = () => {
 <div
   style={{
     padding: "10px",
-    background: "linear-gradient(to bottom, #B0C4E0, #8A9AE3)",
+    background: "linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%)",
     borderRadius: "8px",
     overflowY: "scroll",
     height: "600px",
@@ -504,7 +504,7 @@ const TryGraph = () => {
       borderRadius: "5px",
       padding: "8px",
       marginTop: "15px",
-      marginBottom: "10px",
+      marginBottom: "30px",
       width: "fit-content",
       margin: "0 auto",
     }}
@@ -513,25 +513,30 @@ const TryGraph = () => {
       <strong>Uyarı:</strong> Bu sayfa test aşamasındadır.
     </div>
   </div>
-  <h2 style={{ color: "white", margin: "10px 0", marginBottom: "20px", marginTop: "15px" }}>Test Cevapları</h2>
+  <h2 style={{ color: "#393645", margin: "10px 0", marginBottom: "20px", marginTop: "26px", fontSize:"22px", fontFamily: 'Didserif', fontWeight: 'bold' }}>Test Cevapları</h2>
 
   {/* Kullanıcı dostu açıklama alanı */}
   <div
     style={{
-      backgroundColor: "rgba(255, 255, 255, 0.8)", // Şeffaf beyaz arka plan
+      backgroundColor: "rgba(81, 85, 89, 0.2)", // Şeffaf beyaz arka plan
       borderRadius: "8px", // Kenar yuvarlama
       padding: "10px", // İçerik alanı
-      color: "gray", // Yazı rengi
+      color: "#555163", // Yazı rengi
       marginBottom: "20px", // Alt boşluk
-      width: "80%", // Genişlik ayarı
+      width: "70%", // Genişlik ayarı
       margin: "0 auto", // Ortalamak için
       display: "flex", // Flexbox kullanımı
       flexDirection: "column", // Dikey yönlendirme
     }}
   >
+    <h6 style={{ margin: "0", textAlign: "center", marginBottom:"1px"}}>
+      DOĞRU (D) cevaplar için 1'e, 
+    </h6>
+    <h6 style={{ margin: "0", textAlign: "center", marginBottom:"1px" }}>
+YANLIŞ (Y) cevaplar için 2'ye,
+    </h6>
     <h6 style={{ margin: "0", textAlign: "center" }}>
-      Doğru (D) cevaplar için 1'e, yanlış (Y) cevaplar için 2'ye, boş
-      cevaplar için 0'a basınız.
+      BOŞ cevaplar için 0'a basınız.
     </h6>
   </div>
 
@@ -553,7 +558,7 @@ const TryGraph = () => {
           justifyContent: "center",
           alignItems: "center",
           padding: "10px", // Eklenen padding
-          backgroundColor: "rgba(255, 255, 255, 0.1)", // Kutunun arka plan rengi
+          backgroundColor: "rgba(255, 255, 255, 0.3)", // Kutunun arka plan rengi
           border: "1px solid #ccc", // Kutunun sınırı
           borderRadius: "8px", // Kenar yuvarlama
           width: "50%", // Genişlik küçültüldü
@@ -564,10 +569,10 @@ const TryGraph = () => {
             marginRight: "10px",
             fontWeight: "bold",
             fontSize: "14px",
-            color: "white",
+            color: "#393645",
           }}
         >
-          Soru {index + 1}:
+          Soru {index + 1}
         </label>
         <input
           type="text"
@@ -593,7 +598,8 @@ const TryGraph = () => {
   {/* Ad Soyad ve Input Kutusu */}
   <div
     style={{
-      backgroundColor: "rgba(255, 255, 255, 0.1)", // Hafif gri arka plan
+      backgroundColor: "rgba(255, 255, 255, 0.3)", // Kutunun arka plan rengi
+      border: "1px solid #ccc", 
       borderRadius: "8px",
       padding: "10px",
       marginTop: "20px",
@@ -604,7 +610,7 @@ const TryGraph = () => {
      
     }}
   >
-    <h5 style={{ margin: "0", color: "white", marginTop:"4px" }}>Ad Soyad:</h5>
+    <div style={{ margin: "0", color: "#393645", marginTop:"4px", fontSize:"14px", fontWeight:"bold" }}>Ad Soyad</div>
     <input
       type="text"
       value={name}
@@ -640,12 +646,13 @@ const TryGraph = () => {
       }}
       style={{
         padding: "10px",
-        backgroundColor: "#6A78B8",
+        backgroundColor: "#79639a",
         color: "#fff",
         border: "none",
         borderRadius: "4px",
         cursor: "pointer",
-        width: "180px", // Eşit genişlik
+        fontSize: "14px",
+        width: "60%", 
         boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
       }}
     >
@@ -657,17 +664,18 @@ const TryGraph = () => {
       onClick={handleDownloadPDF}
       style={{
         padding: "10px",
-        backgroundColor: "#6A78B8",
+        backgroundColor: "#79639a",
         color: "white",
         border: "none",
+        fontSize: "14px",
         borderRadius: "5px",
         cursor: "pointer",
         marginBottom: "10px",
-        width: "180px", // Eşit genişlik
+        width: "60%", 
         boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
       }}
     >
-      Grafiği PDF olarak indir
+      Grafiği PDF Olarak İndir
     </button>
   </div>
 </div>
@@ -707,46 +715,50 @@ const TryGraph = () => {
 
     {showName && (
       <div
+  style={{
+    padding: "20px", // Daha fazla iç boşluk
+    background: "#f6f0ff", // Daha açık pastel tonları
+    borderRadius: "8px",
+    height: "auto", // Yükseklik otomatik ayarlandı
+    display: "flex",
+    flexDirection: "column", // Dikey olarak sıralamak için column kullanıldı
+    alignItems: "center", // Ortalamak için merkezi hizalama
+    justifyContent: "center",
+    overflow: "hidden",
+    flexWrap: "wrap",
+    width: "96%",
+    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", // Gölge azaltıldı
+  }}
+>
+  <h5 style={{ color: "#333", margin: "0 0 20px 0", fontSize:"18px", fontFamily: 'Didserif', fontWeight: 'bold' }}>
+    K Eklenmiş Puanlar
+  </h5>
+  <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
+    {Object.entries(scores).map(([key, value]) => (
+      <div
+        key={key}
         style={{
-          padding: "10px",
-          background: "linear-gradient(30deg, #e6ebff, #f0f5ff)", // Daha açık pastel tonları
-          borderRadius: "8px",
-          height: "auto", // Yükseklik otomatik ayarlandı
           display: "flex",
-          flexDirection: "row",
           alignItems: "center",
-          justifyContent: "center",
-          overflow: "hidden",
-          flexWrap: "wrap",
-          boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", // Gölge azaltıldı
+          marginRight: "15px", // Daha fazla sağ boşluk
+          fontSize: "14px", // Font boyutunu artır
         }}
       >
-        <h5 style={{ color: "#333", marginRight: "10px", fontSize: "14px", fontWeight: "bold" }}>
-          K Eklenmiş Puanlar:
-        </h5>
-        {Object.entries(scores).map(([key, value]) => (
-          <div
-            key={key}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginRight: "20px",
-              fontSize: "12px",
-            }}
-          >
-            <span
-              style={{
-                fontWeight: "bold",
-                color: "#444",
-                marginRight: "2px",
-              }}
-            >
-              {key}:
-            </span>
-            <span style={{ color: "#444" }}>{value}</span> 
-          </div>
-        ))}
+        <span
+          style={{
+            fontWeight: "bold",
+            color: "#444",
+            marginRight: "5px",
+          }}
+        >
+          {key}:
+        </span>
+        <span style={{ color: "#444" }}>{value}</span>
       </div>
+    ))}
+  </div>
+</div>
+
     )}
   </div>
 </div>
