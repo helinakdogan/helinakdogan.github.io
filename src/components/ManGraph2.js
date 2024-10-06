@@ -471,20 +471,26 @@ const ManGraph2 = () => {
   return (
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
       {/* Bilgilendirme Kutusu */}
-<div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl">
+<div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl shadow-md">
+<h6 className="font-semibold">Kullanıcı Rehberi</h6>
+  <p className="text-xs mt-1">
+    MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve psikolojik durumları değerlendirmek amacıyla kullanılan bir psikolojik testtir. Bu site aracılığıyla, MMPI testi yanıtlarına dayanarak hesaplamalar gerçekleştirebilir, grafikler oluşturabilir ve sonuçları PDF formatında indirebilirsiniz.
+  </p>
+  <p className="text-xs mt-2">
+    Tüm hesaplamalar, Türkiye standartlarına uygun olarak gerçekleştirilmektedir.
+  </p>
+  <div className="mt-4 p-2 border rounded-md border-purple-300 bg-purple-50">
   <h6 className="font-semibold">Nasıl Kullanılır?</h6>
-  <p className="text-xs">
-    MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve psikolojik durumları değerlendirmek için kullanılan bir psikolojik testtir. Bu site aracılığıyla MMPI testi yanıtlarına dayanarak hesaplamalar gerçekleştirebilir, grafiklerini oluşturabilir ve PDF olarak indirebilirsiniz.
-  </p>
-  <p className="text-xs">
-    Bu site üzerinden yapılan tüm hesaplamalar, Türkiye standartlarına göre yapılmaktadır.
-  </p>
+    <p className="text-xs mt-1">
+      Ham puan tablosu üzerinden hesaplama yapmak için menüden <strong>"Kadın"</strong> veya <strong>"Erkek"</strong> seçeneklerini; doğru-yanlış sayıları üzerinden hesaplama yapmak içinse menüden <strong>"Kadın+"</strong> veya <strong>"Erkek+"</strong> seçeneklerini tercih ediniz.
+    </p>
+  </div>
 </div>
+
       {/* Test Cevapları Kutusu (En Üste Alındı) */}
       <div className="p-4 bg-gradient-to-r from-purple-200 to-yellow-200 rounded-md overflow-y-scroll h-[450px] md:h-[500px] w-full max-w-3xl text-center text-gray-900 shadow-md mb-8">
         <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
-          <strong className="text-xs">Uyarı:</strong> Bu sayfa test
-          aşamasındadır.
+        <p className="text-sm"><strong>Uyarı:</strong> Bu sayfa test aşamasındadır.</p>
         </div>
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           MMPI Test Cevapları (Erkek)
