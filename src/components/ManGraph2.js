@@ -523,7 +523,7 @@ const ManGraph2 = () => {
         >
           <h5 className="text-lg font-semibold text-gray-800 mb-3">
             Ad Soyad: {name}
-         ch </h5>
+         </h5>
 
           {/* Sarı Arkaplan Kutusu ve Grafik Div'i */}
           <div className="relative w-full h-[400px] md:h-[450px]">
@@ -549,7 +549,7 @@ const ManGraph2 = () => {
             className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center"
             style={{ marginTop: "24px" }} 
           >
-            <h5 className="text-lg font-semibold text-gray-800 mb-3">K Eklenmiş Puanlar</h5>
+            <h5 className="text-lg font-semibold text-gray-800 mb-3">Hesaplanmış Puanlar</h5>
             <div className="flex flex-wrap justify-center gap-4">
                 {Object.entries(scores).map(([key, value]) => (
                   <div

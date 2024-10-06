@@ -454,7 +454,7 @@ const WomanGraph = () => {
           {/* K Eklenmiş Puanlar Tablosu */}
           {showName && (
             <div className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center" style={{ marginTop: "24px" }}>
-              <h5 className="text-lg font-semibold text-gray-800 mb-3">K Eklenmiş Puanlar</h5>
+              <h5 className="text-lg font-semibold text-gray-800 mb-3">Hesaplanmış Puanlar</h5>
               <div className="flex flex-wrap justify-center gap-4">
                 {Object.entries(showScores).map(([key, value]) => (
                   <div
