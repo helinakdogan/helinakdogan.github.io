@@ -20,7 +20,6 @@ import {
   mSiValues,
 } from "../values/ManValues";
 
-
 ChartJS.register(...registerables);
 
 const LineChart = ({ chartData }) => {
@@ -70,27 +69,42 @@ const LineChart = ({ chartData }) => {
   return <Line data={data} options={options} />;
 };
 
-const WomanGraph = () => {
+const ManGraph = () => {
   const [values, setValues] = useState({
-    "?": 0,
-    L: 0,
-    F: 0,
-    K: 0,
-    HS: 0,
-    D: 0,
-    HY: 0,
-    PD: 0,
-    MF: 0,
-    PA: 0,
-    PT: 0,
-    SC: 0,
-    MA: 0,
-    SI: 0,
+    "?": "",
+    L: "",
+    F: "",
+    K: "",
+    HS: "",
+    D: "",
+    HY: "",
+    PD: "",
+    MF: "",
+    PA: "",
+    PT: "",
+    SC: "",
+    MA: "",
+    SI: "",
   });
 
   const [showScores, setShowScores] = useState(false);
   const [chartData, setChartData] = useState({
-    labels: ["?", "L", "F", "K", "HS", "D", "HY", "PD", "MF", "PA", "PT", "SC", "MA", "SI"],
+    labels: [
+      "?",
+      "L",
+      "F",
+      "K",
+      "HS",
+      "D",
+      "HY",
+      "PD",
+      "MF",
+      "PA",
+      "PT",
+      "SC",
+      "MA",
+      "SI",
+    ],
     dataValues: Array(14).fill(0),
   });
   const [name, setName] = useState("");
@@ -100,11 +114,9 @@ const WomanGraph = () => {
     const { name, value } = event.target;
     setValues((prevValues) => ({
       ...prevValues,
-      [name]: parseInt(value, 10) || 0,
+      [name]: value === "" ? "" : parseInt(value, 10) || 0,
     }));
   };
-
-
 
   // Mapping functions
   const mapUpdatedQuestionToGraphValue = (updatedQuestionValue) => {
@@ -290,7 +302,15 @@ const WomanGraph = () => {
 
   const handleCalculate = () => {
     const updatedValues = { ...values };
-  
+
+    Object.keys(updatedValues).forEach((key) => {
+      if (updatedValues[key] === "") {
+        updatedValues[key] = 0; 
+      } else {
+        updatedValues[key] = parseInt(updatedValues[key], 10) || 0;
+      }
+    });
+
     // Map and calculate values
     updatedValues["?"] = mapUpdatedQuestionToGraphValue(updatedValues["?"]);
     updatedValues.L = mapUpdatedLToGraphValue(updatedValues.L);
@@ -300,7 +320,7 @@ const WomanGraph = () => {
     updatedValues.MF = mapUpdatedMfToGraphValue(updatedValues.MF);
     updatedValues.PA = mapUpdatedPaToGraphValue(updatedValues.PA);
     updatedValues.SI = mapUpdatedSiToGraphValue(updatedValues.SI);
-  
+
     updatedValues.HS = getUpdatedHsValue(updatedValues.K, updatedValues.HS);
     updatedValues.HS = mapUpdatedHsToGraphValue(updatedValues.HS);
     updatedValues.PD = getUpdatedPdValue(updatedValues.K, updatedValues.PD);
@@ -311,12 +331,17 @@ const WomanGraph = () => {
     updatedValues.SC = mapUpdatedScToGraphValue(updatedValues.SC);
     updatedValues.MA = getUpdatedMaValue(updatedValues.K, updatedValues.MA);
     updatedValues.MA = mapUpdatedMaToGraphValue(updatedValues.MA);
-  
+
     updatedValues.K = mapUpdatedKToGraphValue(updatedValues.K);
-  
+
     // Güncel değerleri grafikte göstermek için chartData state'ini güncelle
-    const dataValues = Object.keys(updatedValues).map((key) => updatedValues[key]);
-    setChartData({ labels: Object.keys(updatedValues), dataValues: dataValues });
+    const dataValues = Object.keys(updatedValues).map(
+      (key) => updatedValues[key]
+    );
+    setChartData({
+      labels: Object.keys(updatedValues),
+      dataValues: dataValues,
+    });
     setShowScores(updatedValues);
   };
 
@@ -354,19 +379,21 @@ const WomanGraph = () => {
         console.error("Error generating PDF:", err);
       });
   };
-  
 
   return (
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
       <div className="p-4 bg-gradient-to-r from-blue-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]">
-        
-      <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
+        <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
           <strong className="text-xs">Uyarı:</strong> Bu sayfa test
           aşamasındadır.
         </div>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">MMPI Ham Puan Tablosu</h2>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          MMPI Ham Puan Tablosu (Erkek)
+        </h2>
         <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <h6 className="text-xs">Erkek için K değerleri eklenmemiş ham puanları giriniz.</h6>
+          <h6 className="text-xs">
+            Erkek için K değerleri eklenmemiş ham puanları giriniz.
+          </h6>
         </div>
         <div className="flex flex-col items-center gap-2 mt-4">
           {Object.keys(values).map((key) => (
@@ -375,7 +402,7 @@ const WomanGraph = () => {
               className="flex justify-center items-center p-2 bg-white border border-gray-300 rounded-md w-5/6 md:w-3/4 overflow-hidden"
             >
               <label className="mr-2 font-medium text-gray-800 text-sm">
-                {key} Ham Puanı:
+                {key} Ham Puanı
               </label>
               <input
                 type="number"
@@ -388,8 +415,8 @@ const WomanGraph = () => {
             </div>
           ))}
         </div>
-                {/* Ad Soyad Giriş Kutusu */}
-                <div className="bg-white border border-gray-300 rounded-md p-2 mt-5 flex flex-col items-center w-4/5 md:w-2/3 mx-auto">
+        {/* Ad Soyad Giriş Kutusu */}
+        <div className="bg-white border border-gray-300 rounded-md p-2 mt-5 flex flex-col items-center w-4/5 md:w-2/3 mx-auto">
           <span className="text-gray-800 font-medium text-base">Ad Soyad</span>
           <input
             type="text"
@@ -418,56 +445,61 @@ const WomanGraph = () => {
       </div>
 
       <div className="w-full max-w-5xl flex flex-col items-center gap-6 mb-16">
-        {/* Grafik Box */}
-        <div
-          id="pdfContent"
-          className="p-4 w-full mx-auto rounded-md shadow-md"
-          style={{ backgroundColor: "rgba(240, 240, 240, 0.3)" }}
-        >
-          <h5 className="text-lg font-semibold text-gray-800 mb-3">
-          Ad Soyad: {name}
-          </h5>
-          {/* Sarı Arka Plan Kutusu ve Grafik Div'i */}
-          <div className="relative w-full h-[400px] md:h-[450px]">
-            <div
-              className="absolute"
-              style={{
-                backgroundColor: "rgba(255, 215, 0, 0.4)",
-                zIndex: 0,
-                top: "43%", 
-                height: "29%", 
-                width: "100%",
-              }}
-            ></div>
-            {/* LineChart Bileşeni */}
-            <div className="relative w-full h-full">
-              <LineChart chartData={chartData} />
-            </div>
-          </div>
+  {/* Grafik Box */}
+  <div
+    id="pdfContent"
+    className="p-4 w-full mx-auto rounded-md shadow-md"
+    style={{ backgroundColor: "rgba(240, 240, 240, 0.3)" }}
+  >
+    <h5 className="text-lg font-semibold text-gray-800 mb-3">Ad Soyad: {name}</h5>
 
-          {/* K Eklenmiş Puanlar Tablosu */}
-          {showName && (
-            <div className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center">
-              <h5 className="text-lg font-semibold text-gray-800 mb-3">K Eklenmiş Puanlar</h5>
-              <div className="flex flex-wrap justify-center gap-4">
-                {Object.entries(showScores).map(([key, value]) => (
-                  <div
-                    key={key}
-                    className="flex items-center justify-center space-x-1 p-2 bg-white border border-gray-300 rounded-md shadow-sm"
-                  >
-                    <span className="font-semibold text-gray-700">{key}:</span>
-                    <span className="text-gray-600">{value}</span>
-                  </div>
-                ))}
-              </div>
+    {/* Sarı Arka Plan Kutusu ve Grafik Div'i */}
+    <div className="relative w-full h-[400px] md:h-[450px]">
+      <div
+        className="absolute"
+        style={{
+          backgroundColor: "rgba(255, 215, 0, 0.4)",
+          zIndex: 0,
+          top: "43.2%", 
+          height: "28.8%", 
+          width: "100%",
+        }}
+      ></div>
+
+      {/* LineChart Bileşeni */}
+      <div className="relative w-full h-full">
+        <LineChart chartData={chartData} />
+      </div>
+    </div>
+
+    {/* K Eklenmiş Puanlar Tablosu */}
+    {showName && (
+      <div
+        className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center"
+        style={{ marginTop: "24px" }} // Tablo üzerine boşluk eklemek için marginTop eklendi
+      >
+        <h5 className="text-lg font-semibold text-gray-800 mb-3">K Eklenmiş Puanlar</h5>
+        <div className="flex flex-wrap justify-center gap-4">
+          {Object.entries(showScores).map(([key, value]) => (
+            <div
+              key={key}
+              className="flex items-center justify-center space-x-0.5 p-1 bg-white border border-gray-300 rounded-md shadow-sm"
+            >
+              <span className="font-semibold text-gray-700">{key}:</span>
+              <span className="text-gray-600">{value}</span>
             </div>
-          )}
+          ))}
         </div>
       </div>
+    )}
+  </div>
+</div>
+
+
       {/* Sayfanın Alt Kısmında Boşluk Bırakma */}
       <div className="h-20" />
     </div>
   );
 };
 
-export default WomanGraph;
+export default ManGraph;

@@ -3,27 +3,27 @@ import { Line } from "react-chartjs-2";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import { Chart as ChartJS, registerables } from "chart.js";
-import mQNumbers from "../values/ManQNumbers";
+import wQNumbers from "../values/WomanQNumbers";
 import {
-  mQuestionValues,
-  mLValues,
-  mFValues,
-  mKValues,
-  mHsValues,
-  mDValues,
-  mHyValues,
-  mPdValues,
-  mMfValues,
-  mPaValues,
-  mPtValues,
-  mScValues,
-  mMaValues,
-  mSiValues,
-} from "../values/ManValues";
+    wQuestionValues,
+    wLValues,
+    wFValues,
+    wKValues,
+    wHsValues,
+    wDValues,
+    wHyValues,
+    wPdValues,
+    wMfValues,
+    wPaValues,
+    wPtValues,
+    wScValues,
+    wMaValues,
+    wSiValues,
+  } from "../values/WomanValues";
 
 ChartJS.register(...registerables);
 
-const ManGraph2 = () => {
+const WomanGraph2 = () => {
   const [responses, setResponses] = useState(Array(566).fill(null));
   const [scores, setScores] = useState({
     "?": 0,
@@ -81,39 +81,39 @@ const ManGraph2 = () => {
   };
 
   const mapUpdatedQuestionToGraphValue = (updatedQuestionValue) => {
-    return mQuestionValues[updatedQuestionValue] || updatedQuestionValue;
+    return wQuestionValues[updatedQuestionValue] || updatedQuestionValue;
   };
 
   const mapUpdatedLToGraphValue = (updatedLValue) => {
-    return mLValues[updatedLValue] || updatedLValue;
+    return wLValues[updatedLValue] || updatedLValue;
   };
 
   const mapUpdatedFToGraphValue = (updatedFValue) => {
-    return mFValues[updatedFValue] || updatedFValue;
+    return wFValues[updatedFValue] || updatedFValue;
   };
 
   const mapUpdatedKToGraphValue = (updatedKValue) => {
-    return mKValues[updatedKValue] || updatedKValue;
+    return wKValues[updatedKValue] || updatedKValue;
   };
 
   const mapUpdatedDToGraphValue = (updatedDValue) => {
-    return mDValues[updatedDValue] || updatedDValue;
+    return wDValues[updatedDValue] || updatedDValue;
   };
 
   const mapUpdatedHyToGraphValue = (updatedHyValue) => {
-    return mHyValues[updatedHyValue] || updatedHyValue;
+    return wHyValues[updatedHyValue] || updatedHyValue;
   };
 
   const mapUpdatedMfToGraphValue = (updatedMfValue) => {
-    return mMfValues[updatedMfValue] || updatedMfValue;
+    return wMfValues[updatedMfValue] || updatedMfValue;
   };
 
   const mapUpdatedPaToGraphValue = (updatedPaValue) => {
-    return mPaValues[updatedPaValue] || updatedPaValue;
+    return wPaValues[updatedPaValue] || updatedPaValue;
   };
 
   const mapUpdatedSiToGraphValue = (updatedSiValue) => {
-    return mSiValues[updatedSiValue] || updatedSiValue;
+    return wSiValues[updatedSiValue] || updatedSiValue;
   };
 
   const offset5k = {
@@ -219,7 +219,7 @@ const ManGraph2 = () => {
   };
 
   const mapUpdatedHsToGraphValue = (updatedHsValue) => {
-    return mHsValues[updatedHsValue] || updatedHsValue;
+    return wHsValues[updatedHsValue] || updatedHsValue;
   };
 
   const getUpdatedHsValue = (kValue, hsValue) => {
@@ -228,7 +228,7 @@ const ManGraph2 = () => {
   };
 
   const mapUpdatedPdToGraphValue = (updatedPdValue) => {
-    return mPdValues[updatedPdValue] || updatedPdValue;
+    return wPdValues[updatedPdValue] || updatedPdValue;
   };
 
   const getUpdatedPdValue = (kValue, pdValue) => {
@@ -237,7 +237,7 @@ const ManGraph2 = () => {
   };
 
   const mapUpdatedPtToGraphValue = (updatedPtValue) => {
-    return mPtValues[updatedPtValue] || updatedPtValue;
+    return wPtValues[updatedPtValue] || updatedPtValue;
   };
 
   const getUpdatedPtValue = (kValue, ptValue) => {
@@ -245,7 +245,7 @@ const ManGraph2 = () => {
   };
 
   const mapUpdatedScToGraphValue = (updatedScValue) => {
-    return mScValues[updatedScValue] || updatedScValue;
+    return wScValues[updatedScValue] || updatedScValue;
   };
 
   const getUpdatedScValue = (kValue, scValue) => {
@@ -253,7 +253,7 @@ const ManGraph2 = () => {
   };
 
   const mapUpdatedMaToGraphValue = (updatedMaValue) => {
-    return mMaValues[updatedMaValue] || updatedMaValue;
+    return wMaValues[updatedMaValue] || updatedMaValue;
   };
 
   const getUpdatedMaValue = (kValue, maValue) => {
@@ -270,7 +270,7 @@ const ManGraph2 = () => {
     const newScores = {}; // Yeni puanları saklamak için bir nesne
   
     // Her soru için puanları hesapla
-    for (const [key, value] of Object.entries(mQNumbers)) {
+    for (const [key, value] of Object.entries(wQNumbers)) {
       newScores[key] = value.questions.reduce((total, qObj) => {
         const response = responses[qObj.question - 1]; // Sıfırdan başlayarak erişim
   
@@ -388,7 +388,7 @@ const ManGraph2 = () => {
       labels: labels,
       datasets: [
         {
-          label: "MMPI Hesaplanmış Puanlar Grafiği (Erkek)",
+          label: "MMPI Hesaplanmış Puanlar Grafiği (Kadın)",
           data: dataValues,
           borderColor: "black",
           backgroundColor: "lightgrey",
@@ -448,7 +448,7 @@ const ManGraph2 = () => {
           aşamasındadır.
         </div>
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          MMPI Test Cevapları (Erkek)
+          MMPI Test Cevapları (Kadın)
         </h2>
         <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
           <h6 className="text-xs">DOĞRU (D) cevaplar için 1'e,</h6>
@@ -571,4 +571,4 @@ const ManGraph2 = () => {
   );
 };
 
-export default ManGraph2;
+export default WomanGraph2;

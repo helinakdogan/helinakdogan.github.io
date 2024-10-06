@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import "./App.css";
 import ManGraph2 from './components/ManGraph2';
+import WomanGraph2 from './components/WomanGraph2';
 
 function App() {
   const [currentSelect, setCurrentSelect] = useState("Erkek");
@@ -20,6 +21,7 @@ function App() {
       {currentSelect === "Erkek" && <ManGraph />}
       {currentSelect === "Kadın" && <WomanGraph />}
       {currentSelect === "Erkek+" && <ManGraph2 />}
+      {currentSelect === "Kadın+" && <WomanGraph2 />}
       <Footer />
     </div>
   );

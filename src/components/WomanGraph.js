@@ -71,20 +71,20 @@ const LineChart = ({ chartData }) => {
 
 const WomanGraph = () => {
   const [values, setValues] = useState({
-    "?": 0,
-    L: 0,
-    F: 0,
-    K: 0,
-    HS: 0,
-    D: 0,
-    HY: 0,
-    PD: 0,
-    MF: 0,
-    PA: 0,
-    PT: 0,
-    SC: 0,
-    MA: 0,
-    SI: 0,
+    "?": "",
+    L: "",
+    F: "",
+    K: "",
+    HS: "",
+    D: "",
+    HY: "",
+    PD: "",
+    MF: "",
+    PA: "",
+    PT: "",
+    SC: "",
+    MA: "",
+    SI: "",
   });
 
   const [showScores, setShowScores] = useState(false);
@@ -99,7 +99,7 @@ const WomanGraph = () => {
     const { name, value } = event.target;
     setValues((prevValues) => ({
       ...prevValues,
-      [name]: parseInt(value, 10) || 0,
+      [name]: value === "" ? "" : parseInt(value, 10) || 0,
     }));
   };
 
@@ -289,6 +289,14 @@ const WomanGraph = () => {
 
   const handleCalculate = () => {
     const updatedValues = { ...values };
+
+    Object.keys(updatedValues).forEach((key) => {
+      if (updatedValues[key] === "") {
+        updatedValues[key] = 0; 
+      } else {
+        updatedValues[key] = parseInt(updatedValues[key], 10) || 0;
+      }
+    });
   
     // Map and calculate values
     updatedValues["?"] = mapUpdatedQuestionToGraphValue(updatedValues["?"]);
@@ -357,12 +365,12 @@ const WomanGraph = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
-      <div className="p-4 bg-gradient-to-r from-blue-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]"> {/* Increased max-h to 500px */}
+      <div className="p-4 bg-gradient-to-r from-pink-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]"> {/* Increased max-h to 500px */}
         <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
           <strong className="text-xs">Uyarı:</strong> Bu sayfa test
           aşamasındadır.
         </div>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">MMPI Ham Puan Tablosu</h2>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">MMPI Ham Puan Tablosu (Kadın)</h2>
         <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
           <h6 className="text-xs">Kadın için K değerleri eklenmemiş ham puanları giriniz.</h6>
         </div>
@@ -373,7 +381,7 @@ const WomanGraph = () => {
               className="flex justify-center items-center p-2 bg-white border border-gray-300 rounded-md w-5/6 md:w-3/4 overflow-hidden"
             >
               <label className="mr-2 font-medium text-gray-800 text-sm">
-                {key} Ham Puanı:
+                {key} Ham Puanı
               </label>
               <input
                 type="number"
@@ -432,8 +440,8 @@ const WomanGraph = () => {
               style={{
                 backgroundColor: "rgba(255, 215, 0, 0.4)",
                 zIndex: 0,
-                top: "43%", 
-                height: "29%", 
+                top: "43.2%", 
+                height: "28.8%", 
                 width: "100%",
               }}
             ></div>
@@ -445,13 +453,13 @@ const WomanGraph = () => {
   
           {/* K Eklenmiş Puanlar Tablosu */}
           {showName && (
-            <div className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center">
+            <div className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center" style={{ marginTop: "24px" }}>
               <h5 className="text-lg font-semibold text-gray-800 mb-3">K Eklenmiş Puanlar</h5>
               <div className="flex flex-wrap justify-center gap-4">
                 {Object.entries(showScores).map(([key, value]) => (
                   <div
                     key={key}
-                    className="flex items-center justify-center space-x-1 p-2 bg-white border border-gray-300 rounded-md shadow-sm"
+                    className="flex items-center justify-center  space-x-0.5 p-1 bg-white border border-gray-300 rounded-md shadow-sm"
                   >
                     <span className="font-semibold text-gray-700">{key}:</span>
                     <span className="text-gray-600">{value}</span>

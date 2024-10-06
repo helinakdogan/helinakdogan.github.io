@@ -60,9 +60,10 @@ const Navbar = ({ currentSelect, setCurrentSelect }) => {
         >
           <ul className="flex flex-col md:flex-row md:space-x-8 mt-4 md:mt-0">
             {[
-              "Kadın",
               "Erkek",
+              "Kadın",              
               "Erkek+",
+              "Kadın+",
             ].map((item) => (
               <li key={item}>
                 <button
