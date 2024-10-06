@@ -442,7 +442,7 @@ const WomanGraph2 = () => {
   return (
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
       {/* Test Cevapları Kutusu (En Üste Alındı) */}
-      <div className="p-4 bg-gradient-to-r from-purple-200 to-yellow-200 rounded-md overflow-y-scroll h-[450px] md:h-[500px] w-full max-w-3xl text-center text-gray-900 shadow-md mb-8">
+      <div className="p-4 bg-gradient-to-r from-red-200 to-yellow-200 rounded-md overflow-y-scroll h-[450px] md:h-[500px] w-full max-w-3xl text-center text-gray-900 shadow-md mb-8">
         <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
           <strong className="text-xs">Uyarı:</strong> Bu sayfa test
           aşamasındadır.
