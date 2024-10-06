@@ -349,6 +349,31 @@ const ManGraph = () => {
     setName(event.target.value);
   };
 
+  const handleReset = () => {
+    setValues({
+      "?": "",
+      L: "",
+      F: "",
+      K: "",
+      HS: "",
+      D: "",
+      HY: "",
+      PD: "",
+      MF: "",
+      PA: "",
+      PT: "",
+      SC: "",
+      MA: "",
+      SI: "",
+    });
+    setChartData({
+      labels: ["?", "L", "F", "K", "HS", "D", "HY", "PD", "MF", "PA", "PT", "SC", "MA", "SI"],
+      dataValues: Array(14).fill(0),
+    });
+    setShowScores(showScores);
+  };
+  
+
   const handleDownloadPDF = () => {
     const input = document.getElementById("pdfContent");
     if (!input) {
@@ -382,6 +407,17 @@ const ManGraph = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
+      {/* Bilgilendirme Kutusu */}
+<div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl">
+  <h6 className="font-semibold">Nasıl Kullanılır?</h6>
+  <p className="text-xs">
+    MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve psikolojik durumları değerlendirmek için kullanılan bir psikolojik testtir. Bu site aracılığıyla MMPI testi yanıtlarına dayanarak hesaplamalar gerçekleştirebilir, grafiklerini oluşturabilir ve PDF olarak indirebilirsiniz.
+  </p>
+  <p className="text-xs">
+    Bu site üzerinden yapılan tüm hesaplamalar, Türkiye standartlarına göre yapılmaktadır.
+  </p>
+</div>
+
       <div className="p-4 bg-gradient-to-r from-blue-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]">
         <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
           <strong className="text-xs">Uyarı:</strong> Bu sayfa test
@@ -399,9 +435,9 @@ const ManGraph = () => {
           {Object.keys(values).map((key) => (
             <div
               key={key}
-              className="flex justify-center items-center p-2 bg-white border border-gray-300 rounded-md w-5/6 md:w-3/4 overflow-hidden"
+              className="flex justify-center items-center p-2 bg-white  border border-gray-300 rounded-md w-5/6 md:w-3/4 overflow-hidden"
             >
-              <label className="mr-2 font-medium text-gray-800 text-sm">
+              <label className="mr-2 font-medium text-gray-800 text-m">
                 {key} Ham Puanı
               </label>
               <input
@@ -426,18 +462,29 @@ const ManGraph = () => {
           />
         </div>
         <div className="flex flex-col items-center gap-4 mt-5">
+          {/* Hesapla Butonu */}
           <button
             onClick={() => {
               handleCalculate();
               setShowName(true);
             }}
-            className="w-3/4 md:w-2/3 py-1.5 bg-purple-600 text-white rounded-md shadow-md hover:bg-purple-700 transition duration-300"
+            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90 "
           >
             Hesapla
           </button>
+
+          {/* Değerleri Sıfırla Butonu */}
+          <button
+            onClick={handleReset}
+            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90"
+          >
+            Değerleri Sıfırla
+          </button>
+
+          {/* PDF İndir Butonu */}
           <button
             onClick={handleDownloadPDF}
-            className="w-3/4 md:w-2/3 py-1.5 bg-purple-600 text-white rounded-md shadow-md hover:bg-purple-700 transition duration-300"
+            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-rose-400 to-pink-600 text-white rounded-md transition duration-200 hover:opacity-90"
           >
             Grafiği PDF Olarak İndir
           </button>

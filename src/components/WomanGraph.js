@@ -89,7 +89,22 @@ const WomanGraph = () => {
 
   const [showScores, setShowScores] = useState(false);
   const [chartData, setChartData] = useState({
-    labels: ["?", "L", "F", "K", "HS", "D", "HY", "PD", "MF", "PA", "PT", "SC", "MA", "SI"],
+    labels: [
+      "?",
+      "L",
+      "F",
+      "K",
+      "HS",
+      "D",
+      "HY",
+      "PD",
+      "MF",
+      "PA",
+      "PT",
+      "SC",
+      "MA",
+      "SI",
+    ],
     dataValues: Array(14).fill(0),
   });
   const [name, setName] = useState("");
@@ -102,8 +117,6 @@ const WomanGraph = () => {
       [name]: value === "" ? "" : parseInt(value, 10) || 0,
     }));
   };
-
-
 
   // Mapping functions
   const mapUpdatedQuestionToGraphValue = (updatedQuestionValue) => {
@@ -292,12 +305,12 @@ const WomanGraph = () => {
 
     Object.keys(updatedValues).forEach((key) => {
       if (updatedValues[key] === "") {
-        updatedValues[key] = 0; 
+        updatedValues[key] = 0;
       } else {
         updatedValues[key] = parseInt(updatedValues[key], 10) || 0;
       }
     });
-  
+
     // Map and calculate values
     updatedValues["?"] = mapUpdatedQuestionToGraphValue(updatedValues["?"]);
     updatedValues.L = mapUpdatedLToGraphValue(updatedValues.L);
@@ -307,7 +320,7 @@ const WomanGraph = () => {
     updatedValues.MF = mapUpdatedMfToGraphValue(updatedValues.MF);
     updatedValues.PA = mapUpdatedPaToGraphValue(updatedValues.PA);
     updatedValues.SI = mapUpdatedSiToGraphValue(updatedValues.SI);
-  
+
     updatedValues.HS = getUpdatedHsValue(updatedValues.K, updatedValues.HS);
     updatedValues.HS = mapUpdatedHsToGraphValue(updatedValues.HS);
     updatedValues.PD = getUpdatedPdValue(updatedValues.K, updatedValues.PD);
@@ -318,17 +331,61 @@ const WomanGraph = () => {
     updatedValues.SC = mapUpdatedScToGraphValue(updatedValues.SC);
     updatedValues.MA = getUpdatedMaValue(updatedValues.K, updatedValues.MA);
     updatedValues.MA = mapUpdatedMaToGraphValue(updatedValues.MA);
-  
+
     updatedValues.K = mapUpdatedKToGraphValue(updatedValues.K);
-  
+
     // Güncel değerleri grafikte göstermek için chartData state'ini güncelle
-    const dataValues = Object.keys(updatedValues).map((key) => updatedValues[key]);
-    setChartData({ labels: Object.keys(updatedValues), dataValues: dataValues });
+    const dataValues = Object.keys(updatedValues).map(
+      (key) => updatedValues[key]
+    );
+    setChartData({
+      labels: Object.keys(updatedValues),
+      dataValues: dataValues,
+    });
     setShowScores(updatedValues);
   };
 
   const handleNameChange = (event) => {
     setName(event.target.value);
+  };
+
+  const handleReset = () => {
+    setValues({
+      "?": "",
+      L: "",
+      F: "",
+      K: "",
+      HS: "",
+      D: "",
+      HY: "",
+      PD: "",
+      MF: "",
+      PA: "",
+      PT: "",
+      SC: "",
+      MA: "",
+      SI: "",
+    });
+    setChartData({
+      labels: [
+        "?",
+        "L",
+        "F",
+        "K",
+        "HS",
+        "D",
+        "HY",
+        "PD",
+        "MF",
+        "PA",
+        "PT",
+        "SC",
+        "MA",
+        "SI",
+      ],
+      dataValues: Array(14).fill(0),
+    });
+    setShowScores(showScores);
   };
 
   const handleDownloadPDF = () => {
@@ -361,18 +418,35 @@ const WomanGraph = () => {
         console.error("Error generating PDF:", err);
       });
   };
-  
 
   return (
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
-      <div className="p-4 bg-gradient-to-r from-pink-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]"> {/* Increased max-h to 500px */}
+
+      {/* Bilgilendirme Kutusu */}
+<div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl">
+  <h6 className="font-semibold">Nasıl Kullanılır?</h6>
+  <p className="text-xs">
+    MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve psikolojik durumları değerlendirmek için kullanılan bir psikolojik testtir. Bu site aracılığıyla MMPI testi yanıtlarına dayanarak hesaplamalar gerçekleştirebilir, grafiklerini oluşturabilir ve PDF olarak indirebilirsiniz.
+  </p>
+  <p className="text-xs">
+    Bu site üzerinden yapılan tüm hesaplamalar, Türkiye standartlarına göre yapılmaktadır.
+  </p>
+</div>
+
+      <div className="p-4 bg-gradient-to-r from-pink-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]">
         <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
-          <strong className="text-xs">Uyarı:</strong> Bu sayfa test
-          aşamasındadır.
+          <strong className="text-xs">Uyarı:</strong> Bu sayfa test aşamasındadır.
         </div>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">MMPI Ham Puan Tablosu (Kadın)</h2>
+  
+        
+  
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          MMPI Ham Puan Tablosu (Kadın)
+        </h2>
         <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <h6 className="text-xs">Kadın için K değerleri eklenmemiş ham puanları giriniz.</h6>
+          <h6 className="text-xs">
+            Kadın için K değerleri eklenmemiş ham puanları giriniz.
+          </h6>
         </div>
         <div className="flex flex-col items-center gap-2 mt-4">
           {Object.keys(values).map((key) => (
@@ -380,7 +454,7 @@ const WomanGraph = () => {
               key={key}
               className="flex justify-center items-center p-2 bg-white border border-gray-300 rounded-md w-5/6 md:w-3/4 overflow-hidden"
             >
-              <label className="mr-2 font-medium text-gray-800 text-sm">
+              <label className="mr-2 font-medium text-gray-800 text-m">
                 {key} Ham Puanı
               </label>
               <input
@@ -405,18 +479,29 @@ const WomanGraph = () => {
           />
         </div>
         <div className="flex flex-col items-center gap-4 mt-5">
+          {/* Hesapla Butonu */}
           <button
             onClick={() => {
               handleCalculate();
               setShowName(true);
             }}
-            className="w-3/4 md:w-2/3 py-1.5 bg-purple-600 text-white rounded-md shadow-md hover:bg-purple-700 transition duration-300"
+            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90 "
           >
             Hesapla
           </button>
+  
+          {/* Değerleri Sıfırla Butonu */}
+          <button
+            onClick={handleReset}
+            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90"
+          >
+            Değerleri Sıfırla
+          </button>
+  
+          {/* PDF İndir Butonu */}
           <button
             onClick={handleDownloadPDF}
-            className="w-3/4 md:w-2/3 py-1.5 bg-purple-600 text-white rounded-md shadow-md hover:bg-purple-700 transition duration-300"
+            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-rose-400 to-pink-600 text-white rounded-md transition duration-200 hover:opacity-90"
           >
             Grafiği PDF Olarak İndir
           </button>
@@ -440,8 +525,8 @@ const WomanGraph = () => {
               style={{
                 backgroundColor: "rgba(255, 215, 0, 0.4)",
                 zIndex: 0,
-                top: "43.2%", 
-                height: "28.8%", 
+                top: "43.2%",
+                height: "28.8%",
                 width: "100%",
               }}
             ></div>
@@ -453,13 +538,18 @@ const WomanGraph = () => {
   
           {/* K Eklenmiş Puanlar Tablosu */}
           {showName && (
-            <div className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center" style={{ marginTop: "24px" }}>
-              <h5 className="text-lg font-semibold text-gray-800 mb-3">Hesaplanmış Puanlar</h5>
+            <div
+              className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center"
+              style={{ marginTop: "24px" }}
+            >
+              <h5 className="text-lg font-semibold text-gray-800 mb-3">
+                Hesaplanmış Puanlar
+              </h5>
               <div className="flex flex-wrap justify-center gap-4">
                 {Object.entries(showScores).map(([key, value]) => (
                   <div
                     key={key}
-                    className="flex items-center justify-center  space-x-0.5 p-1 bg-white border border-gray-300 rounded-md shadow-sm"
+                    className="flex items-center justify-center space-x-0.5 p-1 bg-white border border-gray-300 rounded-md shadow-sm"
                   >
                     <span className="font-semibold text-gray-700">{key}:</span>
                     <span className="text-gray-600">{value}</span>

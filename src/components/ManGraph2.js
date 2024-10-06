@@ -47,10 +47,10 @@ const ManGraph2 = () => {
   const handleKeyDown = (event) => {
     const index = event.target.dataset.index;
     if (index !== undefined) {
-      if (event.key === "1") {
+      if (event.key === "1" || event.key === "D") {
         handleChange(index, "D");
         focusNextInput(Number(index) + 1);
-      } else if (event.key === "2") {
+      } else if (event.key === "2" || event.key === "Y") {
         handleChange(index, "Y");
         focusNextInput(Number(index) + 1);
       } else if (event.key === "0") {
@@ -78,6 +78,15 @@ const ManGraph2 = () => {
   const handleInputFocus = (index) => {
     const currentInput = document.querySelector(`input[data-index="${index}"]`);
     currentInput.value = "";
+  };
+
+  const handleInputChange = (event) => {
+    const index = event.target.dataset.index;
+    const value = event.target.value.toUpperCase(); 
+    if (index !== undefined && (value === "D" || value === "Y" || value === "")) {
+      handleChange(index, value === "" ? null : value);
+      focusNextInput(Number(index) + 1);
+    }
   };
 
   const mapUpdatedQuestionToGraphValue = (updatedQuestionValue) => {
@@ -362,6 +371,26 @@ const ManGraph2 = () => {
       });
   };
 
+  const handleReset = () => {
+    setScores({
+      "?": 0,
+      L: 0,
+      F: 0,
+      K: 0,
+      HS: 0,
+      D: 0,
+      HY: 0,
+      PD: 0,
+      MF: 0,
+      PA: 0,
+      PT: 0,
+      SC: 0,
+      MA: 0,
+      SI: 0,
+    });
+    setResponses(Array(566).fill(null));
+  };
+
   const LineChart = () => {
     const chartRef = useRef(null);
   
@@ -441,6 +470,16 @@ const ManGraph2 = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
+      {/* Bilgilendirme Kutusu */}
+<div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl">
+  <h6 className="font-semibold">Nasıl Kullanılır?</h6>
+  <p className="text-xs">
+    MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve psikolojik durumları değerlendirmek için kullanılan bir psikolojik testtir. Bu site aracılığıyla MMPI testi yanıtlarına dayanarak hesaplamalar gerçekleştirebilir, grafiklerini oluşturabilir ve PDF olarak indirebilirsiniz.
+  </p>
+  <p className="text-xs">
+    Bu site üzerinden yapılan tüm hesaplamalar, Türkiye standartlarına göre yapılmaktadır.
+  </p>
+</div>
       {/* Test Cevapları Kutusu (En Üste Alındı) */}
       <div className="p-4 bg-gradient-to-r from-purple-200 to-yellow-200 rounded-md overflow-y-scroll h-[450px] md:h-[500px] w-full max-w-3xl text-center text-gray-900 shadow-md mb-8">
         <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
@@ -451,9 +490,9 @@ const ManGraph2 = () => {
           MMPI Test Cevapları (Erkek)
         </h2>
         <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <h6 className="text-xs">DOĞRU (D) cevaplar için 1'e,</h6>
-          <h6 className="text-xs">YANLIŞ (Y) cevaplar için 2'ye,</h6>
-          <h6 className="text-xs">BOŞ cevaplar için 0'a basınız.</h6>
+        <h6 className="text-xs">DOĞRU (D) cevaplar için D veya 1,</h6>
+          <h6 className="text-xs">YANLIŞ (Y) cevaplar için Y veya 2,</h6>
+          <h6 className="text-xs">BOŞ cevaplar için soruyu atlayın veya 0 giriniz.</h6>
         </div>
         <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
           <h6 className="text-xs">Boş soru sayısı (?) test aşamasındadır.</h6>
@@ -474,6 +513,7 @@ const ManGraph2 = () => {
                 data-index={index}
                 value={response || ""}
                 onFocus={() => handleInputFocus(index)}
+                onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 className="w-8 text-center text-gray-700 bg-gray-100 border rounded-md focus:outline-none"
                 maxLength={1}
@@ -495,18 +535,29 @@ const ManGraph2 = () => {
 
         {/* Butonlar */}
         <div className="flex flex-col items-center gap-4 mt-5">
+          {/* Hesapla Butonu */}
           <button
             onClick={() => {
               calculateScores(responses);
               setShowName(true);
             }}
-            className="w-3/4 md:w-2/3 py-1.5 bg-purple-600 text-white rounded-md shadow-md hover:bg-purple-700 transition duration-300"
+            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90 "
           >
             Hesapla
           </button>
+  
+          {/* Değerleri Sıfırla Butonu */}
+          <button
+            onClick={handleReset}
+            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90"
+          >
+            Değerleri Sıfırla
+          </button>
+  
+          {/* PDF İndir Butonu */}
           <button
             onClick={handleDownloadPDF}
-            className="w-3/4 md:w-2/3 py-1.5 bg-purple-600 text-white rounded-md shadow-md hover:bg-purple-700 transition duration-300"
+            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-rose-400 to-pink-600 text-white rounded-md transition duration-200 hover:opacity-90"
           >
             Grafiği PDF Olarak İndir
           </button>
