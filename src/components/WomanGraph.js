@@ -356,13 +356,16 @@ const WomanGraph = () => {
   
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 bg-white">
-      <div className="p-4 bg-gradient-to-r from-blue-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[300px]">
-       
-        <div className="bg-gray-200 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit">
-          <strong className="text-xs">Uyarı:</strong> Bu sayfa test aşamasındadır.
+    <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
+      <div className="p-4 bg-gradient-to-r from-blue-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]"> {/* Increased max-h to 500px */}
+        <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
+          <strong className="text-xs">Uyarı:</strong> Bu sayfa test
+          aşamasındadır.
         </div>
         <h2 className="text-xl font-semibold text-gray-800 mb-4">MMPI Ham Puan Tablosu</h2>
+        <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+          <h6 className="text-xs">Kadın için K değerleri eklenmemiş ham puanları giriniz.</h6>
+        </div>
         <div className="flex flex-col items-center gap-2 mt-4">
           {Object.keys(values).map((key) => (
             <div
@@ -383,8 +386,8 @@ const WomanGraph = () => {
             </div>
           ))}
         </div>
-                {/* Ad Soyad Giriş Kutusu */}
-                <div className="bg-white border border-gray-300 rounded-md p-2 mt-5 flex flex-col items-center w-4/5 md:w-2/3 mx-auto">
+        {/* Ad Soyad Giriş Kutusu */}
+        <div className="bg-white border border-gray-300 rounded-md p-2 mt-5 flex flex-col items-center w-4/5 md:w-2/3 mx-auto">
           <span className="text-gray-800 font-medium text-base">Ad Soyad</span>
           <input
             type="text"
@@ -411,7 +414,7 @@ const WomanGraph = () => {
           </button>
         </div>
       </div>
-
+  
       <div className="w-full max-w-5xl flex flex-col items-center gap-6 mb-16">
         {/* Grafik Box */}
         <div
@@ -420,7 +423,7 @@ const WomanGraph = () => {
           style={{ backgroundColor: "rgba(240, 240, 240, 0.3)" }}
         >
           <h5 className="text-lg font-semibold text-gray-800 mb-3">
-          Ad Soyad: {name}
+            Ad Soyad: {name}
           </h5>
           {/* Sarı Arka Plan Kutusu ve Grafik Div'i */}
           <div className="relative w-full h-[400px] md:h-[450px]">
@@ -439,7 +442,7 @@ const WomanGraph = () => {
               <LineChart chartData={chartData} />
             </div>
           </div>
-
+  
           {/* K Eklenmiş Puanlar Tablosu */}
           {showName && (
             <div className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center">
@@ -463,6 +466,7 @@ const WomanGraph = () => {
       <div className="h-20" />
     </div>
   );
+  
 };
 
 export default WomanGraph;

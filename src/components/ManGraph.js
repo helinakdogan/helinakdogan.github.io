@@ -357,13 +357,17 @@ const WomanGraph = () => {
   
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 bg-white">
-      <div className="p-4 bg-gradient-to-r from-blue-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[300px]">
+    <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
+      <div className="p-4 bg-gradient-to-r from-blue-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]">
         
-        <div className="bg-gray-200 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit">
-          <strong className="text-xs">Uyarı:</strong> Bu sayfa test aşamasındadır.
+      <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
+          <strong className="text-xs">Uyarı:</strong> Bu sayfa test
+          aşamasındadır.
         </div>
         <h2 className="text-xl font-semibold text-gray-800 mb-4">MMPI Ham Puan Tablosu</h2>
+        <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+          <h6 className="text-xs">Erkek için K değerleri eklenmemiş ham puanları giriniz.</h6>
+        </div>
         <div className="flex flex-col items-center gap-2 mt-4">
           {Object.keys(values).map((key) => (
             <div

@@ -12,7 +12,7 @@ const Navbar = ({ currentSelect, setCurrentSelect }) => {
       <div className="container flex flex-wrap justify-between items-center mx-auto">
         <a href="/" className="flex items-center">
           <i className="text-white pr-3 text-3xl fas fa-briefcase"></i>
-          <span className="self-center text-3xl font-bold whitespace-nowrap text-white">
+          <span className="self-center text-2xl font-bold whitespace-nowrap text-white">
             MMPI Puan Hesaplama
           </span>
         </a>
