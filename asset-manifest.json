@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/mmpiapp/static/css/main.8ba99b72.css",
-    "main.js": "/mmpiapp/static/js/main.57641373.js",
+    "main.js": "/mmpiapp/static/js/main.ed65f074.js",
     "static/js/430.5bf57c8c.chunk.js": "/mmpiapp/static/js/430.5bf57c8c.chunk.js",
     "static/js/912.842013ce.chunk.js": "/mmpiapp/static/js/912.842013ce.chunk.js",
     "static/js/787.038ca13e.chunk.js": "/mmpiapp/static/js/787.038ca13e.chunk.js",
     "index.html": "/mmpiapp/index.html",
     "main.8ba99b72.css.map": "/mmpiapp/static/css/main.8ba99b72.css.map",
-    "main.57641373.js.map": "/mmpiapp/static/js/main.57641373.js.map",
+    "main.ed65f074.js.map": "/mmpiapp/static/js/main.ed65f074.js.map",
     "430.5bf57c8c.chunk.js.map": "/mmpiapp/static/js/430.5bf57c8c.chunk.js.map",
     "912.842013ce.chunk.js.map": "/mmpiapp/static/js/912.842013ce.chunk.js.map",
     "787.038ca13e.chunk.js.map": "/mmpiapp/static/js/787.038ca13e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8ba99b72.css",
-    "static/js/main.57641373.js"
+    "static/js/main.ed65f074.js"
   ]
 }
