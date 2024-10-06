@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/mmpiapp/static/css/main.f8aa31fb.css",
-    "main.js": "/mmpiapp/static/js/main.b2726e72.js",
+    "main.css": "/mmpiapp/static/css/main.558b31db.css",
+    "main.js": "/mmpiapp/static/js/main.aa78d07d.js",
     "static/js/430.5bf57c8c.chunk.js": "/mmpiapp/static/js/430.5bf57c8c.chunk.js",
     "static/js/912.842013ce.chunk.js": "/mmpiapp/static/js/912.842013ce.chunk.js",
     "static/js/787.038ca13e.chunk.js": "/mmpiapp/static/js/787.038ca13e.chunk.js",
     "index.html": "/mmpiapp/index.html",
-    "main.f8aa31fb.css.map": "/mmpiapp/static/css/main.f8aa31fb.css.map",
-    "main.b2726e72.js.map": "/mmpiapp/static/js/main.b2726e72.js.map",
+    "main.558b31db.css.map": "/mmpiapp/static/css/main.558b31db.css.map",
+    "main.aa78d07d.js.map": "/mmpiapp/static/js/main.aa78d07d.js.map",
     "430.5bf57c8c.chunk.js.map": "/mmpiapp/static/js/430.5bf57c8c.chunk.js.map",
     "912.842013ce.chunk.js.map": "/mmpiapp/static/js/912.842013ce.chunk.js.map",
     "787.038ca13e.chunk.js.map": "/mmpiapp/static/js/787.038ca13e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f8aa31fb.css",
-    "static/js/main.b2726e72.js"
+    "static/css/main.558b31db.css",
+    "static/js/main.aa78d07d.js"
   ]
 }
