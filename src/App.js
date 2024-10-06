@@ -1,34 +1,29 @@
 import React, { useState } from 'react';
-import Header from './components/Header';
 import WomanGraph from './components/WomanGraph';
 import ManGraph from './components/ManGraph';
 import Footer from './components/Footer';
-import TryGraph from './components/TryGraph';
+import Navbar from './components/Navbar';
+import "./App.css";
+import ManGraph2 from './components/ManGraph2';
 
-const App = () => {
-  const [activeTab, setActiveTab] = useState('women');
+function App() {
+  const [currentSelect, setCurrentSelect] = useState("Erkek");
 
-  const changeTab = (newTab) => {
-    setActiveTab(newTab);
-  };
-
-  const appStyle = {
-    backgroundColor: '#ffffff', 
-  };
 
   return (
-    <div style={appStyle}>
-      <Header changeTab={changeTab} />
-      {activeTab === 'women' ? (
-        <WomanGraph />
-      ) : activeTab === 'men' ? (
-        <ManGraph />
-      ) : activeTab === 'example' ? (
-        <TryGraph />
-      ) : null}
+    <div className="App flex flex-col min-h-screen justify-between">
+      <Navbar
+        currentSelect={currentSelect}
+        setCurrentSelect={setCurrentSelect}
+      />
+      
+      {currentSelect === "Erkek" && <ManGraph />}
+      {currentSelect === "Kadın" && <WomanGraph />}
+      {currentSelect === "Erkek+" && <ManGraph2 />}
       <Footer />
     </div>
   );
-};
+}
 
 export default App;
+

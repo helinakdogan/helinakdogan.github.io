@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Line } from "react-chartjs-2";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import { Chart as ChartJS, registerables } from "chart.js";
+import mQNumbers from "../values/ManQNumbers";
 import {
   mQuestionValues,
   mLValues,
@@ -20,58 +21,11 @@ import {
   mSiValues,
 } from "../values/ManValues";
 
-
 ChartJS.register(...registerables);
 
-const LineChart = ({ chartData }) => {
-  const data = {
-    labels: chartData.labels,
-    datasets: [
-      {
-        label: "MMPI Hesaplanmış Puanlar Grafiği (Erkek)",
-        data: chartData.dataValues,
-        borderColor: "black",
-        backgroundColor: "lightgrey",
-        borderWidth: 1,
-        fill: false,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: true,
-          color: "rgba(0, 0, 0, 0.1)",
-        },
-      },
-      y: {
-        min: 0,
-        max: 120,
-        ticks: {
-          stepSize: 10,
-        },
-        grid: {
-          display: true,
-          color: "rgba(0, 0, 0, 0.1)",
-        },
-      },
-    },
-  };
-
-  return <Line data={data} options={options} />;
-};
-
-const WomanGraph = () => {
-  const [values, setValues] = useState({
+const ManGraph2 = () => {
+  const [responses, setResponses] = useState(Array(566).fill(null));
+  const [scores, setScores] = useState({
     "?": 0,
     L: 0,
     F: 0,
@@ -87,26 +41,45 @@ const WomanGraph = () => {
     MA: 0,
     SI: 0,
   });
-
-  const [showScores, setShowScores] = useState(false);
-  const [chartData, setChartData] = useState({
-    labels: ["?", "L", "F", "K", "HS", "D", "HY", "PD", "MF", "PA", "PT", "SC", "MA", "SI"],
-    dataValues: Array(14).fill(0),
-  });
   const [name, setName] = useState("");
   const [showName, setShowName] = useState(false);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: parseInt(value, 10) || 0,
-    }));
+  const handleKeyDown = (event) => {
+    const index = event.target.dataset.index;
+    if (index !== undefined) {
+      if (event.key === "1") {
+        handleChange(index, "D");
+        focusNextInput(Number(index) + 1);
+      } else if (event.key === "2") {
+        handleChange(index, "Y");
+        focusNextInput(Number(index) + 1);
+      } else if (event.key === "0") {
+        handleChange(index, null);
+        focusNextInput(Number(index) + 1);
+      }
+    }
   };
 
+  const handleChange = (index, value) => {
+    const newResponses = [...responses];
+    newResponses[index] = value;
+    setResponses(newResponses);
+  };
 
+  const focusNextInput = (nextIndex) => {
+    const nextInput = document.querySelector(
+      `input[data-index="${nextIndex}"]`
+    );
+    if (nextInput) {
+      nextInput.focus();
+    }
+  };
 
-  // Mapping functions
+  const handleInputFocus = (index) => {
+    const currentInput = document.querySelector(`input[data-index="${index}"]`);
+    currentInput.value = "";
+  };
+
   const mapUpdatedQuestionToGraphValue = (updatedQuestionValue) => {
     return mQuestionValues[updatedQuestionValue] || updatedQuestionValue;
   };
@@ -288,36 +261,63 @@ const WomanGraph = () => {
     return offsetMa ? maValue + offsetMa : maValue;
   };
 
-  const handleCalculate = () => {
-    const updatedValues = { ...values };
-  
-    // Map and calculate values
-    updatedValues["?"] = mapUpdatedQuestionToGraphValue(updatedValues["?"]);
-    updatedValues.L = mapUpdatedLToGraphValue(updatedValues.L);
-    updatedValues.F = mapUpdatedFToGraphValue(updatedValues.F);
-    updatedValues.D = mapUpdatedDToGraphValue(updatedValues.D);
-    updatedValues.HY = mapUpdatedHyToGraphValue(updatedValues.HY);
-    updatedValues.MF = mapUpdatedMfToGraphValue(updatedValues.MF);
-    updatedValues.PA = mapUpdatedPaToGraphValue(updatedValues.PA);
-    updatedValues.SI = mapUpdatedSiToGraphValue(updatedValues.SI);
-  
-    updatedValues.HS = getUpdatedHsValue(updatedValues.K, updatedValues.HS);
-    updatedValues.HS = mapUpdatedHsToGraphValue(updatedValues.HS);
-    updatedValues.PD = getUpdatedPdValue(updatedValues.K, updatedValues.PD);
-    updatedValues.PD = mapUpdatedPdToGraphValue(updatedValues.PD);
-    updatedValues.PT = getUpdatedPtValue(updatedValues.K, updatedValues.PT);
-    updatedValues.PT = mapUpdatedPtToGraphValue(updatedValues.PT);
-    updatedValues.SC = getUpdatedScValue(updatedValues.K, updatedValues.SC);
-    updatedValues.SC = mapUpdatedScToGraphValue(updatedValues.SC);
-    updatedValues.MA = getUpdatedMaValue(updatedValues.K, updatedValues.MA);
-    updatedValues.MA = mapUpdatedMaToGraphValue(updatedValues.MA);
-  
-    updatedValues.K = mapUpdatedKToGraphValue(updatedValues.K);
-  
-    // Güncel değerleri grafikte göstermek için chartData state'ini güncelle
-    const dataValues = Object.keys(updatedValues).map((key) => updatedValues[key]);
-    setChartData({ labels: Object.keys(updatedValues), dataValues: dataValues });
-    setShowScores(updatedValues);
+  const calculateScores = (responses) => {
+    // Yanıt dizisi uzunluğunu kontrol et
+    if (responses.length !== 566) {
+      console.error("Responses array length mismatch.");
+      return;
+    }
+
+    const newScores = {}; // Yeni puanları saklamak için bir nesne
+
+    // Her soru için puanları hesapla
+    for (const [key, value] of Object.entries(mQNumbers)) {
+      newScores[key] = value.questions.reduce((total, qObj) => {
+        const response = responses[qObj.question - 1]; // Sıfırdan başlayarak erişim
+
+        // Sorunun koşuluna göre yanıtı kontrol et
+        if (qObj.condition === "0" && response === "0") {
+          return total + 1;
+        }
+        if (qObj.condition === "Y" && response === "Y") {
+          return total + 1;
+        }
+        if (qObj.condition === "D" && response === "D") {
+          return total + 1;
+        }
+        return total; // Hiçbir koşul sağlanmazsa toplamı değiştirme
+      }, 0);
+    }
+
+    // Boş yanıtların sayısını hesapla ve kaydet
+    newScores["?"] = mapUpdatedQuestionToGraphValue(
+      responses.filter((response) => response === null).length
+    );
+
+    // Diğer puanları haritalama
+    newScores["L"] = mapUpdatedLToGraphValue(newScores.L);
+    newScores["F"] = mapUpdatedFToGraphValue(newScores.F);
+    newScores["D"] = mapUpdatedDToGraphValue(newScores.D);
+    newScores["HY"] = mapUpdatedHyToGraphValue(newScores.HY);
+    newScores["MF"] = mapUpdatedMfToGraphValue(newScores.MF);
+    newScores["PA"] = mapUpdatedPaToGraphValue(newScores.PA);
+    newScores["SI"] = mapUpdatedSiToGraphValue(newScores.SI);
+
+    // HS, PD, PT, SC, MA ve K için güncellemeleri hesapla
+    const updatedHsValue = getUpdatedHsValue(newScores["K"], newScores["HS"]);
+    newScores["HS"] = mapUpdatedHsToGraphValue(updatedHsValue);
+    const updatedPdValue = getUpdatedPdValue(newScores["K"], newScores["PD"]);
+    newScores["PD"] = mapUpdatedPdToGraphValue(updatedPdValue);
+    const updatedPtValue = getUpdatedPtValue(newScores["K"], newScores["PT"]);
+    newScores["PT"] = mapUpdatedPtToGraphValue(updatedPtValue);
+    const updatedScValue = getUpdatedScValue(newScores["K"], newScores["SC"]);
+    newScores["SC"] = mapUpdatedScToGraphValue(updatedScValue);
+    const updatedMaValue = getUpdatedMaValue(newScores["K"], newScores["MA"]);
+    newScores["MA"] = mapUpdatedMaToGraphValue(updatedMaValue);
+    newScores["K"] = mapUpdatedKToGraphValue(newScores.K);
+
+    // Sonuçları ayarla
+    setScores(newScores);
   };
 
   const handleNameChange = (event) => {
@@ -354,38 +354,117 @@ const WomanGraph = () => {
         console.error("Error generating PDF:", err);
       });
   };
-  
 
+  const LineChart = () => {
+    const chartRef = useRef(null);
+
+    const labels = [
+      "?",
+      "L",
+      "F",
+      "K",
+      "HS",
+      "D",
+      "HY",
+      "PD",
+      "MF",
+      "PA",
+      "PT",
+      "SC",
+      "MA",
+      "SI",
+    ];
+
+    const dataValues = labels.map((label) => scores[label]);
+
+    const data = {
+      labels: labels,
+      datasets: [
+        {
+          label: "MMPI Hesaplanmış Puanlar Grafiği (Erkek)",
+          data: dataValues,
+          borderColor: "black",
+          backgroundColor: "lightgrey",
+          borderWidth: 1,
+          fill: false,
+        },
+      ],
+    };
+
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 120,
+          ticks: {
+            stepSize: 10,
+          },
+        },
+      },
+    };
+
+    return (
+      <div className="chart-container">
+        <div
+          className="yellow-background"
+          style={{ backgroundColor: "rgba(255, 255, 0, 0.8)" }}
+        ></div>
+        <Line ref={chartRef} data={data} options={options} height={400} />
+      </div>
+    );
+  };
   return (
-    <div className="flex flex-col items-center justify-center p-4 bg-white">
-      <div className="p-4 bg-gradient-to-r from-blue-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[300px]">
-        
-        <div className="bg-gray-200 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit">
-          <strong className="text-xs">Uyarı:</strong> Bu sayfa test aşamasındadır.
+    <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
+      {/* Test Cevapları Kutusu (En Üste Alındı) */}
+      <div className="p-4 bg-gradient-to-r from-purple-200 to-yellow-200 rounded-md overflow-y-scroll h-[450px] md:h-[500px] w-full max-w-3xl text-center text-gray-900 shadow-md mb-8">
+        <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
+          <strong className="text-xs">Uyarı:</strong> Bu sayfa test
+          aşamasındadır.
         </div>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">MMPI Ham Puan Tablosu</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          Test Cevapları
+        </h2>
+        <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+          <h6 className="text-xs">DOĞRU (D) cevaplar için 1'e,</h6>
+          <h6 className="text-xs">YANLIŞ (Y) cevaplar için 2'ye,</h6>
+          <h6 className="text-xs">BOŞ cevaplar için 0'a basınız.</h6>
+        </div>
+        <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+          <h6 className="text-xs">Boş soru sayısı (?) test aşamasındadır.</h6>
+        </div>
+
+        {/* Soru Kutuları */}
         <div className="flex flex-col items-center gap-2 mt-4">
-          {Object.keys(values).map((key) => (
+          {responses.map((response, index) => (
             <div
-              key={key}
-              className="flex justify-center items-center p-2 bg-white border border-gray-300 rounded-md w-5/6 md:w-3/4 overflow-hidden"
+              key={index}
+              className="flex justify-center items-center p-2 bg-white border border-gray-300 rounded-md w-4/5 md:w-2/3"
             >
-              <label className="mr-2 font-medium text-gray-800 text-sm">
-                {key} Ham Puanı:
+              <label className="mr-2 font-medium text-gray-800 text-base">
+                Soru {index + 1}
               </label>
               <input
-                type="number"
-                name={key}
-                value={values[key]}
-                onChange={handleInputChange}
-                className="w-12 border rounded-md p-1 text-gray-700 bg-gray-100 focus:outline-none"
-                style={{ WebkitAppearance: "none", MozAppearance: "textfield" }}
+                type="text"
+                data-index={index}
+                value={response || ""}
+                onFocus={() => handleInputFocus(index)}
+                onKeyDown={handleKeyDown}
+                className="w-8 text-center text-gray-700 bg-gray-100 border rounded-md focus:outline-none"
+                maxLength={1}
               />
             </div>
           ))}
         </div>
-                {/* Ad Soyad Giriş Kutusu */}
-                <div className="bg-white border border-gray-300 rounded-md p-2 mt-5 flex flex-col items-center w-4/5 md:w-2/3 mx-auto">
+
+        {/* Ad Soyad Giriş Kutusu */}
+        <div className="bg-white border border-gray-300 rounded-md p-2 mt-5 flex flex-col items-center w-4/5 md:w-2/3 mx-auto">
           <span className="text-gray-800 font-medium text-base">Ad Soyad</span>
           <input
             type="text"
@@ -394,10 +473,12 @@ const WomanGraph = () => {
             className="w-full max-w-xs border rounded-md p-1 mt-2 text-gray-700 bg-gray-100 focus:outline-none"
           />
         </div>
+
+        {/* Butonlar */}
         <div className="flex flex-col items-center gap-4 mt-5">
           <button
             onClick={() => {
-              handleCalculate();
+              calculateScores(responses);
               setShowName(true);
             }}
             className="w-3/4 md:w-2/3 py-1.5 bg-purple-600 text-white rounded-md shadow-md hover:bg-purple-700 transition duration-300"
@@ -413,6 +494,7 @@ const WomanGraph = () => {
         </div>
       </div>
 
+      {/* Grafik ve K Eklenmiş Puanlar (Alt Kısma Taşındı) */}
       <div className="w-full max-w-5xl flex flex-col items-center gap-6 mb-16">
         {/* Grafik Box */}
         <div
@@ -421,32 +503,35 @@ const WomanGraph = () => {
           style={{ backgroundColor: "rgba(240, 240, 240, 0.3)" }}
         >
           <h5 className="text-lg font-semibold text-gray-800 mb-3">
-          Ad Soyad: {name}
+            Ad Soyad: {name}
           </h5>
-          {/* Sarı Arka Plan Kutusu ve Grafik Div'i */}
+
+          {/* Sarı Arkaplan Kutusu ve Grafik Div'i */}
           <div className="relative w-full h-[400px] md:h-[450px]">
             <div
               className="absolute"
               style={{
                 backgroundColor: "rgba(255, 215, 0, 0.4)",
                 zIndex: 0,
-                top: "43%", 
-                height: "29%", 
+                marginTop: "172px",
                 width: "100%",
+                height: "115px",
               }}
             ></div>
             {/* LineChart Bileşeni */}
             <div className="relative w-full h-full">
-              <LineChart chartData={chartData} />
+              <LineChart />
             </div>
           </div>
 
           {/* K Eklenmiş Puanlar Tablosu */}
           {showName && (
             <div className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center">
-              <h5 className="text-lg font-semibold text-gray-800 mb-3">K Eklenmiş Puanlar</h5>
+              <h5 className="text-lg font-semibold text-gray-800 mb-3">
+                K Eklenmiş Puanlar
+              </h5>
               <div className="flex flex-wrap justify-center gap-4">
-                {Object.entries(showScores).map(([key, value]) => (
+                {Object.entries(scores).map(([key, value]) => (
                   <div
                     key={key}
                     className="flex items-center justify-center space-x-1 p-2 bg-white border border-gray-300 rounded-md shadow-sm"
@@ -466,4 +551,4 @@ const WomanGraph = () => {
   );
 };
 
-export default WomanGraph;
+export default ManGraph2;
