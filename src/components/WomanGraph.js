@@ -441,19 +441,20 @@ const WomanGraph = () => {
 
 
       <div className="p-4 bg-gradient-to-r from-pink-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]">
-        <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
-        <p className="text-sm"><strong>Uyarı:</strong> Bu sayfa test aşamasındadır.</p>
-        </div>
+        
   
         
   
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4 p-4">
           MMPI Ham Puan Tablosu (Kadın)
         </h2>
         <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
           <h6 className="text-xs">
             Kadın için K değerleri eklenmemiş ham puanları giriniz.
           </h6>
+        </div>
+        <div className="bg-gray-200 bg-opacity-40 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+          <h6 className="text-xs">? Parametresi için ara değerler yaklaşık olarak hesaplanmaktadır.</h6>
         </div>
         <div className="flex flex-col items-center gap-2 mt-4">
           {Object.keys(values).map((key) => (

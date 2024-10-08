@@ -1,5 +1,24 @@
 export const mQuestionValues = {    
-    30: 50, 40: 53, 50: 56, 60: 58, 70: 61, 80: 64, 90: 66, 10: 69, 110: 72, 120: 76, 130: 80, 566: 120
+    0:0, 30: 50, 40: 53, 50: 56.1, 60: 58, 70: 61, 80: 63.8, 90: 66, 100: 68.7,
+    110: 72, 120: 76, 130: 80, 566: 120
+};
+
+// Mevcut anahtarları sırala
+const keys = Object.keys(mQuestionValues).map(Number).sort((a, b) => a - b);
+
+// Mevcut anahtarlar arasında eksik olanları hesaplayıp güncelle
+for (let i = 0; i < keys.length - 1; i++) {
+    let startX = keys[i];
+    let endX = keys[i + 1];
+    let startY = mQuestionValues[startX];
+    let endY = mQuestionValues[endX];
+
+    // İki mevcut nokta arasındaki her bir x değeri için y hesapla
+    for (let x = startX + 1; x < endX; x++) {
+        // Virgülden sonra 2 basamağa yuvarla
+        const y = Number((startY + ((x - startX) / (endX - startX)) * (endY - startY)).toFixed(2));
+        mQuestionValues[x] = y;  // Orijinal objeyi güncelle
+    }
 }
 
 export const mLValues = {

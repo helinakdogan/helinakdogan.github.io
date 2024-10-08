@@ -490,7 +490,7 @@ const ManGraph2 = () => {
       {/* Test Cevapları Kutusu (En Üste Alındı) */}
       <div className="p-4 bg-gradient-to-r from-purple-200 to-yellow-200 rounded-md overflow-y-scroll h-[450px] md:h-[500px] w-full max-w-3xl text-center text-gray-900 shadow-md mb-8">
         <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
-        <p className="text-sm"><strong>Uyarı:</strong> Bu sayfa test aşamasındadır.</p>
+        <p className="text-sm"><strong>Uyarı:</strong> Bu sayfa test aşamasındadır. Test sonuçlarında dilden dolayı karakter hatası almanız durumunda sayfayı yenileyip tekrar deneyiniz.</p>
         </div>
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           MMPI Test Cevapları (Erkek)
@@ -498,10 +498,10 @@ const ManGraph2 = () => {
         <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
         <h6 className="text-xs">DOĞRU (D) cevaplar için D veya 1,</h6>
           <h6 className="text-xs">YANLIŞ (Y) cevaplar için Y veya 2,</h6>
-          <h6 className="text-xs">BOŞ cevaplar için soruyu atlayın veya 0 giriniz.</h6>
+          <h6 className="text-xs">BOŞ cevaplar için soruyu atlayınız veya 0 giriniz.</h6>
         </div>
-        <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <h6 className="text-xs">Boş soru sayısı (?) test aşamasındadır.</h6>
+        <div className="bg-gray-200 bg-opacity-40 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+          <h6 className="text-xs">? Parametresi için ara değerler yaklaşık olarak hesaplanmaktadır.</h6>
         </div>
 
         {/* Soru Kutuları */}
