@@ -421,15 +421,21 @@ const ManGraph = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
-      {/* Bilgilendirme Kutusu */}
-      <div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl shadow-md">
-        <h6 className="font-semibold">Kullanıcı Rehberi</h6>
-        <p className="text-xs mt-1">
-          MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve
-          psikolojik durumları değerlendirmek amacıyla kullanılan bir psikolojik
-          testtir. Bu site aracılığıyla, MMPI testi yanıtlarına dayanarak
-          hesaplamalar gerçekleştirebilir, grafikler oluşturabilir ve sonuçları
-          PDF formatında indirebilirsiniz.
+     {/* Bilgilendirme Kutusu */}
+     <div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl shadow-md">
+        <h6 className="font-semibold text-lg text-center p-1">
+          Kullanıcı Rehberi
+        </h6>
+        <p className="text-xs mt-1 leading-relaxed">
+          <strong>MMPI Puan Hesaplama</strong> ve{" "}
+          <strong>Psikolojik Test Analizi</strong> için geliştirilmiş bu
+          platform, kişilik özelliklerini ve psikolojik durumları değerlendirmek
+          amacıyla kullanılan{" "}
+          <strong>MMPI (Minnesota Çok Yönlü Kişilik Envanteri)</strong> testinin
+          sonuçlarını analiz edebilmenizi sağlamak için geliştirilmiştir. Bu
+          site aracılığıyla, MMPI testi yanıtlarına dayanarak hesaplamalar
+          gerçekleştirebilir, grafikler oluşturabilir ve sonuçları PDF
+          formatında indirebilirsiniz.
         </p>
 
         {/* Türkiye Standartları Bilgilendirme Kutusu */}
@@ -447,7 +453,7 @@ const ManGraph = () => {
             <p className="text-xs">
               <strong>Bilgilendirme:</strong> Tüm hesaplamalar, Türkiye
               standartlarına uygun şekilde, yaygın olarak kabul gören MMPI
-              değerlendirme rehberi baz alınarak gerçekleştirilmektedir.
+              Değerlendirme Rehberi baz alınarak gerçekleştirilmektedir.
             </p>
           </div>
         </div>
@@ -467,14 +473,16 @@ const ManGraph = () => {
             <p className="text-xs">
               <strong>Gizlilik İlkesi:</strong> Etik değerler çerçevesinde,
               kişisel hasta bilgileri kaydedilmemekte veya saklanmamaktadır.
+              Kullanıcıların kişisel verileri korunmakta ve anonim olarak
+              işlenmektedir.
             </p>
           </div>
         </div>
 
         {/* Kullanım Rehberi */}
-        <div className="mt-4 p-2 border rounded-md border-purple-300 bg-purple-50">
-          <h6 className="font-semibold">Nasıl Kullanılır?</h6>
-          <p className="text-xs mt-1">
+        <div className="mt-2 p-2 border rounded-md border-purple-300 bg-purple-50">
+          <h6 className="font-semibold text-sm mb-1">Nasıl Kullanılır?</h6>
+          <p className="text-xs mt-1 leading-relaxed">
             Ham puan tablosu üzerinden hesaplama yapmak için menüden{" "}
             <strong>"Kadın"</strong> veya <strong>"Erkek"</strong>{" "}
             seçeneklerini; doğru-yanlış sayıları üzerinden hesaplama yapmak
@@ -484,79 +492,83 @@ const ManGraph = () => {
         </div>
       </div>
 
-      <div className="p-4 bg-gradient-to-r from-blue-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4 p-4">
-          MMPI Ham Puan Tablosu (Erkek)
-        </h2>
-        <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <h6 className="text-xs">
-            Erkek için K değerleri eklenmemiş ham puanları giriniz.
-          </h6>
-        </div>
-        <div className="bg-gray-200 bg-opacity-40 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <h6 className="text-xs">
-            ? Parametresi için ara değerler yaklaşık olarak hesaplanmaktadır.
-          </h6>
-        </div>
-        <div className="flex flex-col items-center gap-2 mt-4">
-          {Object.keys(values).map((key) => (
-            <div
-              key={key}
-              className="flex justify-center items-center p-2 bg-white  border border-gray-300 rounded-md w-5/6 md:w-3/4 overflow-hidden"
-            >
-              <label className="mr-2 font-medium text-gray-800 text-m">
-                {key} Ham Puanı
-              </label>
-              <input
-                type="number"
-                name={key}
-                value={values[key]}
-                onChange={handleInputChange}
-                className="w-12 border rounded-md p-1 text-gray-700 bg-gray-100 focus:outline-none"
-                style={{ WebkitAppearance: "none", MozAppearance: "textfield" }}
-              />
-            </div>
-          ))}
-        </div>
-        {/* Ad Soyad Giriş Kutusu */}
-        <div className="bg-white border border-gray-300 rounded-md p-2 mt-5 flex flex-col items-center w-4/5 md:w-2/3 mx-auto">
-          <span className="text-gray-800 font-medium text-base">Ad Soyad</span>
-          <input
-            type="text"
-            value={name}
-            onChange={handleNameChange}
-            className="w-full max-w-xs border rounded-md p-1 mt-2 text-gray-700 bg-gray-100 focus:outline-none"
-          />
-        </div>
-        <div className="flex flex-col items-center gap-4 mt-5">
-          {/* Hesapla Butonu */}
-          <button
-            onClick={() => {
-              handleCalculate();
-              setShowName(true);
-            }}
-            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90 "
-          >
-            Hesapla
-          </button>
-
-          {/* Değerleri Sıfırla Butonu */}
-          <button
-            onClick={handleReset}
-            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90"
-          >
-            Değerleri Sıfırla
-          </button>
-
-          {/* PDF İndir Butonu */}
-          <button
-            onClick={handleDownloadPDF}
-            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-rose-400 to-pink-600 text-white rounded-md transition duration-200 hover:opacity-90"
-          >
-            Grafiği PDF Olarak İndir
-          </button>
-        </div>
+      <div className="p-4 bg-gradient-to-r from-blue-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]"> 
+  <h2 className="text-xl font-semibold text-gray-800 mb-4 p-4">
+    MMPI Ham Puan Tablosu (Erkek)
+  </h2>
+  <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+    <h6 className="text-xs">
+      Erkek için K değerleri eklenmemiş ham puanları giriniz.
+    </h6>
+  </div>
+  <div className="bg-gray-200 bg-opacity-40 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+    <h6 className="text-xs">
+      ? Parametresi için ara değerler yaklaşık olarak hesaplanmaktadır.
+    </h6>
+  </div>
+  {/* Ham Puan Giriş Kutuları */}
+  <div className="flex flex-col items-center gap-4 mt-4">
+    {Object.keys(values).map((key) => (
+      <div
+        key={key}
+        className="flex justify-center items-center p-2 bg-white border border-gray-300 rounded-md w-5/6 md:w-3/4"
+      >
+        <label className="w-1/3 text-center font-medium text-gray-800 text-m">
+          {key} Ham Puanı
+        </label>
+        <input
+          type="number"
+          name={key}
+          value={values[key]}
+          onChange={handleInputChange}
+          className="w-16 text-center border rounded-md p-1 text-gray-700 bg-gray-100 focus:outline-none"
+          style={{ WebkitAppearance: "none", MozAppearance: "textfield" }}
+        />
       </div>
+    ))}
+  </div>
+
+  {/* Ad Soyad Giriş Kutusu */}
+  <div className="bg-white border border-gray-300 rounded-md p-2 mt-5 flex flex-col items-center w-4/5 md:w-2/3 mx-auto">
+    <span className="text-gray-800 font-medium text-base">Ad Soyad</span>
+    <input
+      type="text"
+      value={name}
+      onChange={handleNameChange}
+      className="w-full max-w-xs border rounded-md p-1 mt-2 text-gray-700 bg-gray-100 focus:outline-none"
+    />
+  </div>
+
+  <div className="flex flex-col items-center gap-4 mt-5">
+    {/* Hesapla Butonu */}
+    <button
+      onClick={() => {
+        handleCalculate();
+        setShowName(true);
+      }}
+      className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90 "
+    >
+      Hesapla
+    </button>
+
+    {/* Değerleri Sıfırla Butonu */}
+    <button
+      onClick={handleReset}
+      className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90"
+    >
+      Değerleri Sıfırla
+    </button>
+
+    {/* PDF İndir Butonu */}
+    <button
+      onClick={handleDownloadPDF}
+      className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-rose-400 to-pink-600 text-white rounded-md transition duration-200 hover:opacity-90"
+    >
+      Grafiği PDF Olarak İndir
+    </button>
+  </div>
+</div>
+
 
       <div className="w-full max-w-5xl flex flex-col items-center gap-6 mb-16">
         {/* Grafik Box */}
@@ -565,7 +577,7 @@ const ManGraph = () => {
           className="p-4 w-full mx-auto rounded-md shadow-md"
           style={{ backgroundColor: "rgba(240, 240, 240, 0.3)" }}
         >
-          <h5 className="text-lg font-semibold text-gray-800 mb-3">
+          <h5 className="text-md font-semibold text-gray-800 mb-3">
             Ad Soyad: {name}
           </h5>
 

@@ -476,13 +476,19 @@ const WomanGraph2 = () => {
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
       {/* Bilgilendirme Kutusu */}
       <div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl shadow-md">
-        <h6 className="font-semibold">Kullanıcı Rehberi</h6>
-        <p className="text-xs mt-1">
-          MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve
-          psikolojik durumları değerlendirmek amacıyla kullanılan bir psikolojik
-          testtir. Bu site aracılığıyla, MMPI testi yanıtlarına dayanarak
-          hesaplamalar gerçekleştirebilir, grafikler oluşturabilir ve sonuçları
-          PDF formatında indirebilirsiniz.
+        <h6 className="font-semibold text-lg text-center p-1">
+          Kullanıcı Rehberi
+        </h6>
+        <p className="text-xs mt-1 leading-relaxed">
+          <strong>MMPI Puan Hesaplama</strong> ve{" "}
+          <strong>Psikolojik Test Analizi</strong> için geliştirilmiş bu
+          platform, kişilik özelliklerini ve psikolojik durumları değerlendirmek
+          amacıyla kullanılan{" "}
+          <strong>MMPI (Minnesota Çok Yönlü Kişilik Envanteri)</strong> testinin
+          sonuçlarını analiz edebilmenizi sağlamak için geliştirilmiştir. Bu
+          site aracılığıyla, MMPI testi yanıtlarına dayanarak hesaplamalar
+          gerçekleştirebilir, grafikler oluşturabilir ve sonuçları PDF
+          formatında indirebilirsiniz.
         </p>
 
         {/* Türkiye Standartları Bilgilendirme Kutusu */}
@@ -500,7 +506,7 @@ const WomanGraph2 = () => {
             <p className="text-xs">
               <strong>Bilgilendirme:</strong> Tüm hesaplamalar, Türkiye
               standartlarına uygun şekilde, yaygın olarak kabul gören MMPI
-              değerlendirme rehberi baz alınarak gerçekleştirilmektedir.
+              Değerlendirme Rehberi baz alınarak gerçekleştirilmektedir.
             </p>
           </div>
         </div>
@@ -520,14 +526,16 @@ const WomanGraph2 = () => {
             <p className="text-xs">
               <strong>Gizlilik İlkesi:</strong> Etik değerler çerçevesinde,
               kişisel hasta bilgileri kaydedilmemekte veya saklanmamaktadır.
+              Kullanıcıların kişisel verileri korunmakta ve anonim olarak
+              işlenmektedir.
             </p>
           </div>
         </div>
 
         {/* Kullanım Rehberi */}
-        <div className="mt-4 p-2 border rounded-md border-purple-300 bg-purple-50">
-          <h6 className="font-semibold">Nasıl Kullanılır?</h6>
-          <p className="text-xs mt-1">
+        <div className="mt-2 p-2 border rounded-md border-purple-300 bg-purple-50">
+          <h6 className="font-semibold text-sm mb-1">Nasıl Kullanılır?</h6>
+          <p className="text-xs mt-1 leading-relaxed">
             Ham puan tablosu üzerinden hesaplama yapmak için menüden{" "}
             <strong>"Kadın"</strong> veya <strong>"Erkek"</strong>{" "}
             seçeneklerini; doğru-yanlış sayıları üzerinden hesaplama yapmak
@@ -537,96 +545,98 @@ const WomanGraph2 = () => {
         </div>
       </div>
 
-      {/* Test Cevapları Kutusu (En Üste Alındı) */}
-      <div className="p-4 bg-gradient-to-r from-red-200 to-yellow-200 rounded-md overflow-y-scroll h-[450px] md:h-[500px] w-full max-w-3xl text-center text-gray-900 shadow-md mb-8">
-        <div className="bg-purple-300 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <p className="text-sm">
-            <strong>Uyarı:</strong> Bu sayfa test aşamasındadır. Test
-            sonuçlarında dil kaynaklı karakter hatası ile karşılaşmanız
-            durumunda, lütfen sayfayı yenileyerek tekrar deneyiniz.
-          </p>
-        </div>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          MMPI Test Cevapları (Kadın)
-        </h2>
-        <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <h6 className="text-xs">DOĞRU (D) cevaplar için D veya 1,</h6>
-          <h6 className="text-xs">YANLIŞ (Y) cevaplar için Y veya 2,</h6>
-          <h6 className="text-xs">
-            BOŞ cevaplar için soruyu atlayınız veya 0 giriniz.
-          </h6>
-        </div>
-        <div className="bg-gray-200 bg-opacity-40 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <h6 className="text-xs">
-            ? Parametresi için ara değerler yaklaşık olarak hesaplanmaktadır.
-          </h6>
-        </div>
+      {/* Test Cevapları Kutusu */}
+<div className="p-4 bg-gradient-to-r from-red-200 to-yellow-200 rounded-md overflow-y-scroll h-[450px] md:h-[500px] w-full max-w-3xl text-center text-gray-900 shadow-md mb-8">
+  <div className="bg-purple-300 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+    <p className="text-sm">
+      <strong>Uyarı:</strong> Test
+      sonuçlarında dil kaynaklı karakter hatası ile karşılaşmanız
+      durumunda, lütfen sayfayı yenileyerek tekrar deneyiniz.
+    </p>
+  </div>
+  <h2 className="text-xl font-semibold text-gray-800 mb-4">
+    MMPI Test Cevapları (Erkek)
+  </h2>
+  <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+    <h6 className="text-xs">DOĞRU (D) cevaplar için D veya 1,</h6>
+    <h6 className="text-xs">YANLIŞ (Y) cevaplar için Y veya 2,</h6>
+    <h6 className="text-xs">
+      BOŞ cevaplar için soruyu atlayınız veya 0 giriniz.
+    </h6>
+  </div>
+  <div className="bg-gray-200 bg-opacity-40 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+    <h6 className="text-xs">
+      ? Parametresi için ara değerler yaklaşık olarak hesaplanmaktadır.
+    </h6>
+  </div>
 
-        {/* Soru Kutuları */}
-        <div className="flex flex-col items-center gap-2 mt-4">
-          {responses.map((response, index) => (
-            <div
-              key={index}
-              className="flex justify-center items-center p-2 bg-white border border-gray-300 rounded-md w-4/5 md:w-2/3"
-            >
-              <label className="mr-2 font-medium text-gray-800 text-base">
-                Soru {index + 1}
-              </label>
-              <input
-                type="text"
-                data-index={index}
-                value={response || ""}
-                onFocus={() => handleInputFocus(index)}
-                onKeyDown={handleKeyDown}
-                onChange={handleInputChange}
-                className="w-8 text-center text-gray-700 bg-gray-100 border rounded-md focus:outline-none"
-                maxLength={1}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Ad Soyad Giriş Kutusu */}
-        <div className="bg-white border border-gray-300 rounded-md p-2 mt-5 flex flex-col items-center w-4/5 md:w-2/3 mx-auto">
-          <span className="text-gray-800 font-medium text-base">Ad Soyad</span>
-          <input
-            type="text"
-            value={name}
-            onChange={handleNameChange}
-            className="w-full max-w-xs border rounded-md p-1 mt-2 text-gray-700 bg-gray-100 focus:outline-none"
-          />
-        </div>
-
-        {/* Butonlar */}
-        <div className="flex flex-col items-center gap-4 mt-5">
-          {/* Hesapla Butonu */}
-          <button
-            onClick={() => {
-              calculateScores(responses);
-              setShowName(true);
-            }}
-            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90 "
-          >
-            Hesapla
-          </button>
-
-          {/* Değerleri Sıfırla Butonu */}
-          <button
-            onClick={handleReset}
-            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90"
-          >
-            Değerleri Sıfırla
-          </button>
-
-          {/* PDF İndir Butonu */}
-          <button
-            onClick={handleDownloadPDF}
-            className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-rose-400 to-pink-600 text-white rounded-md transition duration-200 hover:opacity-90"
-          >
-            Grafiği PDF Olarak İndir
-          </button>
-        </div>
+  {/* Soru Kutuları */}
+  <div className="flex flex-col items-center gap-2 mt-4">
+    {responses.map((response, index) => (
+      <div
+        key={index}
+        className="flex justify-center items-center p-2 bg-white border border-gray-300 rounded-md w-4/5 md:w-2/3"
+      >
+        {/* Soru Label ve Input Ortalanmış */}
+        <label className="mr-4 font-medium text-gray-800 text-base">
+          Soru {index + 1}
+        </label>
+        <input
+          type="text"
+          data-index={index}
+          value={response || ""}
+          onFocus={() => handleInputFocus(index)}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          className="w-12 text-center text-gray-700 bg-gray-100 border rounded-md focus:outline-none"
+          maxLength={1}
+        />
       </div>
+    ))}
+  </div>
+
+  {/* Ad Soyad Giriş Kutusu */}
+  <div className="bg-white border border-gray-300 rounded-md p-2 mt-5 flex flex-col items-center w-4/5 md:w-2/3 mx-auto">
+    <span className="text-gray-800 font-medium text-base">Ad Soyad</span>
+    <input
+      type="text"
+      value={name}
+      onChange={handleNameChange}
+      className="w-full max-w-xs border rounded-md p-1 mt-2 text-gray-700 bg-gray-100 focus:outline-none"
+    />
+  </div>
+
+  {/* Butonlar */}
+  <div className="flex flex-col items-center gap-4 mt-5">
+    {/* Hesapla Butonu */}
+    <button
+      onClick={() => {
+        calculateScores(responses);
+        setShowName(true);
+      }}
+      className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90 "
+    >
+      Hesapla
+    </button>
+
+    {/* Değerleri Sıfırla Butonu */}
+    <button
+      onClick={handleReset}
+      className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md transition duration-200 hover:opacity-90"
+    >
+      Değerleri Sıfırla
+    </button>
+
+    {/* PDF İndir Butonu */}
+    <button
+      onClick={handleDownloadPDF}
+      className="w-3/4 md:w-2/3 py-2 bg-gradient-to-r from-rose-400 to-pink-600 text-white rounded-md transition duration-200 hover:opacity-90"
+    >
+      Grafiği PDF Olarak İndir
+    </button>
+  </div>
+</div>
+
 
       {/* Grafik ve K Eklenmiş Puanlar (Alt Kısma Taşındı) */}
       <div className="w-full max-w-5xl flex flex-col items-center gap-6 mb-16">
@@ -636,7 +646,7 @@ const WomanGraph2 = () => {
           className="p-4 w-full mx-auto rounded-md shadow-md"
           style={{ backgroundColor: "rgba(240, 240, 240, 0.3)" }}
         >
-          <h5 className="text-lg font-semibold text-gray-800 mb-3">
+          <h5 className="text-md font-semibold text-gray-800 mb-3">
             Ad Soyad: {name}
           </h5>
 
