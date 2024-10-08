@@ -421,30 +421,70 @@ const WomanGraph = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
-
       {/* Bilgilendirme Kutusu */}
-<div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl shadow-md">
-<h6 className="font-semibold">Kullanıcı Rehberi</h6>
-  <p className="text-xs mt-1">
-    MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve psikolojik durumları değerlendirmek amacıyla kullanılan bir psikolojik testtir. Bu site aracılığıyla, MMPI testi yanıtlarına dayanarak hesaplamalar gerçekleştirebilir, grafikler oluşturabilir ve sonuçları PDF formatında indirebilirsiniz.
-  </p>
-  <p className="text-xs mt-2">
-    Tüm hesaplamalar, Türkiye standartlarına uygun olarak gerçekleştirilmektedir.
-  </p>
-  <div className="mt-4 p-2 border rounded-md border-purple-300 bg-purple-50">
-  <h6 className="font-semibold">Nasıl Kullanılır?</h6>
-    <p className="text-xs mt-1">
-      Ham puan tablosu üzerinden hesaplama yapmak için menüden <strong>"Kadın"</strong> veya <strong>"Erkek"</strong> seçeneklerini; doğru-yanlış sayıları üzerinden hesaplama yapmak içinse menüden <strong>"Kadın+"</strong> veya <strong>"Erkek+"</strong> seçeneklerini tercih ediniz.
-    </p>
-  </div>
-</div>
+      <div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl shadow-md">
+        <h6 className="font-semibold">Kullanıcı Rehberi</h6>
+        <p className="text-xs mt-1">
+          MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve
+          psikolojik durumları değerlendirmek amacıyla kullanılan bir psikolojik
+          testtir. Bu site aracılığıyla, MMPI testi yanıtlarına dayanarak
+          hesaplamalar gerçekleştirebilir, grafikler oluşturabilir ve sonuçları
+          PDF formatında indirebilirsiniz.
+        </p>
 
+        {/* Türkiye Standartları Bilgilendirme Kutusu */}
+        <div className="flex items-center bg-purple-50 border-l-4 border-purple-300 text-purple-600 p-3 rounded-md mt-2">
+          <div className="flex-shrink-0">
+            <svg
+              className="w-5 h-5 text-purple-500"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z" />
+            </svg>
+          </div>
+          <div className="ml-3 text-left">
+            <p className="text-xs">
+              <strong>Bilgilendirme:</strong> Tüm hesaplamalar, Türkiye
+              standartlarına uygun şekilde, yaygın olarak kabul gören MMPI
+              değerlendirme rehberi baz alınarak gerçekleştirilmektedir.
+            </p>
+          </div>
+        </div>
+
+        {/* Gizlilik Bilgilendirme Kutusu */}
+        <div className="flex items-center bg-purple-50 border-l-4 border-purple-300 text-purple-600 p-3 rounded-md mt-2">
+          <div className="flex-shrink-0">
+            <svg
+              className="w-5 h-5 text-purple-500"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z" />
+            </svg>
+          </div>
+          <div className="ml-3 text-left">
+            <p className="text-xs">
+              <strong>Gizlilik İlkesi:</strong> Etik değerler çerçevesinde,
+              kişisel hasta bilgileri kaydedilmemekte veya saklanmamaktadır.
+            </p>
+          </div>
+        </div>
+
+        {/* Kullanım Rehberi */}
+        <div className="mt-4 p-2 border rounded-md border-purple-300 bg-purple-50">
+          <h6 className="font-semibold">Nasıl Kullanılır?</h6>
+          <p className="text-xs mt-1">
+            Ham puan tablosu üzerinden hesaplama yapmak için menüden{" "}
+            <strong>"Kadın"</strong> veya <strong>"Erkek"</strong>{" "}
+            seçeneklerini; doğru-yanlış sayıları üzerinden hesaplama yapmak
+            içinse menüden <strong>"Kadın+"</strong> veya{" "}
+            <strong>"Erkek+"</strong> seçeneklerini tercih ediniz.
+          </p>
+        </div>
+      </div>
 
       <div className="p-4 bg-gradient-to-r from-pink-200 to-green-200 rounded-md shadow-md w-full max-w-3xl mb-8 overflow-y-auto max-h-[500px]">
-        
-  
-        
-  
         <h2 className="text-xl font-semibold text-gray-800 mb-4 p-4">
           MMPI Ham Puan Tablosu (Kadın)
         </h2>
@@ -454,7 +494,9 @@ const WomanGraph = () => {
           </h6>
         </div>
         <div className="bg-gray-200 bg-opacity-40 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <h6 className="text-xs">? Parametresi için ara değerler yaklaşık olarak hesaplanmaktadır.</h6>
+          <h6 className="text-xs">
+            ? Parametresi için ara değerler yaklaşık olarak hesaplanmaktadır.
+          </h6>
         </div>
         <div className="flex flex-col items-center gap-2 mt-4">
           {Object.keys(values).map((key) => (
@@ -497,7 +539,7 @@ const WomanGraph = () => {
           >
             Hesapla
           </button>
-  
+
           {/* Değerleri Sıfırla Butonu */}
           <button
             onClick={handleReset}
@@ -505,7 +547,7 @@ const WomanGraph = () => {
           >
             Değerleri Sıfırla
           </button>
-  
+
           {/* PDF İndir Butonu */}
           <button
             onClick={handleDownloadPDF}
@@ -515,7 +557,7 @@ const WomanGraph = () => {
           </button>
         </div>
       </div>
-  
+
       <div className="w-full max-w-5xl flex flex-col items-center gap-6 mb-16">
         {/* Grafik Box */}
         <div
@@ -543,7 +585,7 @@ const WomanGraph = () => {
               <LineChart chartData={chartData} />
             </div>
           </div>
-  
+
           {/* K Eklenmiş Puanlar Tablosu */}
           {showName && (
             <div
@@ -572,7 +614,6 @@ const WomanGraph = () => {
       <div className="h-20" />
     </div>
   );
-  
 };
 
 export default WomanGraph;

@@ -82,8 +82,11 @@ const ManGraph2 = () => {
 
   const handleInputChange = (event) => {
     const index = event.target.dataset.index;
-    const value = event.target.value.toUpperCase(); 
-    if (index !== undefined && (value === "D" || value === "Y" || value === "")) {
+    const value = event.target.value.toUpperCase();
+    if (
+      index !== undefined &&
+      (value === "D" || value === "Y" || value === "")
+    ) {
       handleChange(index, value === "" ? null : value);
       focusNextInput(Number(index) + 1);
     }
@@ -275,14 +278,14 @@ const ManGraph2 = () => {
       console.error("Responses array length mismatch.");
       return;
     }
-  
+
     const newScores = {}; // Yeni puanları saklamak için bir nesne
-  
+
     // Her soru için puanları hesapla
     for (const [key, value] of Object.entries(mQNumbers)) {
       newScores[key] = value.questions.reduce((total, qObj) => {
         const response = responses[qObj.question - 1]; // Sıfırdan başlayarak erişim
-  
+
         if (qObj.condition === "0" && response === "0") {
           return total + 1;
         }
@@ -295,12 +298,12 @@ const ManGraph2 = () => {
         return total; // Hiçbir koşul sağlanmazsa toplamı değiştirme
       }, 0);
     }
-  
+
     // Boş yanıtların sayısını hesapla ve kaydet
     newScores["?"] = mapUpdatedQuestionToGraphValue(
       responses.filter((response) => response === null).length
     );
-  
+
     // Diğer puanları haritalama
     newScores["L"] = mapUpdatedLToGraphValue(newScores.L);
     newScores["F"] = mapUpdatedFToGraphValue(newScores.F);
@@ -309,7 +312,7 @@ const ManGraph2 = () => {
     newScores["MF"] = mapUpdatedMfToGraphValue(newScores.MF);
     newScores["PA"] = mapUpdatedPaToGraphValue(newScores.PA);
     newScores["SI"] = mapUpdatedSiToGraphValue(newScores.SI);
-  
+
     // HS, PD, PT, SC, MA ve K için güncellemeleri hesapla
     const updatedHsValue = getUpdatedHsValue(newScores["K"], newScores["HS"]);
     newScores["HS"] = mapUpdatedHsToGraphValue(updatedHsValue);
@@ -322,7 +325,7 @@ const ManGraph2 = () => {
     const updatedMaValue = getUpdatedMaValue(newScores["K"], newScores["MA"]);
     newScores["MA"] = mapUpdatedMaToGraphValue(updatedMaValue);
     newScores["K"] = mapUpdatedKToGraphValue(newScores.K);
-  
+
     // Sonuçları sıralayarak "?" en başta olacak şekilde düzenleme
     const sortedScores = Object.keys(newScores)
       .sort((a, b) => (a === "?" ? -1 : b === "?" ? 1 : 0))
@@ -330,11 +333,10 @@ const ManGraph2 = () => {
         acc[key] = newScores[key];
         return acc;
       }, {});
-  
+
     // Sonuçları ayarla
     setScores(sortedScores);
   };
-  
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -393,7 +395,7 @@ const ManGraph2 = () => {
 
   const LineChart = () => {
     const chartRef = useRef(null);
-  
+
     const labels = [
       "?",
       "L",
@@ -410,9 +412,9 @@ const ManGraph2 = () => {
       "MA",
       "SI",
     ];
-  
+
     const dataValues = labels.map((label) => scores[label]);
-  
+
     const data = {
       labels: labels,
       datasets: [
@@ -426,7 +428,7 @@ const ManGraph2 = () => {
         },
       ],
     };
-  
+
     const options = {
       responsive: true,
       maintainAspectRatio: false,
@@ -455,9 +457,12 @@ const ManGraph2 = () => {
         },
       },
     };
-  
+
     return (
-      <div className="chart-container" style={{ width: "100%", height: "100%" }}>
+      <div
+        className="chart-container"
+        style={{ width: "100%", height: "100%" }}
+      >
         <div
           className="yellow-background"
           style={{ backgroundColor: "rgba(255, 255, 0, 0.8)" }}
@@ -466,42 +471,95 @@ const ManGraph2 = () => {
       </div>
     );
   };
-  
 
   return (
     <div className="flex flex-col items-center justify-center mx-3 my-8 font-sans">
       {/* Bilgilendirme Kutusu */}
-<div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl shadow-md">
-<h6 className="font-semibold">Kullanıcı Rehberi</h6>
-  <p className="text-xs mt-1">
-    MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve psikolojik durumları değerlendirmek amacıyla kullanılan bir psikolojik testtir. Bu site aracılığıyla, MMPI testi yanıtlarına dayanarak hesaplamalar gerçekleştirebilir, grafikler oluşturabilir ve sonuçları PDF formatında indirebilirsiniz.
-  </p>
-  <p className="text-xs mt-2">
-    Tüm hesaplamalar, Türkiye standartlarına uygun olarak gerçekleştirilmektedir.
-  </p>
-  <div className="mt-4 p-2 border rounded-md border-purple-300 bg-purple-50">
-  <h6 className="font-semibold">Nasıl Kullanılır?</h6>
-    <p className="text-xs mt-1">
-      Ham puan tablosu üzerinden hesaplama yapmak için menüden <strong>"Kadın"</strong> veya <strong>"Erkek"</strong> seçeneklerini; doğru-yanlış sayıları üzerinden hesaplama yapmak içinse menüden <strong>"Kadın+"</strong> veya <strong>"Erkek+"</strong> seçeneklerini tercih ediniz.
-    </p>
-  </div>
-</div>
+      <div className="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-4 rounded-md max-w-3xl shadow-md">
+        <h6 className="font-semibold">Kullanıcı Rehberi</h6>
+        <p className="text-xs mt-1">
+          MMPI (Minnesota Çok Yönlü Kişilik Envanteri), kişilik özelliklerini ve
+          psikolojik durumları değerlendirmek amacıyla kullanılan bir psikolojik
+          testtir. Bu site aracılığıyla, MMPI testi yanıtlarına dayanarak
+          hesaplamalar gerçekleştirebilir, grafikler oluşturabilir ve sonuçları
+          PDF formatında indirebilirsiniz.
+        </p>
+        
+        {/* Türkiye Standartları Bilgilendirme Kutusu */}
+        <div className="flex items-center bg-purple-50 border-l-4 border-purple-300 text-purple-600 p-3 rounded-md mt-2">
+          <div className="flex-shrink-0">
+            <svg
+              className="w-5 h-5 text-purple-500"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z" />
+            </svg>
+          </div>
+          <div className="ml-3 text-left">
+            <p className="text-xs">
+              <strong>Bilgilendirme:</strong> Tüm hesaplamalar, Türkiye
+              standartlarına uygun şekilde, yaygın olarak kabul gören MMPI
+              değerlendirme rehberi baz alınarak gerçekleştirilmektedir.
+            </p>
+          </div>
+        </div>
+
+        {/* Gizlilik Bilgilendirme Kutusu */}
+        <div className="flex items-center bg-purple-50 border-l-4 border-purple-300 text-purple-600 p-3 rounded-md mt-2">
+          <div className="flex-shrink-0">
+            <svg
+              className="w-5 h-5 text-purple-500"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z" />
+            </svg>
+          </div>
+          <div className="ml-3 text-left">
+            <p className="text-xs">
+              <strong>Gizlilik İlkesi:</strong> Etik değerler çerçevesinde,
+              kişisel hasta bilgileri kaydedilmemekte veya saklanmamaktadır.
+            </p>
+          </div>
+        </div>
+
+        {/* Kullanım Rehberi */}
+        <div className="mt-4 p-2 border rounded-md border-purple-300 bg-purple-50">
+          <h6 className="font-semibold">Nasıl Kullanılır?</h6>
+          <p className="text-xs mt-1">
+            Ham puan tablosu üzerinden hesaplama yapmak için menüden{" "}
+            <strong>"Kadın"</strong> veya <strong>"Erkek"</strong>{" "}
+            seçeneklerini; doğru-yanlış sayıları üzerinden hesaplama yapmak
+            içinse menüden <strong>"Kadın+"</strong> veya{" "}
+            <strong>"Erkek+"</strong> seçeneklerini tercih ediniz.
+          </p>
+        </div>
+      </div>
 
       {/* Test Cevapları Kutusu (En Üste Alındı) */}
       <div className="p-4 bg-gradient-to-r from-purple-200 to-yellow-200 rounded-md overflow-y-scroll h-[450px] md:h-[500px] w-full max-w-3xl text-center text-gray-900 shadow-md mb-8">
-        <div className="bg-purple-300 bg-opacity-50 rounded-md py-1 my-3 mx-auto w-fit p-2">
-        <p className="text-sm"><strong>Uyarı:</strong> Bu sayfa test aşamasındadır. Test sonuçlarında dilden dolayı karakter hatası almanız durumunda sayfayı yenileyip tekrar deneyiniz.</p>
+        <div className="bg-purple-300 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
+          <p className="text-sm">
+            <strong>Uyarı:</strong> Bu sayfa test aşamasındadır. Test
+            sonuçlarında dil kaynaklı karakter hatası ile karşılaşmanız
+            durumunda, lütfen sayfayı yenileyerek tekrar deneyiniz.
+          </p>
         </div>
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           MMPI Test Cevapları (Erkek)
         </h2>
         <div className="bg-gray-200 bg-opacity-50 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-        <h6 className="text-xs">DOĞRU (D) cevaplar için D veya 1,</h6>
+          <h6 className="text-xs">DOĞRU (D) cevaplar için D veya 1,</h6>
           <h6 className="text-xs">YANLIŞ (Y) cevaplar için Y veya 2,</h6>
-          <h6 className="text-xs">BOŞ cevaplar için soruyu atlayınız veya 0 giriniz.</h6>
+          <h6 className="text-xs">
+            BOŞ cevaplar için soruyu atlayınız veya 0 giriniz.
+          </h6>
         </div>
         <div className="bg-gray-200 bg-opacity-40 rounded-md p-2 text-gray-700 w-4/5 mx-auto mb-4">
-          <h6 className="text-xs">? Parametresi için ara değerler yaklaşık olarak hesaplanmaktadır.</h6>
+          <h6 className="text-xs">
+            ? Parametresi için ara değerler yaklaşık olarak hesaplanmaktadır.
+          </h6>
         </div>
 
         {/* Soru Kutuları */}
@@ -551,7 +609,7 @@ const ManGraph2 = () => {
           >
             Hesapla
           </button>
-  
+
           {/* Değerleri Sıfırla Butonu */}
           <button
             onClick={handleReset}
@@ -559,7 +617,7 @@ const ManGraph2 = () => {
           >
             Değerleri Sıfırla
           </button>
-  
+
           {/* PDF İndir Butonu */}
           <button
             onClick={handleDownloadPDF}
@@ -580,7 +638,7 @@ const ManGraph2 = () => {
         >
           <h5 className="text-lg font-semibold text-gray-800 mb-3">
             Ad Soyad: {name}
-         </h5>
+          </h5>
 
           {/* Sarı Arkaplan Kutusu ve Grafik Div'i */}
           <div className="relative w-full h-[400px] md:h-[450px]">
@@ -589,8 +647,8 @@ const ManGraph2 = () => {
               style={{
                 backgroundColor: "rgba(255, 215, 0, 0.4)",
                 zIndex: 0,
-                top: "43%", 
-                height: "29%", 
+                top: "43%",
+                height: "29%",
                 width: "100%",
               }}
             ></div>
@@ -603,11 +661,13 @@ const ManGraph2 = () => {
           {/* K Eklenmiş Puanlar Tablosu */}
           {showName && (
             <div
-            className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center"
-            style={{ marginTop: "24px" }} 
-          >
-            <h5 className="text-lg font-semibold text-gray-800 mb-3">Hesaplanmış Puanlar</h5>
-            <div className="flex flex-wrap justify-center gap-4">
+              className="p-4 bg-purple-50 rounded-md shadow-md w-full flex flex-col items-center"
+              style={{ marginTop: "24px" }}
+            >
+              <h5 className="text-lg font-semibold text-gray-800 mb-3">
+                Hesaplanmış Puanlar
+              </h5>
+              <div className="flex flex-wrap justify-center gap-4">
                 {Object.entries(scores).map(([key, value]) => (
                   <div
                     key={key}
